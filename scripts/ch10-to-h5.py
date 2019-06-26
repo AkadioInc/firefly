@@ -55,6 +55,14 @@ def setup_output_content(top_grp, pckt_summary):
         dset.attrs['long_name'] = np.string_('1553 intra-packet time stamp')
         dsets['timestamp'] = dset
 
+        lggr.debug(f'Create HDF5 dataset time[{nelems}] in {grp_path}')
+        dset = grp.create_dataset('time', shape=(nelems,),
+                                  chunks=True, dtype=np.dtype('double'))
+        dset.attrs['long_name'] = np.string_('1553 intra-packet time')
+        dset.attrs['units'] = np.string_('seconds')
+        dset.attrs['epoch'] = '1970-01-01T00:00:00Z'
+        dsets['time'] = dset
+
         lggr.debug(f'Create HDF5 dataset msg_error[{nelems}] in {grp_path}')
         dset = grp.create_dataset('msg_error', shape=(nelems,),
                                   chunks=True, dtype=np.dtype('uint8'))
@@ -183,6 +191,11 @@ def ch10_time_coverage(ch10, ch10_time):
     lggr.debug(f'Ch10 data time stop: {tend}')
 
     return (tstart, tend)
+
+
+def epoch_time(tstamp):
+    """Convert IRIG timestamp into UNIX (POSIX) epoch seconds"""
+    return datetime.strptime(tstamp, '%Y/%m/%d %H:%M:%S.%f').timestamp()
 ################################################################################
 
 
@@ -345,11 +358,11 @@ for packet in ch10.packet_headers():
             append_dset(data_grp['msg_error'], cursor, msg_err)
 
             timestamp = data_grp['timestamp']
-            tstamp = np.array(
-                str(ch10_time.RelInt2IrigTime(
-                    msg.p1553Hdr.contents.Field.PktTime)),
-                dtype=timestamp.dtype)
-            append_dset(timestamp, cursor, tstamp)
+            tstamp = str(ch10_time.RelInt2IrigTime(
+                msg.p1553Hdr.contents.Field.PktTime))
+            append_dset(timestamp, cursor, np.string_(tstamp))
+
+            append_dset(data_grp['time'], cursor, epoch_time(tstamp))
 
             append_dset(data_grp['ttb'], cursor, msg.pChanSpec.contents.TTB)
 
