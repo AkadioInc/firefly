@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from datetime import datetime
 import numpy as np
 import h5py
 
@@ -147,3 +148,7 @@ with h5py.File('A10-120_TerrainFollow_50_Seconds.h5', 'a') as f:
 
     dset = eu_grp.create_dataset('g-force', data=acc, chunks=True)
     dset.dims[0].attach_scale(t)
+
+    # Update some global file metadata...
+    dt = datetime.utcnow().isoformat() + 'Z'
+    f.attrs['date_modified'] = np.string_(dt)
