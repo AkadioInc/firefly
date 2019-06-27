@@ -16,6 +16,6 @@ Intended for FIREfly project development. Uses the official `python:3.7-alpine3.
 $ docker run -it \
              -v <DIR1>:/app \
              -v <DIR2>/data:/data \
-             -v <DIR3>/irig106lib:/irig106lib \
-         <docker-image>
+             -v <DIR3>:/irig106lib \
+         <firefly-dev Docker image>
 ```
