@@ -425,7 +425,7 @@ for packet in ch10.packet_headers():
         lggr.debug(f'Add packet data in {data_grp.name} HDF5 group')
         for msg in ch10_vidf0.msgs():
             cursor = pckt_summary[where]['count']
-            append_dset(data_grp['ts'], cursor, msg.stream)
+            append_dset(data_grp['ts'], cursor, msg.TSData(as_bytes=True))
             pckt_summary[where]['count'] -= 1
 
     lggr.info(f'Packet #{pcntr} finished processing')
