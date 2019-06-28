@@ -1,8 +1,17 @@
 #!/usr/bin/env python3
+import argparse
 from datetime import datetime
 import numpy as np
 import h5py
 
+
+parser = argparse.ArgumentParser(
+    description=('Convert raw Ch10 1553 packet data to aircraft INS data. '
+                 'Converted data are saved in the same HDF5 file.'),
+    epilog='Copyright (c) 2019 Akadio Inc.',
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('ffly', metavar='FILE', help='FIREfly input HDF5 file')
+arg = parser.parse_args()
 
 # Define a NumPy structured array datatype for the 6-DOF 1553 message words...
 ins_dt = np.dtype([('status', '<u2'),
@@ -37,7 +46,7 @@ ins_dt = np.dtype([('status', '<u2'),
 assert ins_dt.itemsize == 64, '6-DOF numpy dtype must be 64 bytes long'
 
 # Read in the appropriate 1553 data...
-with h5py.File('A10-120_TerrainFollow_50_Seconds.h5', 'r') as f:
+with h5py.File(arg.ffly, 'r') as f:
     msg_words = np.concatenate((
         f['/raw/1553/Ch_11/RT_6/SA_29/T/BC/data'][...],
         f['/raw/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/data'][...]),
@@ -103,8 +112,8 @@ for i in range(ins.shape[0]):
           f'{lat[i]:.5f}   {alt[i]}   {true_heading[i]:5.1f}   '
           f'{roll[i]:7.3f}   {pitch[i]:7.3f}   {acc[i]:6.3f}')
 
-# Store engineering units data...
-with h5py.File('A10-120_TerrainFollow_50_Seconds.h5', 'a') as f:
+# Store engineering units data and related inventory data...
+with h5py.File(arg.ffly, 'a') as f:
     eu_grp = f.require_group('/converted')
 
     t = eu_grp.create_dataset('timestamp', data=tstamp, chunks=True)
@@ -148,6 +157,23 @@ with h5py.File('A10-120_TerrainFollow_50_Seconds.h5', 'a') as f:
 
     dset = eu_grp.create_dataset('g-force', data=acc, chunks=True)
     dset.dims[0].attach_scale(t)
+
+    # Inventory (summary) data...
+    inv_grp = f.require_group('/inventory')
+    inv_grp.attrs['max_lat'] = lat.max()
+    inv_grp.attrs['min_lat'] = lat.min()
+    inv_grp.attrs['max_lon'] = lon.max()
+    inv_grp.attrs['min_lon'] = lon.min()
+    inv_grp.attrs['max_pitch'] = pitch.max()
+    inv_grp.attrs['min_pitch'] = pitch.min()
+    inv_grp.attrs['max_roll'] = roll.max()
+    inv_grp.attrs['min_roll'] = roll.min()
+    inv_grp.attrs['max_altitude'] = alt.max()
+    inv_grp.attrs['min_altitude'] = alt.min()
+    inv_grp.attrs['max_speed'] = speed.max()
+    inv_grp.attrs['min_speed'] = speed.min()
+    inv_grp.attrs['max_gforce'] = acc.max()
+    inv_grp.attrs['min_gforce'] = acc.min()
 
     # Update some global file metadata...
     dt = datetime.utcnow().isoformat() + 'Z'
