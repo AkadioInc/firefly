@@ -152,7 +152,7 @@ def append_dset(h5dset, pos_cursor, arr, buffer=None):
     next_pos = h5dset.shape[0] - pos_cursor
     dset_name = h5dset.name
     lggr.debug(f'Insert data to {dset_name} at position {next_pos}')
-    if buffer:
+    if buffer is not None:
         if dset_name not in buffer:
             lggr.debug(f"allocating buffer for {dset_name}")
             buffer[dset_name] = np.zeros((MAX_BUFFER_SIZE,),dtype=h5dset.dtype)
