@@ -144,13 +144,27 @@ def setup_output_content(top_grp, pckt_summary):
                     grp[name] = dset
 
 
-def append_dset(h5dset, pos_cursor, arr):
+def append_dset(h5dset, pos_cursor, arr, buffer=None):
     """Add given NumPy array data (``arr``) to specified HDF5 dataset at the
     next position.
     """
+    MAX_BUFFER_SIZE= 10
     next_pos = h5dset.shape[0] - pos_cursor
-    lggr.debug(f'Insert data to {h5dset.name} at position {next_pos}')
-    h5dset[next_pos] = arr
+    dset_name = h5dset.name
+    lggr.debug(f'Insert data to {dset_name} at position {next_pos}')
+    if buffer:
+        if dset_name not in buffer:
+            lggr.debug(f"allocating buffer for {dset_name}")
+            buffer[dset_name] = np.zeros((MAX_BUFFER_SIZE,),dtype=h5dset.dtype)
+        des = buffer[dset_name]
+        des[next_pos % MAX_BUFFER_SIZE] = arr
+        if (next_pos + 1) % MAX_BUFFER_SIZE == 0:
+            lggr.debug(f"writing buffer to dset {dset_name}")
+            h5dset[(next_pos-MAX_BUFFER_SIZE):next_pos] = des
+        
+    else:
+        # just write to the file
+        h5dset[next_pos] = arr
 
 
 def compute_sha256(fpath):
@@ -297,6 +311,8 @@ setup_output_content(rawgrp, pckt_summary)
 
 lggr.info(f'Iterate over {str(arg.ch10)} packet data')
 pcntr = 0
+buffer = dict()
+
 for packet in ch10.packet_headers():
     pcntr += 1
     lggr.info(f'Packet #{pcntr} type: '
@@ -351,28 +367,28 @@ for packet in ch10.packet_headers():
                 dtype=timestamp.dtype)
             append_dset(timestamp, cursor, tstamp)
 
-            append_dset(data_grp['ttb'], cursor, msg.pChanSpec.contents.TTB)
+            append_dset(data_grp['ttb'], cursor, msg.pChanSpec.contents.TTB, buffer=buffer)
 
             append_dset(data_grp['word_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.WordError)
+                        msg.p1553Hdr.contents.Field.BlockStatus.WordError, buffer=buffer)
 
             append_dset(data_grp['sync_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.SyncError)
+                        msg.p1553Hdr.contents.Field.BlockStatus.SyncError, buffer=buffer)
 
             append_dset(data_grp['word_count_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.WordCntError)
+                        msg.p1553Hdr.contents.Field.BlockStatus.WordCntError, buffer=buffer)
 
             append_dset(data_grp['rsp_tout'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.RespTimeout)
+                        msg.p1553Hdr.contents.Field.BlockStatus.RespTimeout, buffer=buffer)
 
             append_dset(data_grp['format_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.FormatError)
+                        msg.p1553Hdr.contents.Field.BlockStatus.FormatError, buffer=buffer)
 
             append_dset(
                 data_grp['bus_id'], cursor,
-                (b'A', b'B')[msg.p1553Hdr.contents.Field.BlockStatus.BusID])
+                (b'A', b'B')[msg.p1553Hdr.contents.Field.BlockStatus.BusID], buffer=buffer)
 
-            append_dset(data_grp['packet_version'], cursor, packet.DataType)
+            append_dset(data_grp['packet_version'], cursor, packet.DataType, buffer=buffer)
 
             pckt_summary[grp1553]['count'] -= 1
 
