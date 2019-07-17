@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import argparse
 import logging
-import numpy as np
 from pathlib import Path
 from hashlib import sha256
 from datetime import datetime
+import re
+import numpy as np
 import h5py
 import Py106
 import Py106.MsgDecodeTMATS
@@ -18,18 +19,20 @@ def store_tmats_attrs(h5grp, tmats_buff):
     """Parse TMATS buffer to store as TMATS attributes and their values."""
     # Skip first four bytes in the buffer as per
     # https://github.com/bbaggerman/irig106utils/blob/4c286cf86b93b885387ee1a264b70e4a38e6e410/src/idmptmat.c#L298
-    tmats_list = tmats_buff[4:].strip(b'\x00').decode('ascii').split('\r\n')
-    for tma in tmats_list:
-        if tma:
-            if tma[-1] != ';':
-                lggr.warning(
-                    f'{tma!r}: TMATS attribute without ending semicolon')
-            tmats_attr, val = tma.rstrip(';').split(':')
-            if val:
-                lggr.debug(f'TMATS attribute {tmats_attr!r} = {val!r}')
-                h5grp.attrs[tmats_attr] = np.string_(val)
-            else:
-                lggr.debug(f'TMATS {tmats_attr} attribute value not given')
+    clean_tmats = tmats_buff[4:tmats_buff.rindex(b';')].decode('ascii')
+    if clean_tmats:
+        tmats = re.split('\r?\n', clean_tmats)
+        for tma in tmats:
+            if tma:
+                if tma[-1] != ';':
+                    lggr.warning(
+                        f'{tma!r}: TMATS attribute without ending semicolon')
+                tmats_attr, val = tma.rstrip(';').split(':')
+                if val:
+                    lggr.debug(f'TMATS attribute {tmats_attr!r} = {val!r}')
+                    h5grp.attrs[tmats_attr] = np.string_(val)
+                else:
+                    lggr.debug(f'TMATS {tmats_attr} attribute value not given')
 
     # Store the TMATS buffer as well...
     h5grp.attrs['buffer'] = np.void(tmats_buff)
