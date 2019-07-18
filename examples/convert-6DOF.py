@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-from datetime import datetime
 import numpy as np
 import h5py
 
@@ -55,9 +54,9 @@ with h5py.File(arg.ffly, 'r') as f:
         f['/raw/1553/Ch_11/RT_6/SA_29/T/BC/msg_error'][...],
         f['/raw/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/msg_error'][...]),
         axis=0)
-    tstamp = np.concatenate((
-        f['/raw/1553/Ch_11/RT_6/SA_29/T/BC/timestamp'][...],
-        f['/raw/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/timestamp'][...]),
+    msgtime = np.concatenate((
+        f['/raw/1553/Ch_11/RT_6/SA_29/T/BC/time'][...],
+        f['/raw/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/time'][...]),
         axis=0)
 
 # Proceed only if no message errors...
@@ -69,9 +68,9 @@ if np.any(msg_error_flag):
 ins = np.frombuffer(b''.join([msg.tobytes() for msg in msg_words]),
                     dtype=ins_dt)
 
-# Sort message words based on their time stamp...
-sort_idx = np.argsort(tstamp)
-tstamp = tstamp[sort_idx]
+# Sort message words based on their time...
+sort_idx = np.argsort(msgtime)
+msgtime = msgtime[sort_idx]
 ins = ins[sort_idx]
 
 # Convert to engineering units...
@@ -105,20 +104,13 @@ acc = np.sqrt(
 speed = (900. / 6080.) * np.sqrt(np.square(ins['vx_msw'], dtype='f4') +
                                  np.square(ins['vy_msw'], dtype='f4'))
 
-print('         Time              Speed     Longitude   Latitude  Altitude '
-      'Heading     Roll     Pitch   g-force')
-for i in range(ins.shape[0]):
-    print(f'{tstamp[i].decode("ascii")}   {speed[i]:.3f}   {lon[i]:.5f}   '
-          f'{lat[i]:.5f}   {alt[i]}   {true_heading[i]:5.1f}   '
-          f'{roll[i]:7.3f}   {pitch[i]:7.3f}   {acc[i]:6.3f}')
-
 # Store engineering units data and related inventory data...
 with h5py.File(arg.ffly, 'a') as f:
     eu_grp = f.require_group('/converted')
 
-    t = eu_grp.create_dataset('timestamp', data=tstamp, chunks=True)
-    t.attrs['standard_name'] = np.string_('time')
-    t.dims.create_scale(t, 'timestamp')
+    t = eu_grp.create_dataset('time', data=msgtime, chunks=True)
+    t.attrs['standard_name'] = np.string_('numpy.datetime64[ns]')
+    t.dims.create_scale(t, 'time')
 
     dset = eu_grp.create_dataset('latitude', data=lat, chunks=True)
     dset.attrs['units'] = np.string_('degrees_north')
@@ -176,5 +168,16 @@ with h5py.File(arg.ffly, 'a') as f:
     inv_grp.attrs['min_gforce'] = acc.min()
 
     # Update some global file metadata...
-    dt = datetime.utcnow().isoformat() + 'Z'
+    dt = str(np.datetime64('now', 's')) + 'Z'
     f.attrs['date_modified'] = np.string_(dt)
+
+# Convert int64 values to numpy.datetime64 values...
+msgtime = msgtime.astype('datetime64[ns]')
+
+# Print some of the converted data...
+print('         Time              Speed     Longitude   Latitude  Altitude '
+      'Heading     Roll     Pitch   g-force')
+for i in range(ins.shape[0]):
+    print(f'{str(msgtime[i])}   {speed[i]:.3f}   {lon[i]:.5f}   '
+          f'{lat[i]:.5f}   {alt[i]}   {true_heading[i]:5.1f}   '
+          f'{roll[i]:7.3f}   {pitch[i]:7.3f}   {acc[i]:6.3f}')
