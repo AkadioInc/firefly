@@ -17,11 +17,9 @@ import Py106.MsgDecodeVideo
 ################################################################################
 def store_tmats_attrs(h5grp, tmats_buff):
     """Parse TMATS buffer to store as TMATS attributes and their values."""
-    # Skip first four bytes in the buffer as per
-    # https://github.com/bbaggerman/irig106utils/blob/4c286cf86b93b885387ee1a264b70e4a38e6e410/src/idmptmat.c#L298
-    clean_tmats = tmats_buff[4:tmats_buff.rindex(b';')].decode('ascii')
-    if clean_tmats:
-        tmats = re.split('\r?\n', clean_tmats)
+    tmats_str = tmats_buff.decode('ascii')
+    if tmats_str:
+        tmats = re.split('\r?\n', tmats_str)
         for tma in tmats:
             if tma:
                 if tma[-1] != ';':
@@ -62,10 +60,10 @@ def setup_output_content(top_grp, pckt_summary):
 
             lggr.debug(f'Create HDF5 dataset time[{nelems}] in {grp_path}')
             dset = grp.create_dataset('time', shape=(nelems,),
-                                      chunks=True, dtype=np.dtype('double'))
+                                      chunks=True, dtype=np.dtype('int64'))
             dset.attrs['long_name'] = np.string_('1553 intra-packet time')
-            dset.attrs['units'] = np.string_('seconds')
-            dset.attrs['epoch'] = '1970-01-01T00:00:00Z'
+            dset.attrs['units'] = np.string_('ns')
+            dset.attrs['standard_name'] = np.string_('numpy.datetime64[ns]')
             dsets['time'] = dset
 
             lggr.debug(f'Create HDF5 dataset msg_error[{nelems}] in {grp_path}')
@@ -209,8 +207,9 @@ def ch10_time_coverage(ch10, ch10_time):
 
 
 def epoch_time(tstamp):
-    """Convert IRIG timestamp into UNIX (POSIX) epoch seconds"""
-    return datetime.strptime(tstamp, '%Y/%m/%d %H:%M:%S.%f').timestamp()
+    """Convert IRIG timestamp into nanoseconds since 1970-01-01T00:00:00Z"""
+    t = datetime.strptime(tstamp, '%Y/%m/%d %H:%M:%S.%f').timestamp()
+    return int(t * 1_000_000_000)
 ################################################################################
 
 
@@ -350,7 +349,7 @@ for packet in ch10.packet_headers():
                    f'attributes')
         tmats_grp = rawgrp.create_group('TMATS')
         ch10.read_data()
-        store_tmats_attrs(tmats_grp, ch10.Buffer.raw)
+        store_tmats_attrs(tmats_grp, ch10.Buffer.raw[4:ch10.Header.DataLen])
         tmats_grp.attrs['rcc_version'] = np.string_(ch10_tmats.ch10ver)
         lggr.info('Finished with TMATS information')
 
