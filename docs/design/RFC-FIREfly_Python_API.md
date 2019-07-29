@@ -22,7 +22,7 @@ FIREfly Python API is a collection of Python modules, functions, and scripts in 
 |Note: This document is expected to change in response to the development and needs of the project.|
 | :-- |
 
-Three main object classes are currently recognized: Collection, File, and Parameter. Each is further explained in the following text.
+Two main object classes are currently recognized: Collection and File. Each is further explained in the following text.
 
 ## FIREfly Collection
 
