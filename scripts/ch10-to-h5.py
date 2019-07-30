@@ -220,6 +220,10 @@ parser = argparse.ArgumentParser(
 parser.add_argument('ch10', metavar='FILE', help='Ch10 input file', type=Path)
 parser.add_argument('--outfile', '-o', metavar='H5FILE', type=Path,
                     help='Output HDF5 file. Use Ch10 file name if not given.')
+parser.add_argument('--aircraft-type', metavar='TYPE', type=str,
+                    help='Aircraft type. Required.')
+parser.add_argument('--aircraft-id', metavar='TAILID', type=str,
+                    help='Aircraft tail/serial number. Required.')
 parser.add_argument('--loglevel', default='info',
                     choices=['debug', 'info', 'warning', 'error', 'critical'],
                     help='Logging level. Log output goes to stderr.')
@@ -236,7 +240,12 @@ lggr = logging.getLogger('ch10-to-h5')
 # Show command-line options...
 lggr.debug(f'Input Ch10 file = {arg.ch10}')
 lggr.debug(f'Output HDF5 file = {arg.outfile}')
+lggr.debug(f'Aircraft type = {arg.aircraft_type}')
+lggr.debug(f'Tail/serial number = {arg.aircraft_id}')
 lggr.debug(f'Logging level = {arg.loglevel}')
+
+if not arg.aircraft_id and not arg.aircraft_type:
+    raise SystemExit('Aircraft type or tail/serial number not given')
 
 if arg.ch10.is_file():
     outh5 = arg.outfile if arg.outfile else arg.ch10.with_suffix('.h5')
@@ -443,6 +452,8 @@ dt = datetime.utcnow().isoformat() + 'Z'
 h5f.attrs['date_created'] = np.string_(dt)
 h5f.attrs['date_modified'] = np.string_(dt)
 h5f.attrs['date_metadata_modified'] = np.string_(dt)
+h5f.attrs['aircraft_type'] = np.string_(arg.aircraft_type)
+h5f.attrs['aircraft_id'] = np.string_(arg.aircraft_id)
 
 lggr.debug(f'Close {h5f.filename} file')
 h5f.close()
