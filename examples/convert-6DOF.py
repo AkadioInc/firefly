@@ -50,16 +50,16 @@ assert ins_dt.itemsize == 64, '6-DOF numpy dtype must be 64 bytes long'
 # Read in the appropriate 1553 data...
 with h5py.File(arg.ffly, 'r') as f:
     msg_words = np.concatenate((
-        f['/raw/1553/Ch_11/RT_6/SA_29/T/BC/data'][...],
-        f['/raw/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/data'][...]),
+        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/BC/data'][...],
+        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/data'][...]),
         axis=0)
     msg_error_flag = np.concatenate((
-        f['/raw/1553/Ch_11/RT_6/SA_29/T/BC/msg_error'][...],
-        f['/raw/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/msg_error'][...]),
+        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/BC/msg_error'][...],
+        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/msg_error'][...]),
         axis=0)
     msgtime = np.concatenate((
-        f['/raw/1553/Ch_11/RT_6/SA_29/T/BC/time'][...],
-        f['/raw/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/time'][...]),
+        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/BC/time'][...],
+        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/time'][...]),
         axis=0)
 
 # Proceed only if no message errors...
