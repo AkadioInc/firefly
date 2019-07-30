@@ -122,54 +122,54 @@ landing_loc = mirta[np.argmin(
     np.sqrt(np.square(lat[land] - mirta['LATITUDE']) +
             np.square(lon[land] - mirta['LONGITUDE'])))]
 
-# Store engineering units data and related inventory data...
+# Store engineering units data and related summary data...
 with h5py.File(arg.ffly, 'a') as f:
-    eu_grp = f.require_group('/converted')
+    eu_grp = f.require_group('/derived')
 
     t = eu_grp.create_dataset('time', data=msgtime, chunks=True)
-    t.attrs['standard_name'] = np.string_('numpy.datetime64[ns]')
+    t.attrs['kind'] = np.string_('numpy.datetime64[ns]')
     t.dims.create_scale(t, 'time')
 
     dset = eu_grp.create_dataset('latitude', data=lat, chunks=True)
     dset.attrs['units'] = np.string_('degrees_north')
-    dset.attrs['standard_name'] = np.string_('latitude')
+    dset.attrs['kind'] = np.string_('latitude')
     dset.dims[0].attach_scale(t)
 
     dset = eu_grp.create_dataset('longitude', data=lon, chunks=True)
     dset.attrs['units'] = np.string_('degrees_east')
-    dset.attrs['standard_name'] = np.string_('longitude')
+    dset.attrs['kind'] = np.string_('longitude')
     dset.dims[0].attach_scale(t)
 
     dset = eu_grp.create_dataset('pitch', data=pitch, chunks=True)
     dset.attrs['units'] = np.string_('degrees')
-    dset.attrs['standard_name'] = np.string_('platform_pitch_fore_up')
+    dset.attrs['kind'] = np.string_('platform_pitch_fore_up')
     dset.dims[0].attach_scale(t)
 
     dset = eu_grp.create_dataset('roll', data=roll, chunks=True)
     dset.attrs['units'] = np.string_('degrees')
-    dset.attrs['standard_name'] = np.string_('platform_roll_starboard_down')
+    dset.attrs['kind'] = np.string_('platform_roll_starboard_down')
     dset.dims[0].attach_scale(t)
 
     dset = eu_grp.create_dataset('heading', data=true_heading, chunks=True)
     dset.attrs['units'] = np.string_('degrees')
-    dset.attrs['standard_name'] = np.string_('platform_course')
+    dset.attrs['kind'] = np.string_('platform_course')
     dset.dims[0].attach_scale(t)
 
     dset = eu_grp.create_dataset('altitude', data=alt, chunks=True)
     dset.attrs['units'] = np.string_('ft')
-    dset.attrs['standard_name'] = np.string_('height_above_mean_sea_level')
+    dset.attrs['kind'] = np.string_('height_above_mean_sea_level')
     dset.dims[0].attach_scale(t)
 
     dset = eu_grp.create_dataset('speed', data=speed, chunks=True)
     dset.attrs['units'] = np.string_('kt')
-    dset.attrs['standard_name'] = np.string_('platform_speed_wrt_ground')
+    dset.attrs['kind'] = np.string_('platform_speed_wrt_ground')
     dset.dims[0].attach_scale(t)
 
     dset = eu_grp.create_dataset('g-force', data=acc, chunks=True)
     dset.dims[0].attach_scale(t)
 
     # Inventory (summary) data...
-    inv_grp = f.require_group('/inventory')
+    inv_grp = f.require_group('/summary')
     inv_grp.attrs['max_lat'] = lat.max()
     inv_grp.attrs['min_lat'] = lat.min()
     inv_grp.attrs['max_lon'] = lon.max()

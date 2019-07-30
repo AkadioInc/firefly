@@ -49,27 +49,27 @@ def setup_output_content(top_grp, pckt_summary):
             dset = grp.create_dataset(
                 'data', shape=(nelems,), chunks=True,
                 dtype=h5py.special_dtype(vlen=np.dtype('<u2')))
-            dset.attrs['long_name'] = np.string_('1553 packet message data')
+            dset.attrs['name'] = np.string_('1553 packet message data')
             dsets['data'] = dset
 
             lggr.debug(f'Create HDF5 dataset timestamp[{nelems}] in {grp_path}')
             dset = grp.create_dataset('timestamp', shape=(nelems,),
                                       chunks=True, dtype='S30')
-            dset.attrs['long_name'] = np.string_('1553 intra-packet time stamp')
+            dset.attrs['name'] = np.string_('1553 intra-packet time stamp')
             dsets['timestamp'] = dset
 
             lggr.debug(f'Create HDF5 dataset time[{nelems}] in {grp_path}')
             dset = grp.create_dataset('time', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('int64'))
-            dset.attrs['long_name'] = np.string_('1553 intra-packet time')
+            dset.attrs['name'] = np.string_('1553 intra-packet time')
             dset.attrs['units'] = np.string_('ns')
-            dset.attrs['standard_name'] = np.string_('numpy.datetime64[ns]')
+            dset.attrs['kind'] = np.string_('numpy.datetime64[ns]')
             dsets['time'] = dset
 
             lggr.debug(f'Create HDF5 dataset msg_error[{nelems}] in {grp_path}')
             dset = grp.create_dataset('msg_error', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('uint8'))
-            dset.attrs['long_name'] = np.string_('1553 message error flag')
+            dset.attrs['name'] = np.string_('1553 message error flag')
             dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
             dset.attrs['flag_meanings'] = np.string_(['no message error',
                                                       'message error'])
@@ -78,7 +78,7 @@ def setup_output_content(top_grp, pckt_summary):
             lggr.debug(f'Create HDF5 dataset ttb[{nelems}] in {grp_path}')
             dset = grp.create_dataset('ttb', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('uint8'))
-            dset.attrs['long_name'] = np.string_('time tag bits')
+            dset.attrs['name'] = np.string_('time tag bits')
             dset.attrs['flag_values'] = np.array([0, 1, 2, 3], dtype=dset.dtype)
             dset.attrs['flag_meanings'] = np.string_([
                 'Last bit of the last word of the message',
@@ -91,7 +91,7 @@ def setup_output_content(top_grp, pckt_summary):
                 f'Create HDF5 dataset word_error[{nelems}] in {grp_path}')
             dset = grp.create_dataset('word_error', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('uint8'))
-            dset.attrs['long_name'] = np.string_('invalid word error')
+            dset.attrs['name'] = np.string_('invalid word error')
             dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
             dset.attrs['flag_meanings'] = np.string_(['no invalid word error',
                                                       'invalid word error'])
@@ -101,7 +101,7 @@ def setup_output_content(top_grp, pckt_summary):
                 f'Create HDF5 dataset sync_error[{nelems}] in {grp_path}')
             dset = grp.create_dataset('sync_error', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('uint8'))
-            dset.attrs['long_name'] = np.string_('sync type error')
+            dset.attrs['name'] = np.string_('sync type error')
             dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
             dset.attrs['flag_meanings'] = np.string_(['no sync type error',
                                                       'sync type error'])
@@ -111,7 +111,7 @@ def setup_output_content(top_grp, pckt_summary):
                 f'Create HDF5 dataset word_count_error[{nelems}] in {grp_path}')
             dset = grp.create_dataset('word_count_error', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('uint8'))
-            dset.attrs['long_name'] = np.string_('word count error')
+            dset.attrs['name'] = np.string_('word count error')
             dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
             dset.attrs['flag_meanings'] = np.string_(['no word count error',
                                                       'word count error'])
@@ -120,7 +120,7 @@ def setup_output_content(top_grp, pckt_summary):
             lggr.debug(f'Create HDF5 dataset rsp_tout[{nelems}] in {grp_path}')
             dset = grp.create_dataset('rsp_tout', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('uint8'))
-            dset.attrs['long_name'] = np.string_('response time out')
+            dset.attrs['name'] = np.string_('response time out')
             dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
             dset.attrs['flag_meanings'] = np.string_(['no response time out',
                                                       'response time out'])
@@ -130,7 +130,7 @@ def setup_output_content(top_grp, pckt_summary):
                 f'Create HDF5 dataset format_error[{nelems}] in {grp_path}')
             dset = grp.create_dataset('format_error', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('uint8'))
-            dset.attrs['long_name'] = np.string_('format error')
+            dset.attrs['name'] = np.string_('format error')
             dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
             dset.attrs['flag_meanings'] = np.string_(['no format error',
                                                       'format error'])
@@ -139,14 +139,14 @@ def setup_output_content(top_grp, pckt_summary):
             lggr.debug(f'Create HDF5 dataset bus_id[{nelems}] in {grp_path}')
             dset = grp.create_dataset('bus_id', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('|S1'))
-            dset.attrs['long_name'] = np.string_('Bus ID')
+            dset.attrs['name'] = np.string_('Bus ID')
             dsets['bus_id'] = dset
 
             lggr.debug(
                 f'Create HDF5 dataset packet_version[{nelems}] in {grp_path}')
             dset = grp.create_dataset('packet_version', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('uint8'))
-            dset.attrs['long_name'] = np.string_('1553 packet version')
+            dset.attrs['name'] = np.string_('1553 packet version')
             dsets['packet_version'] = dset
 
             # Create alias HDF5 paths for created datasets...
@@ -161,7 +161,7 @@ def setup_output_content(top_grp, pckt_summary):
             lggr.debug(f'Create HDF5 dataset ts[{nelems}] in {grp_path}')
             dset = grp.create_dataset('ts', shape=(nelems,),
                                       chunks=True, dtype=np.dtype('|V188'))
-            dset.attrs['long_name'] = np.string_('video transfer stream')
+            dset.attrs['name'] = np.string_('video transfer stream')
             dsets['ts'] = dset
 
 
@@ -333,8 +333,8 @@ ch10_time.SyncTime(False, 0)
 
 lggr.info(f'Create output HDF5 file {str(outh5)} (will overwrite)')
 h5f = h5py.File(str(outh5), 'w')
-lggr.debug('Create /raw group')
-rawgrp = h5f.create_group('raw')
+lggr.debug('Create /chapter11_data group')
+rawgrp = h5f.create_group('chapter11_data')
 lggr.debug('Set up content in the HDF5 file')
 setup_output_content(rawgrp, pckt_summary)
 
