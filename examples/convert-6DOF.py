@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import argparse
+import csv
 import numpy as np
 import h5py
+from pathlib import Path
 
 
 parser = argparse.ArgumentParser(
@@ -10,6 +12,7 @@ parser = argparse.ArgumentParser(
     epilog='Copyright (c) 2019 Akadio Inc.',
     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('ffly', metavar='FILE', help='FIREfly input HDF5 file')
+parser.add_argument('--print', '-p', help='Print some converted data')
 arg = parser.parse_args()
 
 # Define a NumPy structured array datatype for the 6-DOF 1553 message words...
@@ -104,6 +107,21 @@ acc = np.sqrt(
 speed = (900. / 6080.) * np.sqrt(np.square(ins['vx_msw'], dtype='f4') +
                                  np.square(ins['vy_msw'], dtype='f4'))
 
+# Figure out the takeoff and landing locations...
+mirta_file = (Path(__file__).resolve().parent / '..' / 'firefly' /
+              'FY18_MIRTA_Points.csv')
+with mirta_file.open('r') as csvfile:
+    rdr = csv.reader(csvfile, delimiter=',')
+    mirta = np.genfromtxt(('|'.join(r) for r in rdr), delimiter='|', names=True,
+                          dtype=None, encoding=None)
+takeoff, land = np.where(speed > 50)[0][[0, -1]]
+takeoff_loc = mirta[np.argmin(
+    np.sqrt(np.square(lat[takeoff] - mirta['LATITUDE']) +
+            np.square(lon[takeoff] - mirta['LONGITUDE'])))]
+landing_loc = mirta[np.argmin(
+    np.sqrt(np.square(lat[land] - mirta['LATITUDE']) +
+            np.square(lon[land] - mirta['LONGITUDE'])))]
+
 # Store engineering units data and related inventory data...
 with h5py.File(arg.ffly, 'a') as f:
     eu_grp = f.require_group('/converted')
@@ -167,17 +185,22 @@ with h5py.File(arg.ffly, 'a') as f:
     inv_grp.attrs['max_gforce'] = acc.max()
     inv_grp.attrs['min_gforce'] = acc.min()
 
-    # Update some global file metadata...
+    # Create/Update some global file metadata...
     dt = str(np.datetime64('now', 's')) + 'Z'
     f.attrs['date_modified'] = np.string_(dt)
+    f.attrs['takeoff_location'] = \
+        np.string_(f"{takeoff_loc['SITE_NAME']}, {takeoff_loc['STATE_TERR']}")
+    f.attrs['landing_location'] = \
+        np.string_(f"{landing_loc['SITE_NAME']}, {landing_loc['STATE_TERR']}")
 
-# Convert int64 values to numpy.datetime64 values...
-msgtime = msgtime.astype('datetime64[ns]')
+if arg.print:
+    # Convert int64 values to numpy.datetime64 values...
+    msgtime = msgtime.astype('datetime64[ns]')
 
-# Print some of the converted data...
-print('         Time              Speed     Longitude   Latitude  Altitude '
-      'Heading     Roll     Pitch   g-force')
-for i in range(ins.shape[0]):
-    print(f'{str(msgtime[i])}   {speed[i]:.3f}   {lon[i]:.5f}   '
-          f'{lat[i]:.5f}   {alt[i]}   {true_heading[i]:5.1f}   '
-          f'{roll[i]:7.3f}   {pitch[i]:7.3f}   {acc[i]:6.3f}')
+    # Print some of the converted data...
+    print('         Time              Speed     Longitude   Latitude  Altitude '
+          'Heading     Roll     Pitch   g-force')
+    for i in range(ins.shape[0]):
+        print(f'{str(msgtime[i])}   {speed[i]:.3f}   {lon[i]:.5f}   '
+              f'{lat[i]:.5f}   {alt[i]}   {true_heading[i]:5.1f}   '
+              f'{roll[i]:7.3f}   {pitch[i]:7.3f}   {acc[i]:6.3f}')
