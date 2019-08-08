@@ -14,10 +14,12 @@ setup(
     python_requires='>=3.7, <4',
     install_requires=[
         'h5py>=2.9',
-        'h5pyd @ git+https://github.com/HDFGroup/h5pyd.git@master#egg=h5pyd'
+        'h5pyd @ git+https://github.com/HDFGroup/h5pyd.git@master#egg=h5pyd',
+        'ipyleaflet>=0.11.1'
     ],
     scripts=[
         'scripts/ch10-to-h5.py',
         'scripts/ch10summary.py'
-    ]
+    ],
+    package_data={'': ['FY18_MIRTA_Points.csv']}
 )
