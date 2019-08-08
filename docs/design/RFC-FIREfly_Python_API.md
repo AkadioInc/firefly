@@ -1,19 +1,17 @@
 # RFC: FIREfly Python API
 
-<!-- MDTOC maxdepth:6 firsth1:1 numbering:0 flatten:0 bullets:0 updateOnSave:1 -->
+<!-- MDTOC maxdepth:6 firsth1:2 numbering:0 flatten:0 bullets:0 updateOnSave:1 -->
 
-[RFC: FIREfly Python API](#RFC-FIREfly-Python-API)   
-&emsp;[FIREfly Collection](#FIREfly-Collection)   
-&emsp;[FIREfly File](#FIREfly-File)   
-&emsp;&emsp;&emsp;&emsp;[`File(domain, mode='r', **kwargs)`](#Filedomain-moder-kwargs)   
-&emsp;&emsp;&emsp;&emsp;[`File.info`](#Fileinfo)   
-&emsp;&emsp;&emsp;&emsp;[`File.__str__`](#File__str__)   
-&emsp;&emsp;&emsp;&emsp;[`File.tmats`](#Filetmats)   
-&emsp;&emsp;&emsp;&emsp;[`File.map(center=None, zoom=12, basemap='OpenTopoMap')`](#FilemapcenterNone-zoom12-basemapOpenTopoMap)   
-&emsp;&emsp;&emsp;&emsp;[`File.chapter11(packet, **kwargs)`](#Filechapter11packet-kwargs)   
-&emsp;&emsp;&emsp;&emsp;[`File.get_param(h5path, labeled=False)`](#Fileget_paramh5path-labeledFalse)   
-&emsp;&emsp;&emsp;&emsp;[`File.store_param(h5path, data, kind=None, units=None, label=None, **kwargs)`](#Filestore_paramh5path-data-kindNone-unitsNone-labelNone-kwargs)   
-&emsp;&emsp;&emsp;&emsp;[`File.export_csv(object, fname)`](#Fileexport_csvobject-fname)   
+[FIREfly Collection](#FIREfly-Collection)   
+[FIREfly File](#FIREfly-File)   
+&emsp;&emsp;&emsp;[`File(domain, mode='r', **kwargs)`](#Filedomain-moder-kwargs)   
+&emsp;&emsp;&emsp;[`File.info(pprint=False)`](#FileinfopprintFalse)   
+&emsp;&emsp;&emsp;[`File.tmats`](#Filetmats)   
+&emsp;&emsp;&emsp;[`File.flight_map(center=None, zoom=8, basemap='OpenTopoMap')`](#Fileflight_mapcenterNone-zoom8-basemapOpenTopoMap)   
+&emsp;&emsp;&emsp;[`File.chapter11(packet, **kwargs)`](#Filechapter11packet-kwargs)   
+&emsp;&emsp;&emsp;[`File.get_param(h5path, labeled=False)`](#Fileget_paramh5path-labeledFalse)   
+&emsp;&emsp;&emsp;[`File.store_param(h5path, data, kind=None, units=None, label=None, **kwargs)`](#Filestore_paramh5path-data-kindNone-unitsNone-labelNone-kwargs)   
+&emsp;&emsp;&emsp;[`File.export_csv(object, fname)`](#Fileexport_csvobject-fname)   
 
 <!-- /MDTOC -->
 
@@ -41,19 +39,15 @@ This class represents one FIREfly HDF5 file with a Kita server endpoint. The pro
 
 Open a FIREfly HDF5 file (a Kita domain) for access. This is just a passthrough to the h5pyd.File class.
 
-##### `File.info`
+##### `File.info(pprint=False)`
 
-General information about the file's data as JSON: temporal coverage, lat/lon bounding box, takeoff and landing airports, airplane type and ID, available Chapter 11 and derived data, etc.
-
-##### `File.__str__`
-
-The pretty-printed version of the `File.info` JSON output. Useful in Jupyter notebooks.
+General information about the file's data as a dictionary: temporal coverage, lat/lon bounding box, takeoff and landing airports, airplane type and ID, available Chapter 11 and derived data, etc. If `pprint=True`, pretty-print the collected information instead.
 
 ##### `File.tmats`
 
-Return the h5pyd Group with TMATS attributes.
+Return a Python dictionary with all the TMATS attributes (dict key: TMATS attribute name; dict value: TMATS attribute value).
 
-##### `File.map(center=None, zoom=12, basemap='OpenTopoMap')`
+##### `File.flight_map(center=None, zoom=8, basemap='OpenTopoMap')`
 
 For use in Jupyter notebooks. Display an interactive map with the flight path. Optionally specify the map's center, zoom level, or the base map layer. If map's center is `None`, the average of the flight's lat/lon bounding box is used instead.
 
