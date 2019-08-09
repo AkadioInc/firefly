@@ -15,10 +15,11 @@ import Py106.MsgDecodeVideo
 
 
 ################################################################################
-def store_tmats_attrs(h5grp, tmats_buff):
-    """Parse TMATS buffer to store as TMATS attributes and their values."""
+def derive_tmats_attrs(h5grp, tmats_buff):
+    """Parse TMATS buffer to store TMATS attributes and their values."""
     tmats_str = tmats_buff.decode('ascii')
     if tmats_str:
+        tmats_grp = h5grp.create_group('TMATS')
         tmats = re.split('\r?\n', tmats_str)
         for tma in tmats:
             if tma:
@@ -28,12 +29,9 @@ def store_tmats_attrs(h5grp, tmats_buff):
                 tmats_attr, val = tma.rstrip(';').split(':')
                 if val:
                     lggr.debug(f'TMATS attribute {tmats_attr!r} = {val!r}')
-                    h5grp.attrs[tmats_attr] = np.string_(val)
+                    tmats_grp.attrs[tmats_attr] = val
                 else:
                     lggr.debug(f'TMATS {tmats_attr} attribute value not given')
-
-    # Store the TMATS buffer as well...
-    h5grp.attrs['buffer'] = np.void(tmats_buff)
 
 
 def setup_output_content(top_grp, pckt_summary):
@@ -344,6 +342,8 @@ lggr.info(f'Create output HDF5 file {str(outh5)} (will overwrite)')
 h5f = h5py.File(str(outh5), 'w')
 lggr.debug('Create /chapter11_data group')
 rawgrp = h5f.create_group('chapter11_data')
+lggr.debug('Create /derived group')
+paragrp = h5f.create_group('derived')
 lggr.debug('Set up content in the HDF5 file')
 setup_output_content(rawgrp, pckt_summary)
 
@@ -354,106 +354,110 @@ for packet in ch10.packet_headers():
     lggr.info(f'Packet #{pcntr} type: '
               f'{Py106.Packet.DataType.TypeName(packet.DataType)}')
     if packet.DataType == Py106.Packet.DataType.TMATS:
-        lggr.debug(f'Require {rawgrp.name}/TMATS HDF5 group and store TMATS '
+        lggr.debug(f'Require {paragrp.name}/TMATS HDF5 group and store TMATS '
                    f'attributes')
-        tmats_grp = rawgrp.create_group('TMATS')
         ch10.read_data()
-        store_tmats_attrs(tmats_grp, ch10.Buffer.raw[4:ch10.Header.DataLen])
-        tmats_grp.attrs['rcc_version'] = np.string_(ch10_tmats.ch10ver)
+        rawgrp.attrs['rcc_version'] = ch10_tmats.ch10ver
+        derive_tmats_attrs(paragrp, ch10.Buffer.raw[4:ch10.Header.DataLen])
+        tmats_grp = rawgrp.create_group('TMATS')
+        tmats_grp.create_dataset(
+            'data', shape=(),
+            data=np.void(ch10.Buffer.raw[4:ch10.Header.DataLen]))
         lggr.info('Finished with TMATS information')
 
     elif packet.DataType == Py106.Packet.DataType.MIL1553_FMT_1:
-        ch10.read_data()
-        # Loop over each message in the 1553 packet...
-        for msg in ch10_1553.msgs():
-            ch = ch10.Header.ChID
-            if msg.p1553Hdr.contents.Field.BlockStatus.RT2RT:
-                # RT-to-RT message
-                rx_cmd = msg.pCmdWord1.contents.Field
-                tx_cmd = msg.pCmdWord2.contents.Field
-                grp1553 = (
-                    f'1553/Ch_{ch}/RT_{tx_cmd.RTAddr}/SA_{tx_cmd.SubAddr}/T/'
-                    f'RT_{rx_cmd.RTAddr}/SA_{rx_cmd.SubAddr}')
-            else:
-                # RT-to-BC or BC-to-RT message
-                rt = msg.pCmdWord1.contents.Field.RTAddr
-                sa = msg.pCmdWord1.contents.Field.SubAddr
-                tr = ('R', 'T')[msg.pCmdWord1.contents.Field.TR]
-                grp1553 = f'1553/Ch_{ch}/RT_{rt}/SA_{sa}/{tr}/BC'
-            data_grp = rawgrp[grp1553]
-            lggr.debug(f'Add packet data in {data_grp.name} HDF5 group')
-            cursor = pckt_summary[grp1553]['count']
+        continue
+        # ch10.read_data()
+        # # Loop over each message in the 1553 packet...
+        # for msg in ch10_1553.msgs():
+        #     ch = ch10.Header.ChID
+        #     if msg.p1553Hdr.contents.Field.BlockStatus.RT2RT:
+        #         # RT-to-RT message
+        #         rx_cmd = msg.pCmdWord1.contents.Field
+        #         tx_cmd = msg.pCmdWord2.contents.Field
+        #         grp1553 = (
+        #             f'1553/Ch_{ch}/RT_{tx_cmd.RTAddr}/SA_{tx_cmd.SubAddr}/T/'
+        #             f'RT_{rx_cmd.RTAddr}/SA_{rx_cmd.SubAddr}')
+        #     else:
+        #         # RT-to-BC or BC-to-RT message
+        #         rt = msg.pCmdWord1.contents.Field.RTAddr
+        #         sa = msg.pCmdWord1.contents.Field.SubAddr
+        #         tr = ('R', 'T')[msg.pCmdWord1.contents.Field.TR]
+        #         grp1553 = f'1553/Ch_{ch}/RT_{rt}/SA_{sa}/{tr}/BC'
+        #     data_grp = rawgrp[grp1553]
+        #     lggr.debug(f'Add packet data in {data_grp.name} HDF5 group')
+        #     cursor = pckt_summary[grp1553]['count']
 
-            msg_err = msg.p1553Hdr.contents.Field.BlockStatus.MsgError
-            data = data_grp['data']
-            if msg_err == 0:
-                word_cnt = ch10_1553.word_cnt(msg.pCmdWord1.contents.Value)
-                arr = np.array([msg.pData.contents[i] for i in range(word_cnt)],
-                               dtype=data.dtype)
-            else:
-                arr = np.array([], dtype=data.dtype)
-            append_dset(data, cursor, arr)
+        #     msg_err = msg.p1553Hdr.contents.Field.BlockStatus.MsgError
+        #     data = data_grp['data']
+        #     if msg_err == 0:
+        #         word_cnt = ch10_1553.word_cnt(msg.pCmdWord1.contents.Value)
+        #         arr = np.array([msg.pData.contents[i] for i in range(word_cnt)],
+        #                        dtype=data.dtype)
+        #     else:
+        #         arr = np.array([], dtype=data.dtype)
+        #     append_dset(data, cursor, arr)
 
-            append_dset(data_grp['msg_error'], cursor, msg_err)
+        #     append_dset(data_grp['msg_error'], cursor, msg_err)
 
-            timestamp = data_grp['timestamp']
-            tstamp = str(ch10_time.RelInt2IrigTime(
-                msg.p1553Hdr.contents.Field.PktTime))
-            append_dset(timestamp, cursor, np.string_(tstamp))
+        #     timestamp = data_grp['timestamp']
+        #     tstamp = str(ch10_time.RelInt2IrigTime(
+        #         msg.p1553Hdr.contents.Field.PktTime))
+        #     append_dset(timestamp, cursor, np.string_(tstamp))
 
-            append_dset(data_grp['time'], cursor, epoch_time(tstamp))
+        #     append_dset(data_grp['time'], cursor, epoch_time(tstamp))
 
-            append_dset(data_grp['ttb'], cursor, msg.pChanSpec.contents.TTB)
+        #     append_dset(data_grp['ttb'], cursor, msg.pChanSpec.contents.TTB)
 
-            append_dset(data_grp['word_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.WordError)
+        #     append_dset(data_grp['word_error'], cursor,
+        #                 msg.p1553Hdr.contents.Field.BlockStatus.WordError)
 
-            append_dset(data_grp['sync_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.SyncError)
+        #     append_dset(data_grp['sync_error'], cursor,
+        #                 msg.p1553Hdr.contents.Field.BlockStatus.SyncError)
 
-            append_dset(data_grp['word_count_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.WordCntError)
+        #     append_dset(data_grp['word_count_error'], cursor,
+        #                 msg.p1553Hdr.contents.Field.BlockStatus.WordCntError)
 
-            append_dset(data_grp['rsp_tout'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.RespTimeout)
+        #     append_dset(data_grp['rsp_tout'], cursor,
+        #                 msg.p1553Hdr.contents.Field.BlockStatus.RespTimeout)
 
-            append_dset(data_grp['format_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.FormatError)
+        #     append_dset(data_grp['format_error'], cursor,
+        #                 msg.p1553Hdr.contents.Field.BlockStatus.FormatError)
 
-            append_dset(
-                data_grp['bus_id'], cursor,
-                (b'A', b'B')[msg.p1553Hdr.contents.Field.BlockStatus.BusID])
+        #     append_dset(
+        #         data_grp['bus_id'], cursor,
+        #         (b'A', b'B')[msg.p1553Hdr.contents.Field.BlockStatus.BusID])
 
-            append_dset(data_grp['packet_version'], cursor, packet.DataType)
+        #     append_dset(data_grp['packet_version'], cursor, packet.DataType)
 
-            pckt_summary[grp1553]['count'] -= 1
+        #     pckt_summary[grp1553]['count'] -= 1
 
     elif packet.DataType == Py106.Packet.DataType.VIDEO_FMT_0:
-        ch10.read_data()
-        ch = ch10.Header.ChID
-        where = f'Video Format 0/Ch_{ch}'
-        data_grp = rawgrp[where]
-        lggr.debug(f'Add packet data in {data_grp.name} HDF5 group')
-        for msg in ch10_vidf0.msgs():
-            cursor = pckt_summary[where]['count']
-            append_dset(data_grp['ts'], cursor, msg.TSData(as_bytes=True))
-            pckt_summary[where]['count'] -= 1
+        continue
+        # ch10.read_data()
+        # ch = ch10.Header.ChID
+        # where = f'Video Format 0/Ch_{ch}'
+        # data_grp = rawgrp[where]
+        # lggr.debug(f'Add packet data in {data_grp.name} HDF5 group')
+        # for msg in ch10_vidf0.msgs():
+        #     cursor = pckt_summary[where]['count']
+        #     append_dset(data_grp['ts'], cursor, msg.TSData(as_bytes=True))
+        #     pckt_summary[where]['count'] -= 1
 
     lggr.info(f'Packet #{pcntr} finished processing')
 
 # Store some useful metadata...
-h5f.attrs['ch10_file'] = np.string_(arg.ch10.name)
-h5f.attrs['ch10_file_checksum'] = np.string_(
-    f'SHA-256:{compute_sha256(arg.ch10)}')
+h5f.attrs['ch10_file'] = arg.ch10.name
+h5f.attrs['ch10_file_checksum'] = f'SHA-256:{compute_sha256(arg.ch10)}'
 tstart, tend = ch10_time_coverage(ch10, ch10_time)
-h5f.attrs['time_coverage_start'] = np.string_(tstart.isoformat() + 'Z')
-h5f.attrs['time_coverage_end'] = np.string_(tend.isoformat() + 'Z')
+h5f.attrs['time_coverage_start'] = tstart.isoformat() + 'Z'
+h5f.attrs['time_coverage_end'] = tend.isoformat() + 'Z'
 dt = datetime.utcnow().isoformat() + 'Z'
-h5f.attrs['date_created'] = np.string_(dt)
-h5f.attrs['date_modified'] = np.string_(dt)
-h5f.attrs['date_metadata_modified'] = np.string_(dt)
-h5f.attrs['aircraft_type'] = np.string_(arg.aircraft_type)
-h5f.attrs['aircraft_id'] = np.string_(arg.aircraft_id)
+h5f.attrs['date_created'] = dt
+h5f.attrs['date_modified'] = dt
+h5f.attrs['date_metadata_modified'] = dt
+h5f.attrs['aircraft_type'] = arg.aircraft_type
+h5f.attrs['aircraft_id'] = arg.aircraft_id
 
 lggr.debug(f'Close {h5f.filename} file')
 h5f.close()
