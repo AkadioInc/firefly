@@ -7,7 +7,7 @@
 &emsp;&emsp;&emsp;[`File(domain, mode='r', **kwargs)`](#Filedomain-moder-kwargs)   
 &emsp;&emsp;&emsp;[`File.info(pprint=False)`](#FileinfopprintFalse)   
 &emsp;&emsp;&emsp;[`File.tmats`](#Filetmats)   
-&emsp;&emsp;&emsp;[`File.flight_map(center=None, zoom=8, basemap='OpenTopoMap')`](#Fileflight_mapcenterNone-zoom8-basemapOpenTopoMap)   
+&emsp;&emsp;&emsp;[`File.flight_map(center=None, zoom=8, basemap=None)`](#Fileflight_mapcenterNone-zoom8-basemapNone)   
 &emsp;&emsp;&emsp;[`File.chapter11(packet, **kwargs)`](#Filechapter11packet-kwargs)   
 &emsp;&emsp;&emsp;[`File.get_param(h5path, labeled=False)`](#Fileget_paramh5path-labeledFalse)   
 &emsp;&emsp;&emsp;[`File.store_param(h5path, data, kind=None, units=None, label=None, **kwargs)`](#Filestore_paramh5path-data-kindNone-unitsNone-labelNone-kwargs)   
@@ -47,9 +47,9 @@ General information about the file's data as a dictionary: temporal coverage, la
 
 Return a Python dictionary with all the TMATS attributes (dict key: TMATS attribute name; dict value: TMATS attribute value).
 
-##### `File.flight_map(center=None, zoom=8, basemap='OpenTopoMap')`
+##### `File.flight_map(center=None, zoom=8, basemap=None)`
 
-For use in Jupyter notebooks. Display an interactive map with the flight path. Optionally specify the map's center, zoom level, or the base map layer. If map's center is `None`, the average of the flight's lat/lon bounding box is used instead.
+For use in Jupyter notebooks only. Display an interactive map with the flight path. Optionally specify the map's center, zoom level, or the base map layers. If map's center is `None`, the average of the flight's lat/lon bounding box is used instead.
 
 ##### `File.chapter11(packet, **kwargs)`
 

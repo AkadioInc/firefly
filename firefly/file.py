@@ -4,7 +4,7 @@ import h5py
 import numpy as np
 import Py106.Packet as Packet
 from ipyleaflet import (Map, Polyline, basemaps, basemap_to_tiles,
-                        FullScreenControl)
+                        FullScreenControl, LayersControl)
 try:
     from IPython.display import display
     display_map = True
@@ -192,7 +192,7 @@ class File:
         else:
             return info
 
-    def flight_map(self, center=None, basemap='OpenTopoMap', zoom=8):
+    def flight_map(self, center=None, basemap=None, zoom=8):
         """Display interactive map of the flight path. (Jupyter notebook only.)
 
         Parameters
@@ -200,20 +200,29 @@ class File:
         center: tuple, optional
             (latitude, longitude) center of the map. The default is the average
             of the flight's lat/lon bounding box.
-        basemap: str, optional
-            Name of the base map available in ipyleaflet. Default: OpenTopoMap.
+        basemap: str, or list or tuple of str, optional
+            Name of the base map available in ipyleaflet. Default:
+            ``('Esri.WorldImagery', 'OpenTopoMap')``.
         zoom: int, optional
             Map zoom level. Default is 8.
         """
         if not display_map:
-            raise RuntimeError('Functionality not available')
-        name_parts = basemap.split('.')
-        base_layer = None
-        for p in name_parts:
-            base_layer = basemaps[p]
-        if not isinstance(base_layer, dict):
-            raise TypeError('basemap not a dict')
-        base_layer = basemap_to_tiles(base_layer)
+            raise RuntimeError('Cannot display map')
+        if basemap is None:
+            basemap = ('Esri.WorldImagery', 'OpenTopoMap')
+        elif isinstance(basemap, str):
+            basemap = (basemap,)
+        elif not isinstance(basemap, (list, tuple)):
+            raise TypeError('basemap is not a str, list, or tuple')
+        base_layers = list()
+        for layer in basemap:
+            name_parts = layer.split('.')
+            base_layer = basemaps
+            for p in name_parts:
+                base_layer = base_layer[p]
+            if not isinstance(base_layer, dict):
+                raise TypeError('base layer not a dict')
+            base_layers.append(basemap_to_tiles(base_layer))
         dset_lat = self._dom['/derived/latitude']
         dset_lon = self._dom['/derived/longitude']
         if dset_lat.shape != dset_lon.shape:
@@ -222,11 +231,13 @@ class File:
         flight_lon = dset_lon[...]
         if center is None:
             center = (flight_lat.mean(), flight_lon.mean())
-        flight_map = Map(center=center, zoom=int(zoom))
-        flight_map.add_control(FullScreenControl())
-        flight_map.add_layer(base_layer)
         flight_path = Polyline(
             locations=[np.column_stack((flight_lat, flight_lon)).tolist()],
-            color='blue', fill=False)
+            color='blue', fill=False, name='Flight path')
+        flight_map = Map(center=center, zoom=int(zoom))
+        for _ in base_layers:
+            flight_map.add_layer(_)
         flight_map.add_layer(flight_path)
+        flight_map.add_control(FullScreenControl())
+        flight_map.add_control(LayersControl())
         display(flight_map)
