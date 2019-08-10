@@ -49,29 +49,23 @@ assert ins_dt.itemsize == 64, '6-DOF numpy dtype must be 64 bytes long'
 
 # Read in the appropriate 1553 data...
 with h5py.File(arg.ffly, 'r') as f:
-    msg_words = np.concatenate((
-        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/BC/data'][...],
-        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/data'][...]),
-        axis=0)
-    msg_error_flag = np.concatenate((
-        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/BC/msg_error'][...],
-        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/msg_error'][...]),
-        axis=0)
-    msgtime = np.concatenate((
-        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/BC/time'][...],
-        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/time'][...]),
+    fields = ('messages', 'msg_error', 'time')
+    data = np.concatenate((
+        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/BC/data'][fields],
+        f['/chapter11_data/1553/Ch_11/RT_6/SA_29/T/RT_27/SA_26/data'][fields]),
         axis=0)
 
 # Proceed only if no message errors...
-if np.any(msg_error_flag):
+if np.any(data['msg_error']):
     raise ValueError('There are message errors in the data')
 
 # Concatenate all 1553 message words into one buffer then convert it into a
 # NumPy structured array...
-ins = np.frombuffer(b''.join([msg.tobytes() for msg in msg_words]),
+ins = np.frombuffer(b''.join([msg.tobytes() for msg in data['messages']]),
                     dtype=ins_dt)
 
 # Sort message words based on their time...
+msgtime = data['time']
 sort_idx = np.argsort(msgtime)
 msgtime = msgtime[sort_idx]
 ins = ins[sort_idx]
@@ -122,51 +116,32 @@ landing_loc = mirta[np.argmin(
     np.sqrt(np.square(lat[land] - mirta['LATITUDE']) +
             np.square(lon[land] - mirta['LONGITUDE'])))]
 
+# Output Numpy structured array for computed parameters...
+param_dt = np.dtype([('time', msgtime.dtype),
+                     ('latitude', lat.dtype),
+                     ('longitude', lon.dtype),
+                     ('altitude', alt.dtype),
+                     ('speed', speed.dtype),
+                     ('heading', true_heading.dtype),
+                     ('roll', roll.dtype),
+                     ('pitch', pitch.dtype),
+                     ('g-force', acc.dtype)])
+param = np.empty(msgtime.shape, dtype=param_dt)
+param['time'] = msgtime
+param['latitude'] = lat
+param['longitude'] = lon
+param['altitude'] = alt
+param['speed'] = speed
+param['heading'] = true_heading
+param['roll'] = roll
+param['pitch'] = pitch
+param['g-force'] = acc
+
 # Store engineering units data and related summary data...
 with h5py.File(arg.ffly, 'a') as f:
     eu_grp = f.require_group('/derived')
-
-    t = eu_grp.create_dataset('time', data=msgtime, chunks=True)
-    t.attrs['kind'] = np.string_('numpy.datetime64[ns]')
-    t.dims.create_scale(t, 'time')
-
-    dset = eu_grp.create_dataset('latitude', data=lat, chunks=True)
-    dset.attrs['units'] = np.string_('degrees_north')
-    dset.attrs['kind'] = np.string_('latitude')
-    dset.dims[0].attach_scale(t)
-
-    dset = eu_grp.create_dataset('longitude', data=lon, chunks=True)
-    dset.attrs['units'] = np.string_('degrees_east')
-    dset.attrs['kind'] = np.string_('longitude')
-    dset.dims[0].attach_scale(t)
-
-    dset = eu_grp.create_dataset('pitch', data=pitch, chunks=True)
-    dset.attrs['units'] = np.string_('degrees')
-    dset.attrs['kind'] = np.string_('platform_pitch_fore_up')
-    dset.dims[0].attach_scale(t)
-
-    dset = eu_grp.create_dataset('roll', data=roll, chunks=True)
-    dset.attrs['units'] = np.string_('degrees')
-    dset.attrs['kind'] = np.string_('platform_roll_starboard_down')
-    dset.dims[0].attach_scale(t)
-
-    dset = eu_grp.create_dataset('heading', data=true_heading, chunks=True)
-    dset.attrs['units'] = np.string_('degrees')
-    dset.attrs['kind'] = np.string_('platform_course')
-    dset.dims[0].attach_scale(t)
-
-    dset = eu_grp.create_dataset('altitude', data=alt, chunks=True)
-    dset.attrs['units'] = np.string_('ft')
-    dset.attrs['kind'] = np.string_('height_above_mean_sea_level')
-    dset.dims[0].attach_scale(t)
-
-    dset = eu_grp.create_dataset('speed', data=speed, chunks=True)
-    dset.attrs['units'] = np.string_('kt')
-    dset.attrs['kind'] = np.string_('platform_speed_wrt_ground')
-    dset.dims[0].attach_scale(t)
-
-    dset = eu_grp.create_dataset('g-force', data=acc, chunks=True)
-    dset.dims[0].attach_scale(t)
+    eu_grp.create_dataset('aircraft_ins', data=param, dtype=param_dt,
+                          chunks=True)
 
     # Inventory (summary) data...
     inv_grp = f.require_group('/summary')
