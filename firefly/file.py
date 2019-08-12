@@ -99,12 +99,22 @@ class File:
             raise ValueError('mode can only be "a" or "r"')
         self._dom = h5py.File(domain, mode, **kwargs)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        self._dom.close()
+
     def __repr__(self):
         if self._dom.id:
             return (f'<FIREfly HDF5 file "{self._dom.filename}" '
                     f'(mode "{self._dom.mode}")>')
         else:
             return '<Closed FIREfly HDF5 file>'
+
+    def close(self):
+        """Close FIREfly file."""
+        self._dom.close()
 
     @property
     def tmats(self):
