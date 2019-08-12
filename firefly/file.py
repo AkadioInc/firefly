@@ -1,5 +1,5 @@
 ##!/usr/bin/env python3
-import h5pyd
+# import h5pyd as h5py
 import h5py
 import numpy as np
 import Py106.Packet as Packet
@@ -97,7 +97,6 @@ class File:
         """
         if mode not in ('a', 'r'):
             raise ValueError('mode can only be "a" or "r"')
-        # self._dom = h5pyd.File(domain, mode, **kwargs)
         self._dom = h5py.File(domain, mode, **kwargs)
 
     def __repr__(self):
@@ -110,12 +109,10 @@ class File:
     @property
     def tmats(self):
         """A dictionary with TMATS attributes. Empty if no attributes."""
-        tmats_h5path = File.chapter11_h5path(Packet.DataType.TMATS)
+        tmats_h5path = '/derived/TMATS'
         tmats = dict()
         if tmats_h5path in self._dom:
             for n, v in self._dom[tmats_h5path].attrs.items():
-                if n in ('buffer', 'rcc_version'):
-                    continue
                 tmats[n] = v
         return tmats
 
@@ -124,8 +121,8 @@ class File:
 
         Parameters
         ----------
-        pprint: bool
-            Pretty-print the collected overview information instead. Optional.
+        pprint: bool, optional
+            Pretty-print the collected overview information instead.
 
         Returns
         -------
@@ -153,21 +150,26 @@ class File:
         info['derived'] = list()
 
         def dset_info(name, obj):
-            """Callable for collecting information about HDF5 datasets."""
+            """A callable for collecting information about HDF5 datasets."""
             if not isinstance(obj, h5py.Dataset):
                 return
-            d = {'kind': obj.attrs.get('kind', 'n/a'),
-                 'shape': obj.shape,
-                 'units': obj.attrs.get('units', 'n/a'),
-                 'name': name}
+            if obj.dtype.fields is None:
+                d = {'shape': obj.shape,
+                     'location': obj.name,
+                     'datatype': str(obj.dtype)}
+            else:
+                d = {'shape': obj.shape,
+                     'location': obj.name,
+                     'fields': [(n, str(t[0])) for n, t in
+                                obj.dtype.fields.items()]}
             info['derived'].append(d)
 
         derived.visititems(dset_info)
 
         if pprint:
-            print(f'{self._dom.filename!r} Overview:\n')
+            print(f'{self._dom.filename!r} overview:\n')
             if len(info['global']) > 0:
-                print(f'Global attributes:')
+                print(f'Global attributes:\n------------------')
                 for t in info['global']:
                     print(f'{t[0]} = {t[1]!r}')
                 print('\n')
@@ -175,19 +177,21 @@ class File:
             print(f'TMATS: {info["TMATS"]}\n')
 
             if len(info['summary']) > 0:
-                print(f'Summary attributes:')
+                print(f'Summary attributes:\n-------------------')
                 for t in info['summary']:
                     print(f'{t[0]} = {t[1]!r}')
                 print('\n')
 
             if len(info['derived']) > 0:
-                print(f'Available parameters:\n')
-                print(f'{"Name":^30s}  {"Shape":^12}  {"Kind":^32}  '
-                      f'{"Units":^20}')
-                print(f'{"-" * 30}  {"-" * 12}  {"-" * 32}  {"-" * 20}')
+                print(f'Available parameters:\n---------------------')
                 for i in info['derived']:
-                    print(f'{i["name"]:<30s}  {i["shape"]!r:^12}  '
-                          f'{i["kind"]:^32}  {i["units"]:^20}')
+                    print(f'{i["location"]} {i["shape"]!r}', end='')
+                    if 'fields' in i:
+                        print(' with fields:')
+                        for _ in i['fields']:
+                            print(f'    {_[0]} [{_[1]}]')
+                    else:
+                        print(f' {i["datatype"]}')
 
         else:
             return info
@@ -223,12 +227,9 @@ class File:
             if not isinstance(base_layer, dict):
                 raise TypeError('base layer not a dict')
             base_layers.append(basemap_to_tiles(base_layer))
-        dset_lat = self._dom['/derived/latitude']
-        dset_lon = self._dom['/derived/longitude']
-        if dset_lat.shape != dset_lon.shape:
-            raise ValueError('Flight lat/lon data size mismatch')
-        flight_lat = dset_lat[...]
-        flight_lon = dset_lon[...]
+        data = self._dom['/derived/aircraft_ins']
+        flight_lat = data['latitude']
+        flight_lon = data['longitude']
         if center is None:
             center = (flight_lat.mean(), flight_lon.mean())
         flight_path = Polyline(
