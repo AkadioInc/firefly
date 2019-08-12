@@ -162,11 +162,12 @@ with h5py.File(arg.ffly, 'a') as f:
 
     # Create/Update some global file metadata...
     dt = str(np.datetime64('now', 's')) + 'Z'
-    f.attrs['date_modified'] = np.string_(dt)
+    f.attrs['date_modified'] = dt
+    f.attrs['date_metadata_modified'] = dt
     f.attrs['takeoff_location'] = \
-        np.string_(f"{takeoff_loc['SITE_NAME']}, {takeoff_loc['STATE_TERR']}")
+        f"{takeoff_loc['SITE_NAME']}, {takeoff_loc['STATE_TERR']}"
     f.attrs['landing_location'] = \
-        np.string_(f"{landing_loc['SITE_NAME']}, {landing_loc['STATE_TERR']}")
+        f"{landing_loc['SITE_NAME']}, {landing_loc['STATE_TERR']}"
 
 if arg.print:
     # Convert int64 values to numpy.datetime64 values...
