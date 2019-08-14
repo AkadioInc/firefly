@@ -1,4 +1,4 @@
-# FIREfly HDF5 File information
+# FIREfly HDF5 Format Description
 
 ## Root (Global) HDF5 Attributes
 
@@ -47,6 +47,7 @@ This group is for storing any data derived from the flight's Chapter 10 file con
 | `/derived/aircraft_ins` | A 1D compound HDF5 dataset with aircraft's flight location, six degrees of freedom (6DoF), and related parameters. |
 
 `aircraft_ins` dataset's compound fields:
+
 | Field Name | Explanation |
 |:-|:-|
 | `time` | POSIX time as nanoseconds. Specifically: numpy.datetime64[ns]. |
