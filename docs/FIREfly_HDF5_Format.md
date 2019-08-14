@@ -33,7 +33,7 @@ This group holds HDF5 attributes that provide decriptive information about the s
 | `max_pitch` | Aircraft's maximum pitch angle. Positive means up. |
 | `min_pitch` | Aircraft's minimum pitch angle. Negative means down. |
 | `max_roll` | Aircraft's maximum roll angle. Positive means clockwise. |
-| `min_roll` | ircraft's minimum roll angle. Negative means anticlockwise. |
+| `min_roll` | Aircraft's minimum roll angle. Negative means anticlockwise. |
 | `max_gforce` | Maximum calculated flight G-force. |
 | `min_gforce` | Minimum calculated flight G-force. |
 
@@ -91,3 +91,9 @@ Supported Chapter 11 packet types and their `data` HDF5 dataset:
 1. __Video Packets, Format 0 (Moving Picture Experts Group-2/H.264)__
 
     `data`: one-dimensional HDF5 dataset of opaque datatype. Each element holds one video transport stream packet of 188 bytes.
+
+    The following command generates a playable video file from the `data` HDF5 dataset in the `/chapter11_data/Video Format 0/Ch_3` HDF5 group:
+
+    ```sh
+    $ h5dump -d "/chapter11_data/Video Format 0/Ch_3/data" -b FILE -o video.mpg firefly.h5
+    ```
