@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='firefly',
-    version='0.0.1',
+    version='0.0.3',
     description='Scripts and modules for the FIREfly project',
     long_description='To be provided.',
     long_description_content_type='text',
@@ -19,7 +19,8 @@ setup(
     ],
     scripts=[
         'scripts/ch10-to-h5.py',
-        'scripts/ch10summary.py'
+        'scripts/ch10summary.py',
+        'scripts/derive-6dof.py'
     ],
     package_data={'': ['FY18_MIRTA_Points.csv']}
 )
