@@ -15,13 +15,6 @@
 | `date_created` | UTC datetime in the ISO 8601 format of the file's creation. |
 | `date_modified` | UTC datetime in the ISO 8601 format of the last file's data content modification. |
 | `date_metadata_modified` | UTC datetime in the ISO 8601 format of the last file's metadata content modification. |
-
-## HDF5 Group: `/summary`
-
-This group holds HDF5 attributes that provide decriptive information about the stored derived parameters.
-
-|Attribute Name| Explanation |
-|:-|:-|
 | `max_speed` | Aircraft's maximum speed in knots. |
 | `min_speed` | Aircraft's minimum speed in knots. |
 | `max_altitude` | Aircraft's maximum altitude in feet. |
