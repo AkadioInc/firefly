@@ -1,1 +1,1 @@
-from .file import File
+from .segment import Segment

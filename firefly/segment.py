@@ -1,6 +1,6 @@
 ##!/usr/bin/env python3
 # import h5pyd as h5py
-import h5py
+import h5pyd as h5py
 import numpy as np
 import Py106.Packet as Packet
 from ipyleaflet import (Map, Polyline, basemaps, basemap_to_tiles,
@@ -12,8 +12,8 @@ except ImportError:
     display_map = False
 
 
-class File:
-    """Represents one FIREfly HDF5 file."""
+class Segment:
+    """One flight segment, could be entire flight."""
 
     @staticmethod
     def chapter11_h5path(packet_type, **kwargs):
@@ -89,7 +89,7 @@ class File:
         Parameters
         ----------
         domain: str
-            HDF Kita domain endopoint of the HDF5 file.
+            HDF Kita domain endopoint.
         mode: {'a', 'r'}
             Access mode. Only allowed: read and append.
         kwargs: dict
@@ -97,32 +97,32 @@ class File:
         """
         if mode not in ('a', 'r'):
             raise ValueError('mode can only be "a" or "r"')
-        self._dom = h5py.File(domain, mode, **kwargs)
+        self._domain = h5py.File(domain, mode, **kwargs)
 
     def __enter__(self):
         return self
 
     def __exit__(self, *args):
-        self._dom.close()
+        self._domain.close()
 
     def __repr__(self):
-        if self._dom.id:
-            return (f'<FIREfly HDF5 file "{self._dom.filename}" '
-                    f'(mode "{self._dom.mode}")>')
+        if self._domain.id:
+            return (f'<FIREfly HDF5 file "{self._domain.filename}" '
+                    f'(mode "{self._domain.mode}")>')
         else:
             return '<Closed FIREfly HDF5 file>'
 
     def close(self):
         """Close FIREfly file."""
-        self._dom.close()
+        self._domain.close()
 
     @property
     def tmats(self):
         """A dictionary with TMATS attributes. Empty if no attributes."""
         tmats_h5path = '/derived/TMATS'
         tmats = dict()
-        if tmats_h5path in self._dom:
-            for n, v in self._dom[tmats_h5path].attrs.items():
+        if tmats_h5path in self._domain:
+            for n, v in self._domain[tmats_h5path].attrs.items():
                 tmats[n] = v
         return tmats
 
@@ -143,20 +143,20 @@ class File:
 
         # Root group (global) attributes...
         info['global'] = list()
-        for n, v in self._dom['/'].attrs.items():
+        for n, v in self._domain['/'].attrs.items():
             info['global'].append((n, v))
 
-        # Summary group attributes...
-        info['summary'] = list()
-        for n, v in self._dom['/summary'].attrs.items():
-            info['summary'].append((n, v))
+        # # Summary group attributes...
+        # info['summary'] = list()
+        # for n, v in self._domain['/summary'].attrs.items():
+        #     info['summary'].append((n, v))
 
         # TMATS attributes...
         tmats = self.tmats
         info['TMATS'] = f'{len(tmats)} attributes'
 
         # Info on derived parameters...
-        derived = self._dom['/derived']
+        derived = self._domain['/derived']
         info['derived'] = list()
 
         def dset_info(name, obj):
@@ -177,7 +177,7 @@ class File:
         derived.visititems(dset_info)
 
         if pprint:
-            print(f'{self._dom.filename!r} overview:\n')
+            print(f'{self._domain.filename!r} overview:\n')
             if len(info['global']) > 0:
                 print(f'Global attributes:\n------------------')
                 for t in info['global']:
@@ -186,11 +186,11 @@ class File:
 
             print(f'TMATS: {info["TMATS"]}\n')
 
-            if len(info['summary']) > 0:
-                print(f'Summary attributes:\n-------------------')
-                for t in info['summary']:
-                    print(f'{t[0]} = {t[1]!r}')
-                print('\n')
+            # if len(info['summary']) > 0:
+            #     print(f'Summary attributes:\n-------------------')
+            #     for t in info['summary']:
+            #         print(f'{t[0]} = {t[1]!r}')
+            #     print('\n')
 
             if len(info['derived']) > 0:
                 print(f'Available parameters:\n---------------------')
@@ -237,7 +237,7 @@ class File:
             if not isinstance(base_layer, dict):
                 raise TypeError('base layer not a dict')
             base_layers.append(basemap_to_tiles(base_layer))
-        data = self._dom['/derived/aircraft_ins']
+        data = self._domain['/derived/aircraft_ins']
         flight_lat = data['latitude']
         flight_lon = data['longitude']
         if center is None:
