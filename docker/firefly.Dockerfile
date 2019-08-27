@@ -12,11 +12,13 @@ COPY firefly-master.zip /tmp/firefly.zip
 RUN apk add --no-cache --virtual .build-deps \
         coreutils \
         gcc \
+        g++ \
         libc-dev \
         make \
         curl \
         git \
         unzip \
+        zeromq-dev \
  && apk add --no-cache --allow-untrusted \
             --repository http://dl-3.alpinelinux.org/alpine/edge/testing \
         hdf5 \
