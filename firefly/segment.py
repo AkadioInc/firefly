@@ -237,7 +237,7 @@ class Segment:
             if not isinstance(base_layer, dict):
                 raise TypeError('base layer not a dict')
             base_layers.append(basemap_to_tiles(base_layer))
-        data = self._domain['/derived/aircraft_ins']
+        data = self._domain['/derived/aircraft_ins'][...]
         flight_lat = data['latitude']
         flight_lon = data['longitude']
         if center is None:
