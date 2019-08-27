@@ -18,11 +18,11 @@ RUN apk add --no-cache --virtual .build-deps \
         curl \
         git \
         unzip \
-        zeromq-dev \
  && apk add --no-cache --allow-untrusted \
             --repository http://dl-3.alpinelinux.org/alpine/edge/testing \
         hdf5 \
         hdf5-dev \
+        zeromq-dev \
 # Download and build IRIG106LIB...
  && cd /tmp \
  && curl -L -o irig106lib.zip ${IRIG106_REPO}/archive/${IRIG106_BRANCH}.zip \
