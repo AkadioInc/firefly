@@ -1,10 +1,10 @@
 ##!/usr/bin/env python3
-# import h5pyd as h5py
-import h5pyd as h5py
 import numpy as np
-import Py106.Packet as Packet
+import h5pyd as h5py
+import pandas as pd
 from ipyleaflet import (Map, Polyline, basemaps, basemap_to_tiles,
                         FullScreenControl, LayersControl)
+import Py106.Packet as Packet
 try:
     from IPython.display import display
     display_map = True
@@ -12,7 +12,7 @@ except ImportError:
     display_map = False
 
 
-class Segment:
+class FlightSegment:
     """One flight segment, could be entire flight."""
 
     @staticmethod
@@ -98,6 +98,10 @@ class Segment:
         if mode not in ('a', 'r'):
             raise ValueError('mode can only be "a" or "r"')
         self._domain = h5py.File(domain, mode, **kwargs)
+        self._other = kwargs
+        data = pd.DataFrame(self._domain['/derived/aircraft_ins'][...])
+        self._flight = data.astype({'time': 'datetime64[ns]'})
+        self._bbox = None
 
     def __enter__(self):
         return self
@@ -107,14 +111,81 @@ class Segment:
 
     def __repr__(self):
         if self._domain.id:
-            return (f'<FIREfly HDF5 file "{self._domain.filename}" '
-                    f'(mode "{self._domain.mode}")>')
+            return (
+                f'<FIREfly {self.__class__.__name__} "{self._domain.filename}" '
+                f'(mode "{self._domain.mode}")>')
         else:
             return '<Closed FIREfly HDF5 file>'
+
+    def filter(self, cond):
+        """Filter flight segment data into a new segment.
+
+        Parameters
+        ----------
+        cond : str
+            Condition (expression) for filtering flight segment data.
+
+        Returns
+        -------
+        firefly.FlightSegment
+            New flight segment with the data that matched filtering condition.
+        """
+        data = self._flight.query(cond, inplace=False)
+        new_seg = self.__new__(type(self))
+        new_seg._domain = h5py.File(self._domain.filename, self._domain.mode,
+                                    **self._other)
+        new_seg._other = self._other
+        new_seg._flight = data
+        new_seg._bbox = None
+        return new_seg
 
     def close(self):
         """Close FIREfly file."""
         self._domain.close()
+
+    @property
+    def start_time(self):
+        """Start time of the flight segment.
+
+        Returns
+        -------
+        pandas.Timestamp
+            Start time of the flight segment.
+        """
+        return self._flight['time'].min()
+
+    @property
+    def end_time(self):
+        """End time of the flight segment.
+
+        Returns
+        -------
+        pandas.Timestamp
+            End time of the flight segment.
+        """
+        return self._flight['time'].max()
+
+    @property
+    def bbox(self):
+        """Flight segment's geospatial bounding box.
+
+        Returns
+        -------
+        numpy.rec.array
+            A scalar with four fields: ``max_lat``, ``min_lat``, ``max_lon``,
+            ``min_lon``.
+        """
+        if self._bbox is None:
+            max_lat = self._flight['latitude'].max()
+            min_lat = self._flight['latitude'].min()
+            max_lon = self._flight['longitude'].max()
+            min_lon = self._flight['longitude'].min()
+            self._bbox = np.rec.array((max_lat, min_lat, max_lon, min_lon),
+                                      dtype=[('max_lat', max_lat.dtype),
+                                             ('min_lat', min_lat.dtype),
+                                             ('max_lon', max_lon.dtype),
+                                             ('min_lon', min_lon.dtype)])
+        return self._bbox
 
     @property
     def tmats(self):
@@ -127,7 +198,7 @@ class Segment:
         return tmats
 
     def info(self, pprint=False):
-        """Overview of the file's content.
+        """Overview of the flight's file content.
 
         Parameters
         ----------
@@ -237,7 +308,7 @@ class Segment:
             if not isinstance(base_layer, dict):
                 raise TypeError('base layer not a dict')
             base_layers.append(basemap_to_tiles(base_layer))
-        data = self._domain['/derived/aircraft_ins'][...]
+        data = self._flight
         flight_lat = data['latitude']
         flight_lon = data['longitude']
         if center is None:
