@@ -197,6 +197,16 @@ class FlightSegment:
                 tmats[n] = v
         return tmats
 
+    @property
+    def takeoff(self):
+        """Takeoff airport."""
+        return self._domain.attrs['takeoff_location']
+
+    @property
+    def landing(self):
+        """Landing airport."""
+        return self._domain.attrs['landing_location']
+
     def info(self, pprint=False):
         """Overview of the flight's file content.
 
