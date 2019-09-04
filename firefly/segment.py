@@ -4,6 +4,7 @@ import h5pyd as h5py
 import pandas as pd
 from ipyleaflet import (Map, Polyline, basemaps, basemap_to_tiles,
                         FullScreenControl, LayersControl)
+import hvplot.pandas  # noqa
 import Py106.Packet as Packet
 try:
     from IPython.display import display
@@ -16,7 +17,7 @@ class FlightSegment:
     """One flight segment, could be entire flight."""
 
     @staticmethod
-    def chapter11_h5path(packet_type, **kwargs):
+    def chapter11_location(packet_type, **kwargs):
         """HDF5 group path name for specific IRIG 106 Chapter 10 packet type.
 
         Parameters
@@ -53,7 +54,7 @@ class FlightSegment:
                     raise ValueError('"from_sa" not given')
                 elif not to_sa and to_rt != 'BC':
                     raise ValueError('"to_sa" not given')
-                h5path += f'/RT_{int(from_rt)}/SA_{int(from_sa)}/T/'
+                h5path += f'/RT_{int(from_rt)}/SA_{int(from_sa)}/T'
                 if to_rt == 'BC':
                     return h5path + '/BC'
                 else:
@@ -101,6 +102,7 @@ class FlightSegment:
         self._other = kwargs
         data = pd.DataFrame(self._domain['/derived/aircraft_ins'][...])
         self._flight = data.astype({'time': 'datetime64[ns]'})
+        self._flight.set_index('time', inplace=True)
         self._bbox = None
 
     def __enter__(self):
@@ -144,6 +146,11 @@ class FlightSegment:
         self._domain.close()
 
     @property
+    def uri(self):
+        """Flight segment's Kita URI."""
+        return self._domain.id.http_conn.endpoint + self._domain.filename
+
+    @property
     def start_time(self):
         """Start time of the flight segment.
 
@@ -152,7 +159,7 @@ class FlightSegment:
         pandas.Timestamp
             Start time of the flight segment.
         """
-        return self._flight['time'].min()
+        return self._flight.index.min()
 
     @property
     def end_time(self):
@@ -163,7 +170,7 @@ class FlightSegment:
         pandas.Timestamp
             End time of the flight segment.
         """
-        return self._flight['time'].max()
+        return self._flight.index.max()
 
     @property
     def bbox(self):
@@ -287,6 +294,24 @@ class FlightSegment:
         else:
             return info
 
+    def quickview(self, loc):
+        """Quick view of parameter's data.
+
+        Parameters
+        ----------
+        loc : str
+            Parameter's location (HDF5 path name).
+        """
+        if not display_map:
+            raise RuntimeError('Cannot display map')
+        if loc != '/derived/aircraft_ins':
+            raise ValueError(f'{loc}: No data')
+        qv = self._flight.hvplot(
+            y=['speed', 'altitude', 'roll', 'g-force', 'pitch'],
+            width=500, height=300, subplots=True, shared_axes=False,
+            padding=0.01).cols(2)
+        display(qv)
+
     def flight_map(self, center=None, basemap=None, zoom=8):
         """Display interactive map of the flight path. (Jupyter notebook only.)
 
@@ -333,3 +358,28 @@ class FlightSegment:
         flight_map.add_control(FullScreenControl())
         flight_map.add_control(LayersControl())
         display(flight_map)
+
+    def to_csv(self, outfile, loc, **kwargs):
+        """Export specified data to CSV.
+        """
+        if isinstance(loc, str):
+            # HDF5 path name...
+            if loc != '/derived/aircraft_ins':
+                raise ValueError(f'{loc}: No data')
+            data = pd.DataFrame(self._domain[loc][...])
+        elif isinstance(loc, int):
+            # IRIG106 packet type...
+            ch11_path = self.chapter11_location(loc, **kwargs)
+            if ch11_path not in self._domain:
+                raise ValueError(f'{ch11_path}: No data')
+            grp = self._domain[ch11_path]
+            if 'data' not in grp:
+                raise ValueError(f'{ch11_path + "/data"}: No data')
+            data = pd.DataFrame(grp['data'][...])
+        else:
+            raise TypeError(f'{loc}: Unsupported flight data specifier')
+
+        data = data.astype({'time': 'datetime64[ns]'})
+        data.set_index('time', inplace=True)
+        data = data.loc[self.start_time:self.end_time]
+        data.to_csv(outfile, mode='w', header=True, index=True)
