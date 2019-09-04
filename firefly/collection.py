@@ -5,158 +5,190 @@ from .segment import FlightSegment
 class FlightCollection:
     """FlightCollection of FIREfly flight domains based on filter criteria."""
 
-    def __init__(self, loc, pattern=None, query=None, mode=None, aircraft=None,
-                 tail=None, altitude=None, latitude=None, longitude=None,
-                 time=None, **kwargs):
+    def __init__(self, loc, **kwargs):
         """A set of FIREfly domains that satisfy filter criteria.
 
         Parameters
         ----------
         loc : str
-            A Kita server URI where FIREfly domains could be found.
-        pattern : str
-            A regex for filtering FIREfly domain names.
-        query : str
-            A boolean expression for filtering FIREfly domains based on their
-            HDF5 attributes.
+            A Kita server URI where FIREfly flight data are hosted.
+
+        Other parameters
+        ----------------
         mode : {'r', 'r+', 'w', 'w-', 'x', 'a'}
             Access mode to ``loc``. Default is ``'r'``.
+        pattern : str
+            A regex for filtering FIREfly flight file names.
+        query : str
+            A boolean expression for filtering FIREfly flights' data.
         aircraft : str or list/tuple of str
             Aircraft type. When list/tuple, select all FIREfly flights with any
             of them.
         tail : str or list/tuple of str
             Aircraft tail (serial) number. Only FIREfly data from those aircraft
             will be selected.
-        altitude : float, or list/tuple of two floats
-            Flight altitude (height above ground) in feet. A single float
-            means to select data with altitudes greater or equal to that
-            value. A tuple of two floats represents an open interval of
-            altitudes. A list of two floats represents a closed interval of
-            altitudes.
-        latitude : float, or list/tuple of two floats
-            Flight latitude in degrees (positive north). A single float
-            means to select data with latitudes greater or equal to that
-            value. A tuple of two floats represents an open interval of
-            latitudes. A list of two floats represents a closed interval of
-            latitudes.
-        longitude : float, or list/tuple of two floats
+        altitude : list or tuple
+            Flight altitude (height above ground) in feet. The first list/tuple
+            element represents minimal value; the second element the maximal
+            value of the data to filter. If either of these values is ``None``
+            that condition will not be included. The tuple represents an open
+            interval. The list represents a closed interval.
+        latitude : list or tuple
+            Flight latitude in degrees (positive north). The first list/tuple
+            element represents minimal value; the second element the maximal
+            value of the data to filter. If either of these values is ``None``
+            that condition will not be included. The tuple represents an open
+            interval. The list represents a closed interval.
+        longitude : list or tuple
             Flight longitude in degrees (positive east) in the range [-180,
-            180]. A single float means to select data with longitudes greater or
-            equal to that value. A tuple of two floats represents an open
-            interval of longitudes. A list of two floats represents a closed
-            interval of longitudes.
-        time : ISO 8601 str, or list/tuple of two ISO 8601 str
-            A time instance in the format ``YYYY-MM-DDTHH:MM:SS.SSSSZ``. The
-            fractions of a second and UTC time zone designator (``Z``) are
-            optional. A single ISO 8601 str means to select data with flight
-            time greater or equal to that value.
+            180].  The first list/tuple element represents minimal value; the
+            second element the maximal value of the data to filter. If either of
+            these values is ``None`` that condition will not be included. The
+            tuple represents an open interval. The list represents a closed
+            interval.
+        time : list or tuple
+            A time interval expressed as up to two ISO 8601 strings in the
+            format ``YYYY-MM-DDTHH:MM:SS.SSSSZ``. The fractions of a second and
+            UTC time zone designator (``Z``) are optional. The first list/tuple
+            element represents minimal value; the second element the maximal
+            value of the data to filter. If either of these values is ``None``
+            that condition will not be included. The tuple represents an open
+            interval. The list represents a closed interval.
+        speed : list or tuple
+            Aircraft ground speed in knots. The first list/tuple element
+            represents minimal value; the second element the maximal value of
+            the data to filter. If either of these values is ``None`` that
+            condition will not be included. The tuple represents an open
+            interval. The list represents a closed interval.
         kwargs : dict
-            Named arguments with Kita server access information.
+            Any remaining named arguments with Kita server access information.
         """
-        self._pattern = pattern
-        self._query = query
-        self._mode = mode or 'r'
-        self._kwargs = kwargs
+        self._pattern = kwargs.pop('pattern', None)
+        self._query = kwargs.pop('query', None)
+        self._mode = kwargs.pop('mode', 'r')
 
         dom_query = ''
         data_query = ''
-        if aircraft:
-            if isinstance(aircraft, str):
-                dom_expr = f'aircraft_type == {aircraft!r}'
-            elif isinstance(aircraft, (list, tuple)):
-                temp = [f'aircraft_type == {a!r}' for a in aircraft]
-                dom_expr = ' OR '.join(temp)
-                dom_expr = f'({dom_expr})'
-            else:
-                raise TypeError(f'aircraft argument: {type(aircraft)}')
+        for arg_name in ('aircraft', 'tail'):
+            dom_expr = self._make_expr_str(arg_name, kwargs.pop(arg_name, None))
             dom_query = ' AND '.join(filter(bool, [dom_query, dom_expr]))
 
-        if tail:
-            if isinstance(tail, str):
-                dom_expr = f'aircraft_id == {tail!r}'
-            elif isinstance(tail, (list, tuple)):
-                temp = [f'aircraft_id == {a!r}' for a in tail]
-                dom_expr = ' OR '.join(temp)
-                dom_expr = f'({dom_expr})'
-            else:
-                raise TypeError(f'aircraft argument: {type(aircraft)}')
+        for arg_name in ('altitude', 'latitude', 'longitude', 'speed'):
+            dom_expr, data_expr = self._make_expr_float(arg_name,
+                                                        kwargs.pop(arg_name,
+                                                                   None))
             dom_query = ' AND '.join(filter(bool, [dom_query, dom_expr]))
+            data_query = ' and '.join(filter(bool, [data_query, data_expr]))
 
-        if altitude:
-            dom_expr = ''
-            data_expr = ''
-            if isinstance(altitude, list):
-                min_val, max_val = float(altitude[0]), float(altitude[1])
-                dom_expr = f'max_latitude >= {min_val}'
-                data_expr = f'(altitude >= {min_val} and altitude <= {max_val})'
-            elif isinstance(altitude, tuple):
-                min_val, max_val = float(altitude[0]), float(altitude[1])
-                dom_expr = f'max_altitude > {min_val}'
-                data_expr = f'(altitude > {min_val} and altitude < {max_val})'
-            else:
-                dom_expr = f'max_altitude >= {float(altitude)}'
-                data_expr = f'altitude >= {float(altitude)}'
+        for arg_name in ('time',):
+            dom_expr, data_expr = self._make_expr_time(arg_name,
+                                                       kwargs.pop(arg_name,
+                                                                  None))
             dom_query = ' AND '.join(filter(bool, [dom_query, dom_expr]))
-            data_query = ' AND '.join(filter(bool, [data_query, data_expr]))
-
-        if latitude:
-            dom_expr = ''
-            data_expr = ''
-            if isinstance(latitude, list):
-                min_val, max_val = float(latitude[0]), float(latitude[1])
-                dom_expr = f'max_latitude >= {min_val}'
-                data_expr = f'(latitude >= {min_val} and latitude <= {max_val})'
-            elif isinstance(latitude, tuple):
-                min_val, max_val = float(latitude[0]), float(latitude[1])
-                dom_expr = f'max_latitude > {min_val}'
-                data_expr = f'(latitude > {min_val} and latitude < {max_val})'
-            else:
-                dom_expr = f'max_latitude >= {float(latitude)}'
-                data_expr = f'latitude >= {float(latitude)}'
-            dom_query = ' AND '.join(filter(bool, [dom_query, dom_expr]))
-            data_query = ' AND '.join(filter(bool, [data_query, data_expr]))
-
-        if longitude:
-            dom_expr = ''
-            data_expr = ''
-            if isinstance(longitude, list):
-                min_val, max_val = float(longitude[0]), float(longitude[1])
-                dom_expr = f'max_longitude >= {min_val}'
-                data_expr = f'(longitude >= {min_val} and longitude <= {max_val})'
-            elif isinstance(longitude, tuple):
-                min_val, max_val = float(longitude[0]), float(longitude[1])
-                dom_expr = f'max_longitude > {min_val}'
-                data_expr = f'(longitude > {min_val} and longitude < {max_val})'
-            else:
-                dom_expr = f'max_longitude >= {float(longitude)}'
-                data_expr = f'longitude >= {float(longitude)}'
-            dom_query = ' AND '.join(filter(bool, [dom_query, dom_expr]))
-            data_query = ' AND '.join(filter(bool, [data_query, data_expr]))
-
-        if time:
-            dom_expr = ''
-            data_expr = ''
-            if isinstance(time, list):
-                min_val, max_val = time[0], time[1]
-                dom_expr = f'time_coverage_end >= {min_val!r}'
-                data_expr = f'(time >= {min_val!r} and time <= {max_val!r})'
-            elif isinstance(time, tuple):
-                min_val, max_val = time[0], time[1]
-                dom_expr = f'time_coverage_end > {min_val!r}'
-                data_expr = f'(time > {min_val!r} and time < {max_val!r})'
-            else:
-                dom_expr = f'time_coverage_end >= {time!r}'
-                data_expr = f'time >= {time!r}'
-            dom_query = ' AND '.join(filter(bool, [dom_query, dom_expr]))
-            data_query = ' AND '.join(filter(bool, [data_query, data_expr]))
+            data_query = ' and '.join(filter(bool, [data_query, data_expr]))
 
         self._flight_filter = dom_query
         self._data_filter = data_query
-        self._loc = h5pyd.Folder(loc, mode=mode, pattern=pattern,
+        self._loc = h5pyd.Folder(loc, mode=self._mode, pattern=self._pattern,
                                  query=self._flight_filter,
                                  **kwargs)
         loc = self._loc.domain
         self._domains = [loc + d for d in self._loc]
+        self._kwargs = kwargs
+
+    def _make_expr_str(self, param_name, param_val):
+        """Generate query expression from a string flight property."""
+        if param_val is None:
+            return
+
+        attr_name = {'aircraft': 'aircraft_type',
+                     'tail': 'aircraft_id'}
+        attr = attr_name[param_name]
+
+        if isinstance(param_val, str):
+            flight_expr = f'{attr} == {param_val!r}'
+        elif isinstance(param_val, (list, tuple)):
+            temp = [f'{attr} == {a!r}' for a in param_val]
+            flight_expr = '(' + ' OR '.join(temp) + ')'
+        else:
+            raise TypeError(
+                f'{type(param_val)}: Invalid {param_name} value type')
+
+        return flight_expr
+
+    def _make_expr_float(self, param_name, param_val):
+        """Generate query expression for a numeric flight parameter."""
+        if param_val is None:
+            return None, None
+
+        # Summary attributes for each parameter...
+        smmry_attr = {'altitude': ('min_altitude', 'max_altitude'),
+                      'latitude': ('min_latitude', 'max_latitude'),
+                      'longitude': ('min_longitude', 'max_longitude'),
+                      'speed': ('min_speed', 'max_speed')}
+
+        attr_min, attr_max = smmry_attr[param_name]
+
+        if isinstance(param_val, list):
+            oper = ('>=', '<=')
+        elif isinstance(param_val, tuple):
+            oper = ('>', '<')
+        else:
+            raise TypeError(
+                f'{type(param_val)}: Invalid {param_name} value type')
+
+        flight_expr = list()
+        data_expr = list()
+        for a, op, val in zip((attr_max, attr_min), oper, param_val):
+            if val is None:
+                continue
+            else:
+                val = float(val)
+            data_expr.append(f'{param_name} {op} {val}')
+            flight_expr.append(f'{a} {op} {val}')
+
+        if len(flight_expr) > 1:
+            flight_expr = '(' + ' AND '.join(filter(bool, flight_expr)) + ')'
+            data_expr = '(' + ' and '.join(filter(bool, data_expr)) + ')'
+        else:
+            flight_expr = flight_expr[0]
+            data_expr = data_expr[0]
+
+        return (flight_expr, data_expr)
+
+    def _make_expr_time(self, param_name, param_val):
+        """Generate query expression for a time-valued flight parameter."""
+        if param_val is None:
+            return None, None
+
+        # Summary attributes for each parameter...
+        smmry_attr = {'time': ('time_coverage_start', 'time_coverage_end')}
+        attr_min, attr_max = smmry_attr[param_name]
+
+        if isinstance(param_val, list):
+            oper = ('>=', '<=')
+        elif isinstance(param_val, tuple):
+            oper = ('>', '<')
+        else:
+            raise TypeError(
+                f'{type(param_val)}: Invalid {param_name} value type')
+
+        flight_expr = list()
+        data_expr = list()
+        for a, op, val in zip((attr_max, attr_min), oper, param_val):
+            if val is None:
+                continue
+            data_expr.append(f'{param_name} {op} {val!r}')
+            flight_expr.append(f'{a} {op} {val!r}')
+
+        if len(flight_expr) > 1:
+            flight_expr = '(' + ' AND '.join(filter(bool, flight_expr)) + ')'
+            data_expr = '(' + ' and '.join(filter(bool, data_expr)) + ')'
+        else:
+            flight_expr = flight_expr[0]
+            data_expr = data_expr[0]
+
+        return (flight_expr, data_expr)
 
     def __repr__(self):
         if self._loc:
@@ -201,11 +233,11 @@ class FlightCollection:
             A filtering expression to apply on all selected flights in the
             collection.
 
-        Returns
-        -------
-        iterator
-            Iterator over firefly.FlightSegment objects produced by applying
-            filtering condition to this collection's flights.
+        Yields
+        ------
+        firefly.FlightSegment
+            Flight segment produced by applying filtering to the selected
+            flight.
         """
         cond = cond or self._data_filter
         for s in self.flights:
