@@ -1,1 +1,2 @@
-from .file import File
+from .segment import FlightSegment
+from .collection import FlightCollection

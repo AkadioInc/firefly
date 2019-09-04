@@ -1,10 +1,11 @@
 ##!/usr/bin/env python3
-# import h5pyd as h5py
-import h5py
 import numpy as np
-import Py106.Packet as Packet
+import h5pyd as h5py
+import pandas as pd
 from ipyleaflet import (Map, Polyline, basemaps, basemap_to_tiles,
                         FullScreenControl, LayersControl)
+import hvplot.pandas  # noqa
+import Py106.Packet as Packet
 try:
     from IPython.display import display
     display_map = True
@@ -12,11 +13,11 @@ except ImportError:
     display_map = False
 
 
-class File:
-    """Represents one FIREfly HDF5 file."""
+class FlightSegment:
+    """One flight segment, could be entire flight."""
 
     @staticmethod
-    def chapter11_h5path(packet_type, **kwargs):
+    def chapter11_location(packet_type, **kwargs):
         """HDF5 group path name for specific IRIG 106 Chapter 10 packet type.
 
         Parameters
@@ -53,7 +54,7 @@ class File:
                     raise ValueError('"from_sa" not given')
                 elif not to_sa and to_rt != 'BC':
                     raise ValueError('"to_sa" not given')
-                h5path += f'/RT_{int(from_rt)}/SA_{int(from_sa)}/T/'
+                h5path += f'/RT_{int(from_rt)}/SA_{int(from_sa)}/T'
                 if to_rt == 'BC':
                     return h5path + '/BC'
                 else:
@@ -89,7 +90,7 @@ class File:
         Parameters
         ----------
         domain: str
-            HDF Kita domain endopoint of the HDF5 file.
+            HDF Kita domain endopoint.
         mode: {'a', 'r'}
             Access mode. Only allowed: read and append.
         kwargs: dict
@@ -97,37 +98,124 @@ class File:
         """
         if mode not in ('a', 'r'):
             raise ValueError('mode can only be "a" or "r"')
-        self._dom = h5py.File(domain, mode, **kwargs)
+        self._domain = h5py.File(domain, mode, **kwargs)
+        self._other = kwargs
+        data = pd.DataFrame(self._domain['/derived/aircraft_ins'][...])
+        self._flight = data.astype({'time': 'datetime64[ns]'})
+        self._flight.set_index('time', inplace=True)
+        self._bbox = None
 
     def __enter__(self):
         return self
 
     def __exit__(self, *args):
-        self._dom.close()
+        self._domain.close()
 
     def __repr__(self):
-        if self._dom.id:
-            return (f'<FIREfly HDF5 file "{self._dom.filename}" '
-                    f'(mode "{self._dom.mode}")>')
+        if self._domain.id:
+            return (
+                f'<FIREfly {self.__class__.__name__} "{self._domain.filename}" '
+                f'(mode "{self._domain.mode}")>')
         else:
             return '<Closed FIREfly HDF5 file>'
 
+    def filter(self, cond):
+        """Filter flight segment data into a new segment.
+
+        Parameters
+        ----------
+        cond : str
+            Condition (expression) for filtering flight segment data.
+
+        Returns
+        -------
+        firefly.FlightSegment
+            New flight segment with the data that matched filtering condition.
+        """
+        data = self._flight.query(cond, inplace=False)
+        new_seg = self.__new__(type(self))
+        new_seg._domain = h5py.File(self._domain.filename, self._domain.mode,
+                                    **self._other)
+        new_seg._other = self._other
+        new_seg._flight = data
+        new_seg._bbox = None
+        return new_seg
+
     def close(self):
         """Close FIREfly file."""
-        self._dom.close()
+        self._domain.close()
+
+    @property
+    def uri(self):
+        """Flight segment's Kita URI."""
+        return self._domain.id.http_conn.endpoint + self._domain.filename
+
+    @property
+    def start_time(self):
+        """Start time of the flight segment.
+
+        Returns
+        -------
+        pandas.Timestamp
+            Start time of the flight segment.
+        """
+        return self._flight.index.min()
+
+    @property
+    def end_time(self):
+        """End time of the flight segment.
+
+        Returns
+        -------
+        pandas.Timestamp
+            End time of the flight segment.
+        """
+        return self._flight.index.max()
+
+    @property
+    def bbox(self):
+        """Flight segment's geospatial bounding box.
+
+        Returns
+        -------
+        numpy.rec.array
+            A scalar with four fields: ``max_lat``, ``min_lat``, ``max_lon``,
+            ``min_lon``.
+        """
+        if self._bbox is None:
+            max_lat = self._flight['latitude'].max()
+            min_lat = self._flight['latitude'].min()
+            max_lon = self._flight['longitude'].max()
+            min_lon = self._flight['longitude'].min()
+            self._bbox = np.rec.array((max_lat, min_lat, max_lon, min_lon),
+                                      dtype=[('max_lat', max_lat.dtype),
+                                             ('min_lat', min_lat.dtype),
+                                             ('max_lon', max_lon.dtype),
+                                             ('min_lon', min_lon.dtype)])
+        return self._bbox
 
     @property
     def tmats(self):
         """A dictionary with TMATS attributes. Empty if no attributes."""
         tmats_h5path = '/derived/TMATS'
         tmats = dict()
-        if tmats_h5path in self._dom:
-            for n, v in self._dom[tmats_h5path].attrs.items():
+        if tmats_h5path in self._domain:
+            for n, v in self._domain[tmats_h5path].attrs.items():
                 tmats[n] = v
         return tmats
 
+    @property
+    def takeoff(self):
+        """Takeoff airport."""
+        return self._domain.attrs['takeoff_location']
+
+    @property
+    def landing(self):
+        """Landing airport."""
+        return self._domain.attrs['landing_location']
+
     def info(self, pprint=False):
-        """Overview of the file's content.
+        """Overview of the flight's file content.
 
         Parameters
         ----------
@@ -143,20 +231,20 @@ class File:
 
         # Root group (global) attributes...
         info['global'] = list()
-        for n, v in self._dom['/'].attrs.items():
+        for n, v in self._domain['/'].attrs.items():
             info['global'].append((n, v))
 
-        # Summary group attributes...
-        info['summary'] = list()
-        for n, v in self._dom['/summary'].attrs.items():
-            info['summary'].append((n, v))
+        # # Summary group attributes...
+        # info['summary'] = list()
+        # for n, v in self._domain['/summary'].attrs.items():
+        #     info['summary'].append((n, v))
 
         # TMATS attributes...
         tmats = self.tmats
         info['TMATS'] = f'{len(tmats)} attributes'
 
         # Info on derived parameters...
-        derived = self._dom['/derived']
+        derived = self._domain['/derived']
         info['derived'] = list()
 
         def dset_info(name, obj):
@@ -177,7 +265,7 @@ class File:
         derived.visititems(dset_info)
 
         if pprint:
-            print(f'{self._dom.filename!r} overview:\n')
+            print(f'{self._domain.filename!r} overview:\n')
             if len(info['global']) > 0:
                 print(f'Global attributes:\n------------------')
                 for t in info['global']:
@@ -186,11 +274,11 @@ class File:
 
             print(f'TMATS: {info["TMATS"]}\n')
 
-            if len(info['summary']) > 0:
-                print(f'Summary attributes:\n-------------------')
-                for t in info['summary']:
-                    print(f'{t[0]} = {t[1]!r}')
-                print('\n')
+            # if len(info['summary']) > 0:
+            #     print(f'Summary attributes:\n-------------------')
+            #     for t in info['summary']:
+            #         print(f'{t[0]} = {t[1]!r}')
+            #     print('\n')
 
             if len(info['derived']) > 0:
                 print(f'Available parameters:\n---------------------')
@@ -205,6 +293,24 @@ class File:
 
         else:
             return info
+
+    def quickview(self, loc):
+        """Quick view of parameter's data.
+
+        Parameters
+        ----------
+        loc : str
+            Parameter's location (HDF5 path name).
+        """
+        if not display_map:
+            raise RuntimeError('Cannot display map')
+        if loc != '/derived/aircraft_ins':
+            raise ValueError(f'{loc}: No data')
+        qv = self._flight.hvplot(
+            y=['speed', 'altitude', 'roll', 'g-force', 'pitch'],
+            width=500, height=300, subplots=True, shared_axes=False,
+            padding=0.01).cols(2)
+        display(qv)
 
     def flight_map(self, center=None, basemap=None, zoom=8):
         """Display interactive map of the flight path. (Jupyter notebook only.)
@@ -237,7 +343,7 @@ class File:
             if not isinstance(base_layer, dict):
                 raise TypeError('base layer not a dict')
             base_layers.append(basemap_to_tiles(base_layer))
-        data = self._dom['/derived/aircraft_ins']
+        data = self._flight
         flight_lat = data['latitude']
         flight_lon = data['longitude']
         if center is None:
@@ -252,3 +358,28 @@ class File:
         flight_map.add_control(FullScreenControl())
         flight_map.add_control(LayersControl())
         display(flight_map)
+
+    def to_csv(self, outfile, loc, **kwargs):
+        """Export specified data to CSV.
+        """
+        if isinstance(loc, str):
+            # HDF5 path name...
+            if loc != '/derived/aircraft_ins':
+                raise ValueError(f'{loc}: No data')
+            data = pd.DataFrame(self._domain[loc][...])
+        elif isinstance(loc, int):
+            # IRIG106 packet type...
+            ch11_path = self.chapter11_location(loc, **kwargs)
+            if ch11_path not in self._domain:
+                raise ValueError(f'{ch11_path}: No data')
+            grp = self._domain[ch11_path]
+            if 'data' not in grp:
+                raise ValueError(f'{ch11_path + "/data"}: No data')
+            data = pd.DataFrame(grp['data'][...])
+        else:
+            raise TypeError(f'{loc}: Unsupported flight data specifier')
+
+        data = data.astype({'time': 'datetime64[ns]'})
+        data.set_index('time', inplace=True)
+        data = data.loc[self.start_time:self.end_time]
+        data.to_csv(outfile, mode='w', header=True, index=True)
