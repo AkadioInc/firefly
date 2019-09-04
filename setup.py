@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='firefly',
-    version='0.0.3',
+    version='0.0.4',
     description='Scripts and modules for the FIREfly project',
     long_description='To be provided.',
     long_description_content_type='text',
@@ -15,7 +15,8 @@ setup(
     install_requires=[
         'h5py>=2.9',
         'h5pyd @ git+https://github.com/HDFGroup/h5pyd.git@master#egg=h5pyd',
-        'ipyleaflet>=0.11.1'
+        'ipyleaflet>=0.11.1',
+        'hvplot>=0.4'
     ],
     scripts=[
         'scripts/ch10-to-h5.py',
