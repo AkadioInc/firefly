@@ -1,37 +1,37 @@
 #!/usr/bin/env python3
 import argparse
 import logging
-import numpy as np
 from pathlib import Path
 from hashlib import sha256
 from datetime import datetime
+import re
+import numpy as np
 import h5py
 import Py106
 import Py106.MsgDecodeTMATS
 import Py106.Time
 import Py106.MsgDecode1553
+import Py106.MsgDecodeVideo
 
 
 ################################################################################
-def store_tmats_attrs(h5grp, tmats_buff):
-    """Parse TMATS buffer to store as TMATS attributes and their values."""
-    # Skip first four bytes in the buffer as per
-    # https://github.com/bbaggerman/irig106utils/blob/4c286cf86b93b885387ee1a264b70e4a38e6e410/src/idmptmat.c#L298
-    tmats_list = tmats_buff[4:].strip(b'\x00').decode('ascii').split('\r\n')
-    for tma in tmats_list:
-        if tma:
-            if tma[-1] != ';':
-                lggr.warning(
-                    f'{tma!r}: TMATS attribute without ending semicolon')
-            tmats_attr, val = tma.rstrip(';').split(':')
-            if val:
-                lggr.debug(f'TMATS attribute {tmats_attr!r} = {val!r}')
-                h5grp.attrs[tmats_attr] = np.string_(val)
-            else:
-                lggr.debug(f'TMATS {tmats_attr} attribute value not given')
-
-    # Store the TMATS buffer as well...
-    h5grp.attrs['buffer'] = np.void(tmats_buff)
+def derive_tmats_attrs(h5grp, tmats_buff):
+    """Parse TMATS buffer to store TMATS attributes and their values."""
+    tmats_str = tmats_buff.decode('ascii')
+    if tmats_str:
+        tmats_grp = h5grp.create_group('TMATS')
+        tmats = re.split('\r?\n', tmats_str)
+        for tma in tmats:
+            if tma:
+                if tma[-1] != ';':
+                    lggr.warning(
+                        f'{tma!r}: TMATS attribute without ending semicolon')
+                tmats_attr, val = tma.rstrip(';').split(':')
+                if val:
+                    lggr.debug(f'TMATS attribute {tmats_attr!r} = {val!r}')
+                    tmats_grp.attrs[tmats_attr] = val
+                else:
+                    lggr.debug(f'TMATS {tmats_attr} attribute value not given')
 
 
 def setup_output_content(top_grp, pckt_summary):
@@ -40,108 +40,64 @@ def setup_output_content(top_grp, pckt_summary):
         grp = top_grp.create_group(where)
         grp_path = grp.name
         nelems = smmry['count']
-        dsets = dict()
 
-        lggr.debug(f'Create HDF5 dataset data[{nelems}] in {grp_path}')
-        dset = grp.create_dataset(
-            'data', shape=(nelems,), chunks=True,
-            dtype=h5py.special_dtype(vlen=np.dtype('<u2')))
-        dset.attrs['long_name'] = np.string_('1553 packet message data')
-        dsets['data'] = dset
+        if smmry['type'] == 'MIL1553_FMT_1':
+            lggr.debug(f'Create HDF5 dataset data[{nelems}] in {grp_path}')
+            dtype_1553 = np.dtype(
+                [('time', '<i8'),
+                 ('timestamp', 'S30'),
+                 ('msg_error', '|u1'),
+                 ('ttb', '|u1'),
+                 ('word_error', '|u1'),
+                 ('sync_error', '|u1'),
+                 ('word_count_error', '|u1'),
+                 ('rsp_tout', '|u1'),
+                 ('format_error', '|u1'),
+                 ('bus_id', 'S1'),
+                 ('packet_version', '|u1'),
+                 ('messages', h5py.special_dtype(vlen=np.dtype('<u2')))])
+            dset = grp.create_dataset(
+                'data', shape=(nelems,), chunks=True, dtype=dtype_1553)
 
-        lggr.debug(f'Create HDF5 dataset timestamp[{nelems}] in {grp_path}')
-        dset = grp.create_dataset('timestamp', shape=(nelems,),
-                                  chunks=True, dtype='S30')
-        dset.attrs['long_name'] = np.string_('1553 intra-packet time stamp')
-        dsets['timestamp'] = dset
+            name_dtype = np.dtype(
+                [('time', 'S30'),
+                 ('timestamp', 'S30'),
+                 ('msg_error', 'S30'),
+                 ('ttb', 'S30'),
+                 ('word_error', 'S30'),
+                 ('sync_error', 'S30'),
+                 ('word_count_error', 'S30'),
+                 ('rsp_tout', 'S30'),
+                 ('format_error', 'S30'),
+                 ('bus_id', 'S30'),
+                 ('packet_version', 'S30'),
+                 ('messages', 'S30')])
+            names = ('1553 intra-packet time',
+                     '1553 intra-packet time stamp',
+                     '1553 message error flag',
+                     'time tag bits',
+                     'invalid word error',
+                     'sync type error',
+                     'word count error',
+                     'response time out',
+                     'format error',
+                     'bus id',
+                     '1553 packet version',
+                     '1553 packet message data')
+            dset.attrs.create('name', np.array(names, dtype=name_dtype))
 
-        lggr.debug(f'Create HDF5 dataset msg_error[{nelems}] in {grp_path}')
-        dset = grp.create_dataset('msg_error', shape=(nelems,),
-                                  chunks=True, dtype=np.dtype('uint8'))
-        dset.attrs['long_name'] = np.string_('1553 message error flag')
-        dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
-        dset.attrs['flag_meanings'] = np.string_(['no message error',
-                                                  'message error'])
-        dsets['msg_error'] = dset
-
-        lggr.debug(f'Create HDF5 dataset ttb[{nelems}] in {grp_path}')
-        dset = grp.create_dataset('ttb', shape=(nelems,),
-                                  chunks=True, dtype=np.dtype('uint8'))
-        dset.attrs['long_name'] = np.string_('time tag bits')
-        dset.attrs['flag_values'] = np.array([0, 1, 2, 3], dtype=dset.dtype)
-        dset.attrs['flag_meanings'] = np.string_([
-            'Last bit of the last word of the message',
-            'First bit of the first word of the message',
-            'Last bit of the first (command) word of the message',
-            'Reserved'])
-        dsets['ttb'] = dset
-
-        lggr.debug(f'Create HDF5 dataset word_error[{nelems}] in {grp_path}')
-        dset = grp.create_dataset('word_error', shape=(nelems,),
-                                  chunks=True, dtype=np.dtype('uint8'))
-        dset.attrs['long_name'] = np.string_('invalid word error')
-        dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
-        dset.attrs['flag_meanings'] = np.string_(['no invalid word error',
-                                                  'invalid word error'])
-        dsets['word_error'] = dset
-
-        lggr.debug(f'Create HDF5 dataset sync_error[{nelems}] in {grp_path}')
-        dset = grp.create_dataset('sync_error', shape=(nelems,),
-                                  chunks=True, dtype=np.dtype('uint8'))
-        dset.attrs['long_name'] = np.string_('sync type error')
-        dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
-        dset.attrs['flag_meanings'] = np.string_(['no sync type error',
-                                                  'sync type error'])
-        dsets['sync_error'] = dset
-
-        lggr.debug(
-            f'Create HDF5 dataset word_count_error[{nelems}] in {grp_path}')
-        dset = grp.create_dataset('word_count_error', shape=(nelems,),
-                                  chunks=True, dtype=np.dtype('uint8'))
-        dset.attrs['long_name'] = np.string_('word count error')
-        dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
-        dset.attrs['flag_meanings'] = np.string_(['no word count error',
-                                                  'word count error'])
-        dsets['word_count_error'] = dset
-
-        lggr.debug(f'Create HDF5 dataset rsp_tout[{nelems}] in {grp_path}')
-        dset = grp.create_dataset('rsp_tout', shape=(nelems,),
-                                  chunks=True, dtype=np.dtype('uint8'))
-        dset.attrs['long_name'] = np.string_('response time out')
-        dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
-        dset.attrs['flag_meanings'] = np.string_(['no response time out',
-                                                  'response time out'])
-        dsets['rsp_tout'] = dset
-
-        lggr.debug(f'Create HDF5 dataset format_error[{nelems}] in {grp_path}')
-        dset = grp.create_dataset('format_error', shape=(nelems,),
-                                  chunks=True, dtype=np.dtype('uint8'))
-        dset.attrs['long_name'] = np.string_('format error')
-        dset.attrs['flag_values'] = np.array([0, 1], dtype=dset.dtype)
-        dset.attrs['flag_meanings'] = np.string_(['no format error',
-                                                  'format error'])
-        dsets['format_error'] = dset
-
-        lggr.debug(f'Create HDF5 dataset bus_id[{nelems}] in {grp_path}')
-        dset = grp.create_dataset('bus_id', shape=(nelems,),
-                                  chunks=True, dtype=np.dtype('|S1'))
-        dset.attrs['long_name'] = np.string_('Bus ID')
-        dsets['bus_id'] = dset
-
-        lggr.debug(
-            f'Create HDF5 dataset packet_version[{nelems}] in {grp_path}')
-        dset = grp.create_dataset('packet_version', shape=(nelems,),
-                                  chunks=True, dtype=np.dtype('uint8'))
-        dset.attrs['long_name'] = np.string_('1553 packet version')
-        dsets['packet_version'] = dset
-
-        # Create alias HDF5 paths for created datasets...
-        if 'alias' in smmry:
-            for where in smmry['alias']:
-                grp = top_grp.create_group(where)
-                for name, dset in dsets.items():
+            # Create alias HDF5 paths for created datasets...
+            if 'alias' in smmry:
+                for where in smmry['alias']:
+                    grp = top_grp.create_group(where)
                     lggr.debug(f'Hard link {dset.name} from {grp.name}')
-                    grp[name] = dset
+                    grp['data'] = dset
+
+        elif smmry['type'] == 'VIDEO_FMT_0':
+            lggr.debug(f'Create HDF5 dataset data[{nelems}] in {grp_path}')
+            dset = grp.create_dataset('data', shape=(nelems,),
+                                      chunks=True, dtype=np.dtype('|V188'))
+            dset.attrs['name'] = 'video transfer stream'
 
 
 def append_dset(h5dset, pos_cursor, arr, buffer=None):
@@ -197,6 +153,12 @@ def ch10_time_coverage(ch10, ch10_time):
     lggr.debug(f'Ch10 data time stop: {tend}')
 
     return (tstart, tend)
+
+
+def epoch_time(tstamp):
+    """Convert IRIG timestamp into nanoseconds since 1970-01-01T00:00:00Z"""
+    t = datetime.strptime(tstamp, '%Y/%m/%d %H:%M:%S.%f').timestamp()
+    return int(t * 1_000_000_000)
 ################################################################################
 
 
@@ -207,6 +169,10 @@ parser = argparse.ArgumentParser(
 parser.add_argument('ch10', metavar='FILE', help='Ch10 input file', type=Path)
 parser.add_argument('--outfile', '-o', metavar='H5FILE', type=Path,
                     help='Output HDF5 file. Use Ch10 file name if not given.')
+parser.add_argument('--aircraft-type', metavar='TYPE', type=str,
+                    help='Aircraft type. Required.')
+parser.add_argument('--aircraft-id', metavar='TAILID', type=str,
+                    help='Aircraft tail/serial number. Required.')
 parser.add_argument('--loglevel', default='info',
                     choices=['debug', 'info', 'warning', 'error', 'critical'],
                     help='Logging level. Log output goes to stderr.')
@@ -223,7 +189,12 @@ lggr = logging.getLogger('ch10-to-h5')
 # Show command-line options...
 lggr.debug(f'Input Ch10 file = {arg.ch10}')
 lggr.debug(f'Output HDF5 file = {arg.outfile}')
+lggr.debug(f'Aircraft type = {arg.aircraft_type}')
+lggr.debug(f'Tail/serial number = {arg.aircraft_id}')
 lggr.debug(f'Logging level = {arg.loglevel}')
+
+if not arg.aircraft_id and not arg.aircraft_type:
+    raise SystemExit('Aircraft type or tail/serial number not given')
 
 if arg.ch10.is_file():
     outh5 = arg.outfile if arg.outfile else arg.ch10.with_suffix('.h5')
@@ -235,6 +206,7 @@ lggr.info(f'Converting Ch10 file {str(arg.ch10)} to HDF5 file {str(outh5)}')
 ch10 = Py106.Packet.IO()
 ch10_tmats = Py106.MsgDecodeTMATS.DecodeTMATS(ch10)
 ch10_1553 = Py106.MsgDecode1553.Decode1553F1(ch10)
+ch10_vidf0 = Py106.MsgDecodeVideo.DecodeVideoF0(ch10)
 
 lggr.info(f'Open {str(arg.ch10)} for collecting info about stored packets')
 status = ch10.open(str(arg.ch10), Py106.Packet.FileMode.READ)
@@ -246,7 +218,6 @@ pcntr = 0
 lggr.info(f'Iterate over {str(arg.ch10)} packet data')
 for packet in ch10.packet_headers():
     pcntr += 1
-    # Only interested in 1553 packet data for now...
     if packet.DataType == Py106.Packet.DataType.MIL1553_FMT_1:
         lggr.debug(
             f'Collecting info on packet #{pcntr} with MIL1553_FMT_1 data')
@@ -273,9 +244,9 @@ for packet in ch10.packet_headers():
                     f'RT_{rx_cmd.RTAddr}/SA_{rx_cmd.SubAddr}')
                 lggr.debug(f'1553 packet #{pcntr}, message #{msg_cntr}: '
                            f'{rx_grp1553} and {tx_grp1553}')
-                pckt_summary[tx_grp1553] = pckt_summary.get(tx_grp1553,
-                                                            {'count': 0,
-                                                             'alias': set()})
+                pckt_summary[tx_grp1553] = pckt_summary.get(
+                    tx_grp1553,
+                    {'count': 0, 'alias': set(), 'type': 'MIL1553_FMT_1'})
                 pckt_summary[tx_grp1553]['count'] += 1
                 pckt_summary[tx_grp1553]['alias'].update([rx_grp1553])
             else:
@@ -284,10 +255,25 @@ for packet in ch10.packet_headers():
                 sa = msg.pCmdWord1.contents.Field.SubAddr
                 tr = ('R', 'T')[msg.pCmdWord1.contents.Field.TR]
                 grp1553 = f'1553/Ch_{ch}/RT_{rt}/SA_{sa}/{tr}/BC'
-                pckt_summary[grp1553] = pckt_summary.get(grp1553, {'count': 0})
+                pckt_summary[grp1553] = pckt_summary.get(
+                    grp1553, {'count': 0, 'type': 'MIL1553_FMT_1'})
                 pckt_summary[grp1553]['count'] += 1
                 lggr.debug(
                     f'1553 packet #{pcntr}, message #{msg_cntr}: {grp1553}')
+
+    elif packet.DataType == Py106.Packet.DataType.VIDEO_FMT_0:
+        lggr.debug(f'Collecting info on packet #{pcntr} with VIDEO_FMT_0 data')
+        ch10.read_data()
+        ch = ch10.Header.ChID
+        loc = f'Video Format 0/Ch_{ch}'
+        pckt_summary[loc] = pckt_summary.get(loc, {'count': 0,
+                                                   'type': 'VIDEO_FMT_0'})
+        msg_cntr = 0
+        for msg in ch10_vidf0.msgs():
+            msg_cntr += 1
+        pckt_summary[loc]['count'] += msg_cntr
+        lggr.debug(f'Video Format 0 packet #{pcntr}: {msg_cntr} streams')
+
 lggr.info(f'Finished collecting info on packets in {str(arg.ch10)}')
 ch10.close()
 lggr.debug(f'pckt_summary = {pckt_summary}')
@@ -297,6 +283,7 @@ ch10 = Py106.Packet.IO()
 ch10_tmats = Py106.MsgDecodeTMATS.DecodeTMATS(ch10)
 ch10_time = Py106.Time.Time(ch10)
 ch10_1553 = Py106.MsgDecode1553.Decode1553F1(ch10)
+ch10_vidf0 = Py106.MsgDecodeVideo.DecodeVideoF0(ch10)
 status = ch10.open(str(arg.ch10), Py106.Packet.FileMode.READ)
 if status != Py106.Status.OK:
     raise IOError(f'{str(arg.ch10)}: Error opening file')
@@ -304,8 +291,10 @@ ch10_time.SyncTime(False, 0)
 
 lggr.info(f'Create output HDF5 file {str(outh5)} (will overwrite)')
 h5f = h5py.File(str(outh5), 'w')
-lggr.debug('Create /raw group')
-rawgrp = h5f.create_group('raw')
+lggr.debug('Create /chapter11_data group')
+rawgrp = h5f.create_group('chapter11_data')
+lggr.debug('Create /derived group')
+paragrp = h5f.create_group('derived')
 lggr.debug('Set up content in the HDF5 file')
 setup_output_content(rawgrp, pckt_summary)
 
@@ -318,12 +307,16 @@ for packet in ch10.packet_headers():
     lggr.info(f'Packet #{pcntr} type: '
               f'{Py106.Packet.DataType.TypeName(packet.DataType)}')
     if packet.DataType == Py106.Packet.DataType.TMATS:
-        lggr.debug(f'Require {rawgrp.name}/TMATS HDF5 group and store TMATS '
+        lggr.debug(f'Require {paragrp.name}/TMATS HDF5 group and store TMATS '
                    f'attributes')
-        tmats_grp = rawgrp.create_group('TMATS')
         ch10.read_data()
-        store_tmats_attrs(tmats_grp, ch10.Buffer.raw)
-        tmats_grp.attrs['rcc_version'] = np.string_(ch10_tmats.ch10ver)
+        rawgrp.attrs['rcc_version'] = ch10_tmats.ch10ver
+        derive_tmats_attrs(paragrp, ch10.Buffer.raw[4:ch10.Header.DataLen])
+        tmats_grp = rawgrp.create_group('TMATS')
+        dset = tmats_grp.create_dataset(
+            'data', shape=(),
+            data=np.void(ch10.Buffer.raw[4:ch10.Header.DataLen]))
+        dset.attrs['name'] = 'TMATS buffer'
         lggr.info('Finished with TMATS information')
 
     elif packet.DataType == Py106.Packet.DataType.MIL1553_FMT_1:
@@ -347,9 +340,8 @@ for packet in ch10.packet_headers():
             data_grp = rawgrp[grp1553]
             lggr.debug(f'Add packet data in {data_grp.name} HDF5 group')
             cursor = pckt_summary[grp1553]['count']
-
-            msg_err = msg.p1553Hdr.contents.Field.BlockStatus.MsgError
             data = data_grp['data']
+<<<<<<< HEAD
             if msg_err == 0:
                 word_cnt = ch10_1553.word_cnt(msg.pCmdWord1.contents.Value)
                 arr = np.array([msg.pData.contents[i] for i in range(word_cnt)],
@@ -389,18 +381,61 @@ for packet in ch10.packet_headers():
                 (b'A', b'B')[msg.p1553Hdr.contents.Field.BlockStatus.BusID], buffer=buffer)
 
             append_dset(data_grp['packet_version'], cursor, packet.DataType, buffer=buffer)
+=======
+
+            msg_err = msg.p1553Hdr.contents.Field.BlockStatus.MsgError
+            word_cnt = ch10_1553.word_cnt(msg.pCmdWord1.contents.Value)
+            messages = np.array(
+                [msg.pData.contents[i] for i in range(word_cnt)],
+                dtype='<u2')
+            tstamp = str(ch10_time.RelInt2IrigTime(
+                msg.p1553Hdr.contents.Field.PktTime))
+            time = epoch_time(tstamp)
+            ttb = msg.pChanSpec.contents.TTB
+            word_error = msg.p1553Hdr.contents.Field.BlockStatus.WordError
+            sync_error = msg.p1553Hdr.contents.Field.BlockStatus.SyncError
+            word_count_error = \
+                msg.p1553Hdr.contents.Field.BlockStatus.WordCntError
+            rsp_tout = msg.p1553Hdr.contents.Field.BlockStatus.RespTimeout
+            format_error = msg.p1553Hdr.contents.Field.BlockStatus.FormatError
+            bus_id = ('A', 'B')[msg.p1553Hdr.contents.Field.BlockStatus.BusID]
+            packet_version = packet.DataType
+
+            append_dset(data, cursor,
+                        np.array((time, tstamp, msg_err, ttb, word_error,
+                                  sync_error, word_count_error, rsp_tout,
+                                  format_error, bus_id, packet_version,
+                                  messages),
+                                 dtype=data.dtype))
+>>>>>>> master
 
             pckt_summary[grp1553]['count'] -= 1
 
-        lggr.info(f'Packet #{pcntr} finished processing')
+    elif packet.DataType == Py106.Packet.DataType.VIDEO_FMT_0:
+        ch10.read_data()
+        ch = ch10.Header.ChID
+        where = f'Video Format 0/Ch_{ch}'
+        data_grp = rawgrp[where]
+        lggr.debug(f'Add packet data in {data_grp.name} HDF5 group')
+        for msg in ch10_vidf0.msgs():
+            cursor = pckt_summary[where]['count']
+            append_dset(data_grp['data'], cursor, msg.TSData(as_bytes=True))
+            pckt_summary[where]['count'] -= 1
+
+    lggr.info(f'Packet #{pcntr} finished processing')
 
 # Store some useful metadata...
-h5f.attrs['ch10_file'] = np.string_(arg.ch10.name)
-h5f.attrs['ch10_file_checksum'] = np.string_(
-    f'SHA-256:{compute_sha256(arg.ch10)}')
+h5f.attrs['ch10_file'] = arg.ch10.name
+h5f.attrs['ch10_file_checksum'] = f'SHA-256:{compute_sha256(arg.ch10)}'
 tstart, tend = ch10_time_coverage(ch10, ch10_time)
-h5f.attrs['time_coverage_start'] = np.string_(tstart.isoformat() + 'Z')
-h5f.attrs['time_coverage_end'] = np.string_(tend.isoformat() + 'Z')
+h5f.attrs['time_coverage_start'] = tstart.isoformat() + 'Z'
+h5f.attrs['time_coverage_end'] = tend.isoformat() + 'Z'
+dt = datetime.utcnow().isoformat() + 'Z'
+h5f.attrs['date_created'] = dt
+h5f.attrs['date_modified'] = dt
+h5f.attrs['date_metadata_modified'] = dt
+h5f.attrs['aircraft_type'] = arg.aircraft_type
+h5f.attrs['aircraft_id'] = arg.aircraft_id
 
 lggr.debug(f'Close {h5f.filename} file')
 h5f.close()

@@ -1,0 +1,811 @@
+LATITUDE,LONGITUDE,OBJECTID,COMPONENT,SITE_NAME,JOINT_BASE,STATE_TERR,COUNTRY,OPER_STAT
+30.3958064820001,-86.7420755799999,2,AF Active,Eglin AFB Site 2 Santa Rosa Island,N/A,Florida,United States,Active
+30.6317649860001,-86.740972055,3,AF Active,Eglin Air Force Auxiliary Field 6,N/A,Florida,United States,Active
+30.6490705510001,-86.5276912149999,4,AF Active,Eglin Air Force Auxiliary Field 3 Duke Fld,N/A,Florida,United States,Active
+34.8902972880001,-117.84896769,5,AF Active,Edwards AFB,N/A,California,United States,Active
+35.356625455,-86.073934604,6,AF Active,Arnold,N/A,Tennessee,United States,Active
+35.39441793,-97.397054829,7,AF Active,Tinker Aerospace Complex,N/A,Oklahoma,United States,Active
+35.403696584,-97.360302781,8,AF Active,Tinker Support Annex,N/A,Oklahoma,United States,Active
+35.4182241190001,-97.393317822,9,AF Active,Tinker AFB,N/A,Oklahoma,United States,Active
+39.8174447550001,-84.050696753,10,AF Active,Wright-Patt AFB,N/A,Ohio,United States,Active
+42.4582550330001,-71.2768326789999,11,AF Active,Hanscom AFB,N/A,Massachusetts,United States,Active
+27.6469182010001,-81.2767274879999,12,AF Active,Avon Park AF Range,N/A,Florida,United States,Active
+27.651653185,-81.34506085,13,AF Active,Arbuckle Airfield,N/A,Florida,United States,Active
+30.9675033870001,-83.1851573009999,14,AF Active,Moody AFB,N/A,Georgia,United States,Active
+33.7961254890001,-80.481796018,15,AF Active,Poinsett Range,N/A,South Carolina,United States,Active
+33.9748239960001,-80.4703313969999,16,AF Active,Shaw AFB,N/A,South Carolina,United States,Active
+33.980421382,-77.917960088,17,AF Active,Fort Fisher Recreation Site,N/A,North Carolina,United States,Active
+35.3479024960001,-77.962577717,18,AF Active,Seymour Johnson AFB,N/A,North Carolina,United States,Active
+35.7144803320001,-75.878560454,19,AF Active,Dare County Range,N/A,North Carolina,United States,Active
+36.2384449730001,-115.135834795,20,AF Active,Nellis Annex,N/A,Nevada,United States,Active
+36.24236978,-114.987560211,21,AF Active,Nellis AFB,N/A,Nevada,United States,Active
+36.5880197110001,-115.679408417,22,AF Active,Creech AFB,N/A,Nevada,United States,Active
+37.154473733,-76.589894139,23,AF Active,Fort Eustis,N/A,Virginia,United States,Active
+37.527258956,-116.198891541,24,AF Active,Nellis Air Force Range,N/A,Nevada,United States,Active
+41.1191150180001,-95.9082413679999,27,AF Active,Offut AFB,N/A,Nebraska,United States,Active
+42.740182777,-115.56333156,28,AF Active,Saylor Creek Air Force Range,N/A,Idaho,United States,Active
+43.048939325,-115.865879659,29,AF Active,Mountain Home AFB,N/A,Idaho,United States,Active
+28.2334048600001,-80.608675161,31,AF Active,Patrick AFB,N/A,Florida,United States,Active
+28.4938988280001,-80.574622285,32,AF Active,Cape Canaveral Air Force Station,N/A,Florida,United States,Active
+33.858772817,-118.235754982,33,AF Active,Los Angeles Air Force Annex No4,N/A,California,United States,Active
+33.918943681,-118.381099893,34,AF Active,Los Angeles AFB,N/A,California,United States,Active
+38.7410339050001,-104.842724347,35,AF Active,Cheyenne Mountain AFS,N/A,Colorado,United States,Active
+41.752467779,-70.538981037,36,AF Active,Cape Cod Air Station,N/A,Massachusetts,United States,Active
+48.7245309310001,-97.9030701569999,37,AF Active,Cavalier Asn,N/A,North Dakota,United States,Active
+64.2881605750001,-149.190714695,38,AF Active,Clear Air Force Station,N/A,Alaska,United States,Active
+32.421140703,-99.8380753279999,39,AF Active,Dyess AFB,N/A,Texas,United States,Active
+32.5002809580001,-93.59994134,40,AF Active,Barksdale AFB,N/A,Louisiana,United States,Active
+33.887978692,-117.259945618,41,AF Reserve,March ARB,N/A,California,United States,Active
+33.893184972,-118.070170964,42,AF Reserve,Norwalk 2,N/A,California,United States,Active
+33.915164793,-84.515674965,43,AF Reserve,Dobbins ARB,N/A,Georgia,United States,Active
+34.9977410660001,-106.481941949,44,AF Active,Kirtland,N/A,New Mexico,United States,Active
+38.7293097580001,-93.5518515379999,45,AF Active,Whiteman AFB,N/A,Missouri,United States,Active
+41.1648044090001,-104.8632088,46,AF Active,F E Warren AFB,N/A,Wyoming,United States,Active
+41.2677351410001,-80.676386798,47,AF Reserve,Youngstown,N/A,Ohio,United States,Active
+43.1138099130001,-70.814765745,48,AF Active,Newington Defense Fuel Support Point,N/A,New Hampshire,United States,Active
+44.133151604,-103.091007167,49,AF Active,Ellsworth AFB Site 2,N/A,South Dakota,United States,Active
+44.1580535860001,-103.095697064,50,AF Active,Ellsworth AFB,N/A,South Dakota,United States,Active
+47.505927743,-111.182752412,51,AF Active,Malmstrom AFB,N/A,Montana,United States,Active
+29.118386527,-100.47229345,52,AF Active,Laughlin AFB Aux 1,N/A,Texas,United States,Active
+29.356348299,-100.782728069,53,AF Active,Laughlin AFB,N/A,Texas,United States,Active
+30.4292037640001,-86.698706795,54,AF Active,Hurlburt Field,N/A,Florida,United States,Active
+32.7724433980001,-105.940305578,55,AF Active,Boles Annex,N/A,New Mexico,United States,Active
+32.917959608,-106.133639826,56,AF Active,Holloman AFB,N/A,New Mexico,United States,Active
+33.341429717,-106.083353388,57,AF Active,Bonito Lake System Annex,N/A,New Mexico,United States,Active
+34.2846437170001,-103.780357607,58,AF Active,Melrose Air Force Range,N/A,New Mexico,United States,Active
+34.386475279,-103.317512584,59,AF Active,Cannon AFB,N/A,New Mexico,United States,Active
+34.4088714650001,-103.328460133,60,AF Active,Cannon AFB Site 2,N/A,New Mexico,United States,Active
+38.26453149,-121.942797537,61,AF Active,Travis AFB,N/A,California,United States,Active
+38.3255053710001,-121.923584762,63,AF Active,Travis Annex  2,N/A,California,United States,Active
+38.7602877460001,-104.301341989,64,AF Active,USAF Academy Auxiliary Airfield,N/A,Colorado,United States,Active
+38.998486486,-104.870063433,65,AF Active,USAF Academy,N/A,Colorado,United States,Active
+38.999159164,-104.999644881,66,AF Active,The Farish Memorial Recreational Annex,N/A,Colorado,United States,Active
+47.9544642560001,-97.390900028,67,AF Active,Grand Forks AFB,N/A,North Dakota,United States,Active
+18.4637645920001,-67.0658344519999,69,AF Active,Isabela Puerto Rico,N/A,Puerto Rico,Puerto Rico,Active
+25.494497675,-80.391485731,70,AF Reserve,Homestead ARB,N/A,Florida,United States,Active
+34.7135727130001,-120.55814563,71,AF Active,Vandenberg Main Base,N/A,California,United States,Active
+37.498947516,-122.498033406,72,AF Active,Pillar Point AFS,N/A,California,United States,Active
+38.805811476,-104.519907537,73,AF Active,Schriever AFB,N/A,Colorado,United States,Active
+38.822897304,-104.696135201,74,AF Active,Peterson AFB,N/A,Colorado,United States,Active
+39.728639125,-104.787121879,75,AF Active,Buckley AFB,N/A,Colorado,United States,Active
+40.4939523780001,-80.210519808,76,AF Reserve,Pittsburgh IAP (ARS),N/A,Pennsylvania,United States,Active
+40.6525515490001,-86.146386838,77,AF Reserve,Grissom ARB,N/A,Indiana,United States,Active
+42.1932703150001,-72.53872444,78,AF Reserve,Westover ARB,N/A,Massachusetts,United States,Active
+42.9371701840001,-71.6412522649999,79,AF Active,New Boston Air Station,N/A,New Hampshire,United States,Active
+43.115652631,-78.949633046,80,AF Reserve,Niagara Falls,N/A,New York,United States,Active
+30.0467400800001,-85.5588489799999,81,AF Active,Tyndall AFB,N/A,Florida,United States,Active
+32.160801667,-110.848722373,82,AF Active,Davis Monthan AFB,N/A,Arizona,United States,Active
+34.9039977520001,-92.138489323,83,AF Active,Little Rock AFB,N/A,Arkansas,United States,Active
+37.0833431940001,-76.362869812,84,AF Active,Langley AFB,N/A,Virginia,United States,Active
+39.1277656600001,-75.4668826349999,85,AF Active,Dover AFB,N/A,Delaware,United States,Active
+47.6186605610001,-117.648384743,86,AF Active,Fairchild AFB,N/A,Washington,United States,Active
+47.7029108770001,-117.577367959,87,AF Active,White Bluff,N/A,Washington,United States,Active
+48.5500944950001,-117.412107369,88,AF Active,Cusick Survival Training Site,N/A,Washington,United States,Active
+21.3679168350001,-157.711646238,89,AF Active,Bellows,N/A,Hawaii,United States,Active
+29.368754858,-98.6650118049999,90,AF Active,Lackland Training Annex,Joint Base San Antonio,Texas,United States,Active
+29.389390613,-98.610899732,91,AF Active,Lackland AFB,Joint Base San Antonio,Texas,United States,Active
+30.407825544,-88.921685514,92,AF Active,Keesler AFB,N/A,Mississippi,United States,Active
+31.4321781570001,-100.404389331,93,AF Active,Goodfellow AFB,N/A,Texas,United States,Active
+32.382447128,-86.356432464,94,AF Active,Maxwell AFB,N/A,Alabama,United States,Active
+32.407236169,-86.24534735,95,AF Active,Maxwell AFB Gunter Annex,N/A,Alabama,United States,Active
+32.64061507,-113.055868336,96,AF Active,The Barry M Goldwater Air Force Range,N/A,Arizona,United States,Active
+32.8901545320001,-112.728184427,97,AF Active,Gila Bend Air Force Auxiliary Field,N/A,Arizona,United States,Active
+32.9398358550001,-88.579142625,98,AF Active,Columbus Auxiliary Airfield,N/A,Mississippi,United States,Active
+33.5343109770001,-112.376088297,99,AF Active,Luke AFB,N/A,Arizona,United States,Active
+33.5384063010001,-112.321762273,100,AF Active,Luke Waste Annex,N/A,Arizona,United States,Active
+33.6413120870001,-88.451118752,101,AF Active,Columbus AFB,N/A,Mississippi,United States,Active
+33.715974277,-112.527923385,102,AF Active,Luke Air Force Auxiliary Field No 1,N/A,Arizona,United States,Active
+33.9845524510001,-98.4996936639999,103,AF Active,Sheppard AFB,N/A,Texas,United States,Active
+34.6637715700001,-99.274553651,104,AF Active,Altus AFB,N/A,Oklahoma,United States,Active
+36.335961309,-97.911806336,105,AF Active,Vance AFB,N/A,Oklahoma,United States,Active
+36.7350336650001,-98.1191685,106,AF Active,Kegelman Air Force Auxiliary Field,N/A,Oklahoma,United States,Active
+52.7210369060001,174.107140074,107,AF Active,Eareckson AS,N/A,Alaska,United States,Active
+58.6913501350001,-156.662974128,108,AF Active,King Salmon Airport,N/A,Alaska,United States,Active
+61.228765256,-149.626508499,109,AF Active,Fort Richardson,Joint Base Elmendorf - Richardson,Alaska,United States,Active
+61.2697870810001,-149.811208093,110,AF Active,Elmendorf AFB,Joint Base Elmendorf - Richardson,Alaska,United States,Active
+64.3177682620001,-146.64707236,111,AF Active,Birch Lake Recreation Annex,N/A,Alaska,United States,Active
+64.674108684,-147.060214201,112,AF Active,Eielson AFB,N/A,Alaska,United States,Active
+64.771005105,-146.877235675,113,AF Active,Yukon Weapons Range,N/A,Alaska,United States,Active
+18.4429403080001,-65.992367945,116,AF Guard,Luis Munoz Marin IAP,N/A,Puerto Rico,Puerto Rico,Active
+30.4857356310001,-81.7042639649999,117,AF Guard,Jacksonville IAP,N/A,Florida,United States,Active
+32.1306601700001,-110.95008107,118,AF Guard,Tucson IAP,N/A,Arizona,United States,Active
+32.3048358940001,-86.401526995,119,AF Guard,Montgomery Regional Airport ANGB,N/A,Alabama,United States,Active
+32.3217657490001,-90.083010464,120,AF Guard,Jackson IAP Thompson Field,N/A,Mississippi,United States,Active
+32.645408708,-83.6047668959999,121,AF Active,Robins AFB,N/A,Georgia,United States,Active
+33.4250171520001,-112.010892878,122,AF Guard,Sky Harbor IAP,N/A,Arizona,United States,Active
+33.9233856490001,-80.8014429689999,123,AF Guard,McEntire Joint National Guard Base,N/A,South Carolina,United States,Active
+34.1387961200001,-119.11110361,124,AF Guard,Channel Islands ANG Station,N/A,California,United States,Active
+35.0255059340001,-89.9669822879999,125,AF Guard,Memphis IAP,N/A,Tennessee,United States,Active
+35.2163361130001,-80.929862042,126,AF Guard,Charlotte/Douglas IAP,N/A,North Carolina,United States,Active
+35.3409821870001,-94.370012792,127,AF Guard,Fort Smith Map,N/A,Arkansas,United States,Active
+35.407432724,-97.611623567,128,AF Guard,Will Rogers World Airport,N/A,Oklahoma,United States,Active
+35.8114938300001,-84.0036716,129,AF Guard,McGhee Tyson Airport,N/A,Tennessee,United States,Active
+36.1109974020001,-86.674974227,130,AF Guard,Nashville IAP,N/A,Tennessee,United States,Active
+36.2162625510001,-95.873824196,131,AF Guard,Tulsa IAP,N/A,Oklahoma,United States,Active
+36.7672154090001,-119.709101628,132,AF Guard,Fresno Yosemite International ANG,N/A,California,United States,Active
+38.1776480720001,-85.724072782,133,AF Guard,Louisville IAP-Standiford FL Site 1,N/A,Kentucky,United States,Active
+38.3730077110001,-81.59007101,134,AF Guard,Yeager Airport,N/A,West Virginia,United States,Active
+38.6760264700001,-97.8117336939999,135,AF Guard,Smoky Hill ANG Range,N/A,Kansas,United States,Active
+38.9615028910001,-95.680334156,136,AF Guard,Forbes Field ANG,N/A,Kansas,United States,Active
+39.3317978630001,-76.415075663,137,AF Guard,Martin State Airport,N/A,Maryland,United States,Active
+39.448567779,-74.581734193,138,AF Guard,Atlantic City IAP,N/A,New Jersey,United States,Active
+39.500162544,-119.775127354,139,AF Guard,Reno Tahoe IAP,N/A,Nevada,United States,Active
+39.6864814050001,-75.596900005,140,AF Guard,New Castle Airport,N/A,Delaware,United States,Active
+39.766575372,-94.90199881,141,AF Guard,Rosecrans MAP (139AG),N/A,Missouri,United States,Active
+39.8128368960001,-82.943712497,142,AF Guard,Rickenbacker,N/A,Ohio,United States,Active
+39.8480512040001,-83.835602192,143,AF Guard,Springfield Beckley,N/A,Ohio,United States,Active
+40.4805727630001,-80.214363013,144,AF Guard,Pittsburgh IAP (ANG),N/A,Pennsylvania,United States,Active
+40.7893460940001,-111.956600336,145,AF Guard,Salt Lake City IAP,N/A,Utah,United States,Active
+40.8125631340001,-82.516872058,146,AF Guard,Site 1 Cantonement Area,N/A,Ohio,United States,Active
+40.83698897,-72.643413255,147,AF Guard,Francis S Gabreski Airport,N/A,New York,United States,Active
+41.501431063,-74.085081073,148,AF Guard,Stewart IAP,N/A,New York,United States,Active
+41.596635012,-71.420584773,149,AF Guard,Quonset State Airport,N/A,Rhode Island,United States,Active
+41.6462670510001,-70.519713812,150,AF Guard,Otis ANG Base,N/A,Massachusetts,United States,Active
+41.9341854520001,-72.7007160749999,151,AF Guard,Bradley IAP,N/A,Connecticut,United States,Active
+42.316835596,-85.248956103,152,AF Guard,W K Kellogg,N/A,Michigan,United States,Active
+42.3922115820001,-96.372983942,153,AF Guard,Sioux Gateway Airport (ANG),N/A,Iowa,United States,Active
+42.61250355,-82.8324863879999,154,AF Guard,Selfridge ANGB,N/A,Michigan,United States,Active
+43.089085332,-70.818730283,155,AF Guard,Pease ANGB,N/A,New Hampshire,United States,Active
+43.102747869,-76.103331409,156,AF Guard,Hancock Field,N/A,New York,United States,Active
+43.1306330130001,-89.3358064,157,AF Guard,Truax ANGB,N/A,Wisconsin,United States,Active
+43.557444692,-116.221688492,158,AF Guard,Boise Air Terminal,N/A,Idaho,United States,Active
+43.573102358,-96.74181091,159,AF Guard,Joe Foss Field,N/A,South Dakota,United States,Active
+43.935908517,-90.251582274,160,AF Guard,Volk ANGB,N/A,Wisconsin,United States,Active
+44.890238233,-93.2027807169999,161,AF Reserve,Minn-St Paul,N/A,Minnesota,United States,Active
+45.083345976,-83.570025222,162,AF Guard,Alpena County Regional Airport,N/A,Michigan,United States,Active
+45.578379484,-122.595521926,163,AF Guard,Portland IAP ANG,N/A,Oregon,United States,Active
+46.913702958,-96.8044233749999,164,AF Guard,Hector IAP,N/A,North Dakota,United States,Active
+47.4770204260001,-111.364449133,165,AF Guard,Great Falls IAP,N/A,Montana,United States,Active
+39.4055677040001,-77.9831186009999,166,AF Guard,EWVRA Shepherd Field,N/A,West Virginia,United States,Active
+39.454542755,-87.294952408,167,AF Guard,Hulman Fld,N/A,Indiana,United States,Active
+40.663667638,-89.7026508439999,168,AF Guard,General Wayne A Downing Peoria IAP,N/A,Illinois,United States,Active
+41.544360582,-93.666068948,169,AF Guard,Des Moines IAP,N/A,Iowa,United States,Active
+41.586681909,-83.792447268,170,AF Guard,Toledo/Exp Airport,N/A,Ohio,United States,Active
+46.844953821,-92.1721282839999,171,AF Guard,Duluth IAP,N/A,Minnesota,United States,Active
+27.843601472,-82.5010211169999,172,AF Active,MacDill AFB,N/A,Florida,United States,Active
+29.6165180030001,-95.170544557,173,AF Guard,Ellington Field,N/A,Texas,United States,Active
+30.4107264040001,-89.0612086469999,174,AF Guard,Gulfport-Biloxi Regional Airport (ANG),N/A,Mississippi,United States,Active
+33.5710590640001,-86.75413531,175,AF Guard,Birmingham Airport,N/A,Alabama,United States,Active
+37.625436505,-97.2610940499999,176,AF Active,McConnell AFB,N/A,Kansas,United States,Active
+38.4161872660001,-90.398607996,177,AF Active,NGA Arnold Site,N/A,Missouri,United States,Active
+38.5446376630001,-89.852840336,178,AF Active,Scott AFB,N/A,Illinois,United States,Active
+38.591783374,-90.208948085,179,AF Active,St Louis Air Force Station,N/A,Missouri,United States,Active
+39.847893749,-89.667719098,180,AF Guard,Capital Airport,N/A,Illinois,United States,Active
+40.0037097680001,-74.520502268,181,AF Active,Dix,Joint Base McGuire - Dix - Lakehurst,New Jersey,United States,Active
+40.0269873490001,-74.58917424,182,AF Active,McGuire,Joint Base McGuire - Dix - Lakehurst,New Jersey,United States,Active
+40.027260755,-74.375392214,183,AF Active,Lakehurst,Joint Base McGuire - Dix - Lakehurst,New Jersey,United States,Active
+40.841020615,-96.7538721769999,184,AF Guard,Lincoln Map,N/A,Nebraska,United States,Active
+42.1693653610001,-72.7179961809999,185,AF Guard,Barnes Map (ANG),N/A,Massachusetts,United States,Active
+42.941045622,-87.887984284,186,AF Guard,Gen Mitchell IAP,N/A,Wisconsin,United States,Active
+44.473917305,-73.1454101049999,187,AF Guard,Burlington IAP,N/A,Vermont,United States,Active
+29.3779869370001,-98.5859675789999,188,AF Active,Kelly Field Annex,Joint Base San Antonio,Texas,United States,Active
+29.3850563170001,-98.5683297159999,189,AF Active,Kelly AFB,Joint Base San Antonio,Texas,United States,Active
+29.452319066,-98.442625365,190,AF Active,JBSA Sam Houston,Joint Base San Antonio,Texas,United States,Active
+29.460064758,-98.416550017,191,AF Active,Medical Center Annex,Joint Base San Antonio,Texas,United States,Active
+29.5298279190001,-98.278477499,192,AF Active,Randolph AFB,Joint Base San Antonio,Texas,United States,Active
+29.5640779890001,-97.905134609,193,AF Active,Seguin Auxiliary Field,Joint Base San Antonio,Texas,United States,Active
+29.691068473,-98.56166359,194,AF Active,Camp Bullis Training Annex,Joint Base San Antonio,Texas,United States,Active
+29.8846212120001,-98.219388715,195,AF Active,Canyon Lake Recreation Annex,Joint Base San Antonio,Texas,United States,Active
+39.091394312,-76.726850799,196,Army Active,Fort George G Meade,N/A,Maryland,United States,Active
+39.331102645,-94.9157559239999,197,Army Active,Fort Leavenworth,N/A,Kansas,United States,Active
+39.096402772,-96.7247006869999,198,Army Active,Fort Riley,N/A,Kansas,United States,Active
+21.4860497110001,-158.030840146,199,Army Active,Wheeler Army Airfield,N/A,Hawaii,United States,Active
+36.649695443,-87.4787552069999,200,Army Active,Fort Campbell KY,N/A,Kentucky,United States,Active
+64.831681464,-147.594932545,201,Army Active,Fort Wainwright,N/A,Alaska,United States,Active
+37.7138431480001,-121.896007611,202,Army Reserve,Parks Reserve Forces Tng Area,N/A,California,United States,Active
+31.1256847920001,-93.1569838619999,203,Army Active,Fort Polk,N/A,Louisiana,United States,Active
+37.927742064,-85.9498764479999,204,Army Active,Fort Knox,N/A,Kentucky,United States,Active
+37.674360995,-84.2342164,205,Army Active,Blue Grass Army Depot,N/A,Kentucky,United States,Active
+38.691920022,-77.132946994,206,Army Active,Fort Belvoir,N/A,Virginia,United States,Active
+42.8526906,-73.922083481,207,AF Guard,Schenectady ANG MAP,N/A,New York,United States,Active
+33.4262666220001,-82.15955676,208,Army Active,Fort Gordon,N/A,Georgia,United States,Active
+39.146228582,-118.688076256,209,Navy Active,Target B-19,N/A,Nevada,United States,Active
+34.6482245600001,-98.426872154,210,Army Active,Fort Sill,N/A,Oklahoma,United States,Active
+34.6739502230001,-86.61254368,211,Army Active,Redstone Arsenal,N/A,Alabama,United States,Active
+34.009848559,-80.719796392,212,Army Active,Fort Jackson,N/A,South Carolina,United States,Active
+42.718297782,-73.704058269,214,Army Active,Watervliet Arsenal,N/A,New York,United States,Active
+37.4201090180001,-77.447266193,215,Army Active,Def Gen Supply Center,N/A,Virginia,United States,Active
+32.3695057050001,-84.868895169,216,Army Active,Fort Benning GA,N/A,Georgia,United States,Active
+38.26374858,-76.418334101,217,Navy Active,Naval Air Station Patuxent River,N/A,Maryland,United States,Active
+31.2548307,-97.709127,218,Army Active,Fort Hood,N/A,Texas,United States,Active
+38.758732949,-104.779703548,219,Army Active,Fort Carson,N/A,Colorado,United States,Active
+44.031621494,-90.680491103,220,Army Reserve,Fort McCoy,N/A,Wisconsin,United States,Active
+44.050819646,-75.735495855,221,Army Active,Fort Drum,N/A,New York,United States,Active
+32.025065517,-81.1340950909999,222,Army Active,Hunter Army Airfield,N/A,Georgia,United States,Active
+31.553962299,-110.316737194,223,Army Active,Fort Huachuca,N/A,Arizona,United States,Active
+31.3680813130001,-85.7476637729999,224,Army Active,Fort Rucker AL,N/A,Alabama,United States,Active
+38.0682906440001,-77.326944979,225,Army Active,Fort A P Hill,N/A,Virginia,United States,Active
+31.8722246990001,-81.5850183479999,226,Army Active,Fort Stewart,N/A,Georgia,United States,Active
+39.3864574040001,-76.2951172739999,227,Army Active,Aberdeen Proving Ground,N/A,Maryland,United States,Active
+40.2160732570001,-112.757424985,228,Army Active,Dugway Proving Ground,N/A,Utah,United States,Active
+18.413591802,-66.129683063,229,Army Reserve,Fort Buchanan,N/A,Puerto Rico,Puerto Rico,Active
+21.480658012,-158.02570062,230,Army Active,Schofield Barracks Military Reservation,N/A,Hawaii,United States,Active
+41.1904318860001,-75.417306696,231,Army Active,Tobyhanna Army Depot,N/A,Pennsylvania,United States,Active
+39.1182,-121.388,232,AF Active,Beale AFB,N/A,California,United States,Active
+30.57593762,-86.5283733489999,233,AF Active,Eglin AFB (Eglin Main and Reservation),N/A,Florida,United States,Active
+35.240328156,-116.679852904,234,Army Active,NTC and Fort Irwin,N/A,California,United States,Active
+40.6106100150001,-74.028178257,235,Army Active,Fort Hamilton,N/A,New York,United States,Active
+33.82137363,-106.652119312,236,Army Active,White Sands Missile Range NM,N/A,New Mexico,United States,Active
+36.541881769,-82.656428247,237,Army Active,Holston AAP,N/A,Tennessee,United States,Active
+40.8260380610001,-91.2527052139999,238,Army Active,Iowa AAP,N/A,Iowa,United States,Active
+46.680204546,-120.454682581,239,Army Active,Yakima Training Center,Joint Base Lewis - McChord,Washington,United States,Active
+33.460118934,-94.3706792,240,Army Active,Red River Army Depot,N/A,Texas,United States,Active
+32.7392639940001,-96.9551147779999,241,Army Reserve,Grand Prairie Reserve Complex,N/A,Texas,United States,Active
+35.1492272360001,-79.0388603819999,242,Army Active,Fort Bragg,N/A,North Carolina,United States,Active
+39.98113196,-82.9024220269999,243,Army Active,Defense Supply Center Columbus,N/A,Ohio,United States,Active
+47.1160797420001,-122.526972988,244,Army Active,Fort Lewis,Joint Base Lewis - McChord,Washington,United States,Active
+37.7183763310001,-92.13948415,245,Army Active,Fort Leonard Wood,N/A,Missouri,United States,Active
+34.84,-95.84,246,Army Active,McAlester AAP,N/A,Oklahoma,United States,Active
+13.474970749,144.815825109,247,Navy Active,Barrigada - NAVBASE Guam,Joint Region Marianas,Guam,Guam,Active
+40.9784827240001,-74.5173406,248,Army Active,Picatinny Arsenal,N/A,New Jersey,United States,Active
+31.8254957190001,-106.415011861,249,Army Active,Fort Bliss,N/A,Texas,United States,Active
+38.9553335740001,-110.078333392,250,Army Active,Green River Test Complex UT,N/A,Utah,United States,Inactive
+33.7222321360001,-84.358887856,251,Army Guard,NG Atlanta - Confederate Ave,N/A,Georgia,United States,Active
+46.833700967,-92.158834387,252,Army Guard,NG Duluth NG Armory,N/A,Minnesota,United States,Active
+34.9000362520001,-92.3068019419999,253,Army Guard,NG Camp Joseph T Robinson,N/A,Arkansas,United States,Active
+41.609406946,-71.494038444,254,Army Guard,NG Camp Fogarty Tng Site,N/A,Rhode Island,United States,Active
+36.793967959,-94.364292196,255,Army Guard,NG MTA Camp Crowder Neosho,N/A,Missouri,United States,Active
+40.214615773,-75.4284194799999,256,Army Guard,NG Collegeville FMS 4,N/A,Pennsylvania,United States,Active
+46.830093005,-100.719616877,257,Army Guard,NG Bismarck RJB Complex,N/A,North Dakota,United States,Active
+41.331398667,-72.18794409,258,Army Guard,NG Camp Niantic,N/A,Connecticut,United States,Active
+41.9420819920001,-72.665875741,259,Army Guard,NG Camp Hartell,N/A,Connecticut,United States,Active
+41.3662866880001,-72.272484553,260,Army Guard,NG Stones Ranch Military Res,N/A,Connecticut,United States,Active
+29.431815785,-98.379507791,261,Army Guard,NG Martindale - AASF,N/A,Texas,United States,Active
+43.2966292360001,-116.057493106,262,Army Guard,NG Orchard Mates Boise,N/A,Idaho,United States,Active
+43.227495565,-116.138977329,263,Army Guard,NG Orchard Combat Training Center,N/A,Idaho,United States,Active
+44.0257925,-121.128279438,264,Army Guard,NG Bend Cotef,N/A,Oregon,United States,Active
+44.2000240890001,-121.116641902,265,Army Guard,NG Biak Training Center COUTES,N/A,Oregon,United States,Active
+41.700934058,-93.7020933909999,266,Army Guard,NG Camp Dodge Johnston TS,N/A,Iowa,United States,Active
+32.5589202840001,-93.3940534719999,267,Army Guard,NG Camp Minden Training Site,N/A,Louisiana,United States,Active
+40.0892143310001,-83.0674428949999,268,Army Guard,NG Beightler Armory,N/A,Ohio,United States,Active
+44.0862933490001,-70.282798355,269,Army Guard,NG Auburn Training Site,N/A,Maine,United States,Active
+43.668789501,-70.663749943,270,Army Guard,NG Hollis Plains Training Site,N/A,Maine,United States,Active
+33.4645500340001,-112.601760483,271,Army Guard,NG Buckeye TS,N/A,Arizona,United States,Active
+35.194800296,-111.850594633,272,Army Guard,NG Camp Navajo,N/A,Arizona,United States,Active
+40.439086956,-78.4148159,273,Army Guard,NG Hollidaysburg Readiness Center,N/A,Pennsylvania,United States,Active
+36.295693918,-95.292127078,274,Army Guard,NG Thunderbird Youth Academy,N/A,Oklahoma,United States,Active
+35.698200414,-95.16726656,275,Army Guard,NG Camp Gruber,N/A,Oklahoma,United States,Active
+35.2565207850001,-94.163439241,276,Army Guard,NG Fort Chaffee MTC,N/A,Arkansas,United States,Active
+33.7179613,-85.950265369,277,Army Guard,NG Pelham Range Training Site - Fort McClellan,N/A,Alabama,United States,Active
+37.820296936,-94.29147296,278,Army Guard,NG MTA Camp Clark Nevada,N/A,Missouri,United States,Active
+36.099512964,-86.758426474,279,Army Guard,NG Nashville,N/A,Tennessee,United States,Active
+33.6173832010001,-84.3099237439999,280,Army Guard,NG Oglethorpe Armory,N/A,Georgia,United States,Active
+30.2011201330001,-91.128950493,281,Army Guard,NG Carville Gillis Long Center,N/A,Louisiana,United States,Active
+29.960631366,-90.005363801,282,Army Guard,NG Jackson Bks,N/A,Louisiana,United States,Active
+31.397733939,-92.297282706,283,Army Guard,NG Esler Field,N/A,Louisiana,United States,Active
+45.0948962080001,-93.161098097,284,Army Guard,NG Arden Hills Army Training Site,N/A,Minnesota,United States,Active
+44.807361255,-68.808035229,285,Army Guard,NG Bangor Training Site,N/A,Maine,United States,Active
+40.435946718,-76.629690459,286,Army Guard,NG Fort Indiantown Gap,N/A,Pennsylvania,United States,Active
+37.253275483,-93.3909578929999,287,Army Guard,NG Springfield AVCRAD (New),N/A,Missouri,United States,Active
+31.090246359,-89.006867691,288,Army Guard,NG MTA Camp Shelby,N/A,Mississippi,United States,Active
+33.710882138,-89.685933518,289,Army Guard,NG CTA Camp Mccain,N/A,Mississippi,United States,Active
+32.7781877030001,-97.458544842,290,Army Guard,NG Fort Worth - Shoreview,N/A,Texas,United States,Active
+61.603050334,-149.374849789,291,Army Guard,NG Alcantra Armory Complex,N/A,Alaska,United States,Active
+39.8050309980001,-82.951462619,292,Army Guard,NG Rickenbacker (MTA),N/A,Ohio,United States,Active
+32.2871055100001,-86.3951588099999,293,Army Guard,NG RW Shepherd Hope Hull,N/A,Alabama,United States,Active
+30.523098229,-90.412182537,294,Army Guard,NG Hammond Airport,N/A,Louisiana,United States,Active
+31.3776577090001,-92.3866852479999,295,Army Guard,NG Camp Beauregard,N/A,Louisiana,United States,Active
+33.794814875,-82.281101803,296,Army Guard,NG MTA Clarks Hill Reservation,N/A,South Carolina,United States,Active
+41.0800205080001,-96.336371046,297,Army Guard,NG Camp Ashland,N/A,Nebraska,United States,Active
+40.545925138,-98.2756208599999,298,Army Guard,NG Greenlief TS/UTES 01,N/A,Nebraska,United States,Active
+60.7955330350001,-161.767465275,299,Army Guard,NG Bethel ARM FMS,N/A,Alaska,United States,Inactive
+33.468008582,-111.961734218,300,Army Guard,NG Papago Military Reservation,N/A,Arizona,United States,Active
+32.662916464,-111.488032827,301,Army Guard,NG Picacho Aviation TS,N/A,Arizona,United States,Active
+44.6816423750001,-84.727678838,302,Army Guard,NG Grayling Airfield,N/A,Michigan,United States,Active
+35.569713967,-106.081041964,303,Army Guard,NG Santa Fe - Onate Complex TS,N/A,New Mexico,United States,Active
+30.174739479,-97.6712832009999,304,Army Guard,NG Bergstrom - (Abia),N/A,Texas,United States,Active
+32.8588787400001,-98.040860287,305,Army Guard,NG Fort Wolters,N/A,Texas,United States,Active
+31.639855362,-98.935482977,306,Army Guard,NG Camp Bowie (State),N/A,Texas,United States,Active
+39.6334303610001,-75.607069688,307,Army Guard,NG River Road Training Site,N/A,Delaware,United States,Active
+38.5475743330001,-75.063301284,308,Army Guard,NG TS BBTS,N/A,Delaware,United States,Active
+32.405673096,-86.260383464,309,Army Guard,NG SMD,N/A,Alabama,United States,Active
+33.9136159610001,-84.529017488,310,Army Guard,NG General Lucius D Clay National Guard Center,N/A,Georgia,United States,Active
+32.8613917390001,-83.605654493,311,Army Guard,NG Macon Readiness Center,N/A,Georgia,United States,Active
+13.4740733890001,144.809884745,312,Army Guard,NG GUARNG Barrigada Complex,N/A,Guam,Guam,Active
+25.9624299880001,-80.304796481,313,Army Guard,NG HMO3 (Snake Creek TS),N/A,Florida,United States,Active
+39.8233702220001,-89.6708742709999,314,Army Guard,NG Springfield (TS Cp Lincoln),N/A,Illinois,United States,Active
+46.209030705,-94.4225605139999,315,Army Guard,NG Camp Ripley,N/A,Minnesota,United States,Active
+32.522871831,-111.333461822,316,Army Guard,NG Silver Bell Army Heliport,N/A,Arizona,United States,Active
+33.098764466,-111.35680894,317,Army Guard,NG Florence Military Reservation,N/A,Arizona,United States,Active
+44.0656679420001,-122.977783397,318,Army Guard,NG Lane County AFRC FMS 5,N/A,Oregon,United States,Active
+30.3233531240001,-89.808525631,319,Army Guard,NG Camp Villere,N/A,Louisiana,United States,Active
+39.05134581,-85.524738692,320,Army Guard,NG Muscatatuck Urban Training Center,N/A,Indiana,United States,Active
+39.771345496,-85.5168694389999,321,Army Guard,NG Knightstown,N/A,Indiana,United States,Active
+39.2975804440001,-86.0464169809999,322,Army Guard,NG Camp Atterbury,N/A,Indiana,United States,Active
+39.744378463,-86.228164863,323,Army Guard,NG Indianapolis 38 ID,N/A,Indiana,United States,Active
+44.7143360760001,-123.270695899,324,Army Guard,NG Camp Adair Corvallis,N/A,Oregon,United States,Active
+46.1288264460001,-123.944346596,325,Army Guard,NG MTA Camp Rilea,N/A,Oregon,United States,Active
+45.412447609,-122.557961253,326,Army Guard,NG Camp Withycombe Clackamas,N/A,Oregon,United States,Active
+39.578959642,-85.811023646,327,Army Guard,NG Shelbyville,N/A,Indiana,United States,Active
+46.6261457150001,-112.146444057,328,Army Guard,NG MTA Ft Wm Henry Harrison,N/A,Montana,United States,Active
+46.608471557,-111.971041404,329,Army Guard,NG Helena Aviation RC- AASF- C12,N/A,Montana,United States,Active
+34.2243340360001,-84.113051593,330,Army Guard,NG Cumming,N/A,Georgia,United States,Active
+31.4394196850001,-92.2955559119999,331,Army Guard,NG Beauregard Training Range,N/A,Louisiana,United States,Active
+42.5446993,-71.072660618,332,Army Guard,NG MTA Camp Curtis Guil,N/A,Massachusetts,United States,Active
+42.5489411720001,-71.584497782,333,Army Guard,NG Ayer,N/A,Massachusetts,United States,Active
+42.7681480630001,-84.571308258,334,Army Guard,NG Lansing Joint Forces Readiness Center,N/A,Michigan,United States,Active
+41.543439608,-83.022133302,335,Army Guard,NG Camp Perry Joint Training Center,N/A,Ohio,United States,Active
+43.144244357,-115.652542493,336,Army Guard,NG Edgemeade TS Mtn Home,N/A,Idaho,United States,Active
+33.5710502160001,-86.7501493509999,337,Army Guard,NG AASF02 Birmingham,N/A,Alabama,United States,Active
+35.7815953420001,-120.780040594,338,Army Guard,NG MTC-H Camp Roberts,N/A,California,United States,Active
+35.339152105,-120.703075007,339,Army Guard,NG ITC Camp San Luis Obisbo,N/A,California,United States,Active
+41.197170048,-81.084817653,340,Army Guard,NG Camp Ravenna Joint Military Training Center,N/A,Ohio,United States,Active
+41.286945647,-88.6795860189999,341,Army Guard,NG Marseilles (MTA Tng Area),N/A,Illinois,United States,Active
+39.6614390070001,-81.839498286,342,Army Guard,NG McConnelsville Training Site,N/A,Ohio,United States,Active
+43.277809624,-71.1222205609999,343,Army Guard,NG Training Site,N/A,New Hampshire,United States,Active
+42.2994253690001,-85.317717527,344,Army Guard,NG CTC Fort Custer Trng Center,N/A,Michigan,United States,Active
+33.791211294,-118.052226791,345,Army Guard,NG TS AFRC Los Alamitos,N/A,California,United States,Active
+39.3556342160001,-82.950954796,346,Army Guard,NG Camp Sherman Joint Training Center,N/A,Ohio,United States,Active
+44.911737488,-122.999821561,347,Army Guard,NG McNary Field Salem AASF,N/A,Oregon,United States,Active
+18.0130410520001,-66.505651579,348,Army Guard,NG Ft Allen Rq 177,N/A,Puerto Rico,Puerto Rico,Active
+44.396512026,-70.9365409929999,349,Army Guard,NG Bog Brook Training Site,N/A,Maine,United States,Active
+38.551526643,-92.0684326749999,350,Army Guard,NG TS Ike Skelton Jefferson City,N/A,Missouri,United States,Active
+36.891519219,-90.279966518,351,Army Guard,NG TS Clark Natl Forest Wapp,N/A,Missouri,United States,Active
+39.647323757,-92.500833776,352,Army Guard,NG Macon TS,N/A,Missouri,United States,Active
+33.7316519930001,-85.7899453429999,353,Army Guard,NG Fort McClellan ARNG Tng Center,N/A,Alabama,United States,Active
+46.2740762240001,-111.579816882,354,Army Guard,NG MTA Limestone Hills,N/A,Montana,United States,Active
+41.7941540410001,-80.0478951,355,Army Guard,NG Cambridge Springs,N/A,Pennsylvania,United States,Active
+36.421330959,-82.4887633019999,356,Army Guard,NG Johnson City Gray,N/A,Tennessee,United States,Active
+41.7004327220001,-70.544951189,357,Army Guard,NG MTA Camp Edwards,N/A,Massachusetts,United States,Active
+45.564876043,-94.177418743,358,Army Guard,NG St Cloud NG Armory,N/A,Minnesota,United States,Active
+32.2779913590001,-106.933101612,359,Army Guard,NG Las Cruces,N/A,New Mexico,United States,Active
+35.3734788350001,-106.652026372,360,Army Guard,NG Rio Rancho TS,N/A,New Mexico,United States,Active
+35.80975541,-78.711908605,361,Army Guard,NG Raleigh,N/A,North Carolina,United States,Active
+44.68747168,-84.729882988,362,Army Guard,NG MTC-H Camp Grayling,N/A,Michigan,United States,Active
+38.1458554060001,-89.7164340149999,363,Army Guard,NG Sparta Armory,N/A,Illinois,United States,Active
+44.471726582,-72.896538843,364,Army Guard,NG TS Ethan Allen Range,N/A,Vermont,United States,Active
+38.893477547,-81.829845717,365,Army Guard,NG Jackson County AFRC,N/A,West Virginia,United States,Active
+35.264319691,-97.480057371,366,Army Guard,NG Norman CSMS,N/A,Oklahoma,United States,Active
+35.6603704610001,-95.3735309529999,367,Army Guard,NG Muskogee AFRC,N/A,Oklahoma,United States,Active
+30.3567658580001,-91.1432449869999,368,Army Guard,NG Baton Rouge AFRC,N/A,Louisiana,United States,Active
+45.5390766020001,-94.055789293,369,Army Guard,NG St Cloud AASF,N/A,Minnesota,United States,Active
+43.996880886,-92.430722501,370,Army Guard,NG Rochester NGA and OMS 2,N/A,Minnesota,United States,Active
+44.7477484830001,-93.1276054369999,371,Army Guard,NG Rosemount NG Armory,N/A,Minnesota,United States,Active
+41.1936134490001,-96.437970026,372,Army Guard,NG Mead TS/FMS 06/Utes 02,N/A,Nebraska,United States,Active
+40.8373288450001,-96.7549863309999,373,Army Guard,NG Lincoln AASF/Readiness Center,N/A,Nebraska,United States,Active
+40.961817399,-98.298792071,374,Army Guard,NG Grand Island AASF/RC,N/A,Nebraska,United States,Active
+30.416186888,-89.0628744319999,375,Army Guard,NG Gulfport AVCRAD,N/A,Mississippi,United States,Active
+43.085882719,-72.451311941,376,Army Guard,NG Westminster Training Site,N/A,Vermont,United States,Active
+48.0497875780001,-98.901238205,377,Army Guard,NG Camp Grafton,N/A,North Dakota,United States,Active
+35.5035184930001,-97.470167996,378,Army Guard,NG Oklahoma Military Department,N/A,Oklahoma,United States,Active
+35.026515847,-97.2305536819999,379,Army Guard,NG Lexington AASF No 1,N/A,Oklahoma,United States,Active
+40.1238242060001,-74.0373077639999,380,Army Guard,NG Sea Girt NJ NGTC,N/A,New Jersey,United States,Active
+40.2697852900001,-74.744697539,381,Army Guard,NG Lawrenceville,N/A,New Jersey,United States,Active
+30.261669946,-97.294553702,382,Army Guard,NG Camp Swift,N/A,Texas,United States,Active
+36.29092009,-115.041255853,383,Army Guard,NG Floyd Edsall Training Center,N/A,Nevada,United States,Active
+38.954504097,-79.97911541,384,Army Guard,NG Elkins AFRC,N/A,West Virginia,United States,Active
+47.116699463,-122.568802515,385,Army Guard,NG Camp Murray,N/A,Washington,United States,Active
+36.017381963,-115.200674517,386,Army Guard,NG Anthony Cometa Complex,N/A,Nevada,United States,Active
+43.2374990060001,-78.972691389,387,Army Guard,NG Youngstown Tng Site,N/A,New York,United States,Active
+41.311840096,-73.9509063799999,388,Army Guard,NG Camp Smith Tng Site,N/A,New York,United States,Active
+40.979398266,-80.324787043,389,Army Guard,NG New Castle Readiness Center/FMS 9,N/A,Pennsylvania,United States,Active
+34.931215653,-85.059061078,390,Army Guard,NG VTS Catoosa,N/A,Georgia,United States,Active
+36.018098588,-86.503612026,391,Army Guard,NG VTS Smyrna,N/A,Tennessee,United States,Active
+40.189958979,-75.555810777,392,Army Guard,NG Spring City Readiness Center,N/A,Pennsylvania,United States,Active
+18.028772814,-66.2836075009999,393,Army Guard,NG MTA Camp Santiago,N/A,Puerto Rico,Puerto Rico,Active
+36.816139955,-75.979152445,394,Army Guard,NG Camp Pendleton SMR,N/A,Virginia,United States,Active
+39.353125887,-81.442110059,395,Army Guard,NG Williamstown,N/A,West Virginia,United States,Active
+35.598146243,-88.912958911,396,Army Guard,NG Jackson Airport Armory,N/A,Tennessee,United States,Active
+35.850013763,-88.667719496,397,Army Guard,NG VTS Milan,N/A,Tennessee,United States,Active
+31.612921096,-98.9077016689999,398,Army Guard,NG Camp Bowie - Musgrave (Fed),N/A,Texas,United States,Active
+30.318610603,-97.761572058,399,Army Guard,NG Camp Mabry,N/A,Texas,United States,Active
+33.7990840780001,-95.560289385,400,Army Guard,NG Camp Maxey,N/A,Texas,United States,Active
+32.8550925590001,-97.350362332,401,Army Guard,NG Saginaw,N/A,Texas,United States,Active
+40.427356215,-112.018203271,402,Army Guard,NG MTA-L Camp Williams,N/A,Utah,United States,Active
+37.0337681830001,-113.547140891,403,Army Guard,NG Saint George/FMS 5B,N/A,Utah,United States,Active
+47.5527096390001,-122.681322245,404,Army Guard,NG Bremerton,N/A,Washington,United States,Active
+37.036752726,-77.909317281,405,Army Guard,NG Fort Pickett ARNG MTC,N/A,Virginia,United States,Active
+39.454797157,-79.669250634,406,Army Guard,NG Volkstone,N/A,West Virginia,United States,Active
+39.4444199820001,-79.669858021,407,Army Guard,NG CTC Camp Dawson-Kingwood,N/A,West Virginia,United States,Active
+42.211867641,-104.803378823,408,Army Guard,NG MTCH Camp Guernsey,N/A,Wyoming,United States,Active
+37.494139987,-77.31266012,409,Army Guard,NG AASF Byrd Field,N/A,Virginia,United States,Active
+43.7618744120001,-98.04389341,410,Army Guard,NG Mitchell Complex,N/A,South Dakota,United States,Active
+44.509890215,-73.1635564759999,411,Army Guard,NG Ethan Allen AFB MTA,N/A,Vermont,United States,Active
+44.4996364570001,-73.1646298109999,412,Army Guard,NG TS Camp Johnson,N/A,Vermont,United States,Active
+43.928022567,-90.269506769,413,Army Guard,NG Camp Williams Tomah MTA,N/A,Wisconsin,United States,Active
+21.262804897,-157.804556838,414,Army Guard,NG Ft Ruger,N/A,Hawaii,United States,Active
+21.318991726,-158.062484787,415,Army Guard,NG Kalaeloa,N/A,Hawaii,United States,Active
+19.7065531740001,-155.038477564,416,Army Guard,NG TS Keaukaha Mil Res,N/A,Hawaii,United States,Active
+39.020168115,-95.68323944,417,Army Guard,NG Kansas,N/A,Kansas,United States,Active
+38.7846447700001,-97.6381044079999,418,Army Guard,NG Salina KS Training Center,N/A,Kansas,United States,Active
+38.1853052910001,-84.908992826,419,Army Guard,NG Frankfort Boone NG Center,N/A,Kentucky,United States,Active
+37.277663283,-87.2010420459999,420,Army Guard,NG WH Ford Regional Tng Ctr,N/A,Kentucky,United States,Active
+39.4323773900001,-76.5050135449999,421,Army Guard,NG MTA Gunpowder Military Reservation,N/A,Maryland,United States,Active
+39.497993152,-76.8456986899999,422,Army Guard,NG MTA Camp Fretterd,N/A,Maryland,United States,Active
+39.5326626500001,-76.1041166,423,Army Guard,NG Havre De Grace Military Res,N/A,Maryland,United States,Active
+36.201540784,-78.801350637,424,Army Guard,NG MTA Camp Butner,N/A,North Carolina,United States,Active
+44.073189938,-103.30683687,425,Army Guard,NG West Camp,N/A,South Dakota,United States,Active
+43.589299258,-96.675424483,426,Army Guard,NG Sioux Falls Benson Rd Complex,N/A,South Dakota,United States,Active
+44.0801387020001,-103.266957926,427,Army Guard,NG Camp Rapid,N/A,South Dakota,United States,Active
+31.5510476260001,-84.054639025,428,MC Active,MCLB Albany,N/A,Georgia,United States,Active
+31.562189082,-81.570284113,429,MC Active,TBR Main,N/A,Georgia,United States,Active
+32.4724355280001,-80.7154766089999,430,MC Active,MCAS Beaufort,N/A,South Carolina,United States,Active
+30.40132743,-81.525023182,431,MC Active,MCSF Blount Island (FL),N/A,Florida,United States,Active
+35.0110394590001,-76.45807956,432,MC Active,Point of Marsh Target,N/A,North Carolina,United States,Active
+34.6928505600001,-77.028682556,433,MC Active,ALF Bogue,N/A,North Carolina,United States,Active
+34.89485174,-76.349418557,434,MC Active,OLF Atlantic,N/A,North Carolina,United States,Active
+35.023136106,-77.2587195139999,435,MC Active,Oak Grove,N/A,North Carolina,United States,Active
+34.9120752640001,-76.885424733,436,MC Active,MCAS Cherry Point,N/A,North Carolina,United States,Active
+34.6528364370001,-77.43946088,437,MC Active,MCB Camp Lejeune (West Site),N/A,North Carolina,United States,Active
+34.6442399060001,-77.295789139,438,MC Active,MCB Camp Lejeune (East Site),N/A,North Carolina,United States,Active
+32.3375794720001,-80.69617786,439,MC Active,MCRD Beaufort,N/A,South Carolina,United States,Active
+34.859541891,-116.94453311,440,MC Active,MCLB Barstow,N/A,California,United States,Active
+34.8905585370001,-116.870241242,441,MC Active,Yermo Area,N/A,California,United States,Active
+32.8768860690001,-117.085903809,442,MC Active,MCAS Miramar,N/A,California,United States,Active
+33.3588858100001,-117.283210767,443,Navy Active,Fallbrook California,N/A,California,United States,Active
+33.361991345,-117.423837873,444,MC Active,MCB Camp Pendleton,N/A,California,United States,Active
+32.729350034,-117.220992794,445,MC Active,Former NTC,N/A,California,United States,Active
+32.7401689480001,-117.197685657,446,MC Active,MCRD San Diego,N/A,California,United States,Active
+34.4639543700001,-116.185278099,447,MC Active,Twentynine Palms,N/A,California,United States,Active
+32.6453966650001,-114.602240834,448,MC Active,MCAS Yuma,N/A,Arizona,United States,Active
+32.4982754370001,-114.083222822,449,MC Active,Barry Goldwater Range,N/A,Arizona,United States,Active
+33.311949559,-115.309239261,450,MC Active,Choc Mt Air Gnry Rng,N/A,California,United States,Active
+38.520361182,-77.364727192,451,MC Active,Marine Corps Museum,N/A,Virginia,United States,Active
+38.55804721,-77.477241142,452,MC Active,MCB Quantico,N/A,Virginia,United States,Active
+30.405301276,-81.621673539,453,MC Reserve,Jacksonville FL Maint,N/A,Florida,United States,Active
+40.5812042150001,-73.882912037,454,MC Reserve,Brooklyn NY,N/A,New York,United States,Active
+43.100101114,-76.121099111,455,MC Reserve,Syracuse MCRC,N/A,New York,United States,Active
+21.3835443740001,-157.971379541,456,MC Active,Pearl City Annex,N/A,Hawaii,United States,Active
+21.3866284870001,-157.905641308,457,MC Active,MCB Camp Smith,N/A,Hawaii,United States,Active
+21.36214627,-157.718266082,458,MC Active,MC Trng Area Bellows,N/A,Hawaii,United States,Active
+21.3182154990001,-157.988054568,459,MC Active,Puuloa-Oahu,N/A,Hawaii,United States,Active
+21.445310321,-157.751192907,460,MC Active,MCB Hawaii (Kaneohe Bay),N/A,Hawaii,United States,Active
+36.888785672,-76.360555345,461,Navy Active,Craney Island,N/A,Virginia,United States,Active
+36.559098551,-76.267485484,462,Navy Active,Northwest Chesapeake VA,N/A,Virginia,United States,Active
+40.2276678280001,-76.986597947,463,Navy Active,NAVSUPPACT Mechanicsburg PA,N/A,Pennsylvania,United States,Active
+36.816475644,-76.299422261,464,Navy Active,NAVSUPPACT Norfolk NSY,N/A,Virginia,United States,Active
+36.803698894,-76.295425493,465,Navy Active,NNSY South Gate,N/A,Virginia,United States,Active
+36.8255463260001,-76.2892649189999,466,Navy Active,NNSY St Helena,N/A,Virginia,United States,Active
+36.7879489260001,-76.310163808,467,Navy Active,St Juliens Creek East,N/A,Virginia,United States,Active
+36.788529915,-75.9653974719999,468,Navy Active,Dam Neck,N/A,Virginia,United States,Active
+36.9022639630001,-76.3023442259999,469,Navy Active,Lafayette Rvr Complex,N/A,Virginia,United States,Active
+37.2159079690001,-76.48604196,470,Navy Active,Yorktown Fuel Depot,N/A,Virginia,United States,Active
+37.2448033360001,-76.585566005,471,Navy Active,Naval Weapons Station Yorktown,N/A,Virginia,United States,Active
+36.8137764140001,-76.030974466,472,Navy Active,NAS Oceana VA,N/A,Virginia,United States,Active
+40.4207361480001,-74.0726523869999,473,Navy Active,Waterfront,N/A,New Jersey,United States,Active
+40.253857198,-74.160848341,474,Navy Active,Naval Weapons Station Earle NJ,N/A,New Jersey,United States,Active
+39.8917550240001,-75.178743884,475,Navy Active,Det Phil Pny Annex,N/A,Pennsylvania,United States,Active
+37.2849658660001,-76.619482681,476,Navy Active,Cheatham Annex,N/A,Virginia,United States,Active
+36.925015289,-76.299610968,477,Navy Active,NAVSUPPACT Hampton Roads VA,N/A,Virginia,United States,Active
+36.920036662,-76.3166237519999,478,Navy Active,SDA Area,N/A,Virginia,United States,Active
+36.9215240080001,-76.3227235479999,479,Navy Active,Fire Fighters School,N/A,Virginia,United States,Active
+36.923114868,-76.017469008,480,Navy Active,JEBLCFS East,Joint Expeditionary Base Little Creek - Fort Story,Virginia,United States,Active
+40.0413030720001,-75.094581272,481,Navy Active,Det Philadelphia PA,N/A,Pennsylvania,United States,Active
+36.9168246360001,-76.161868495,482,Navy Active,JNTEXPBASE Little Creek FS VA,Joint Expeditionary Base Little Creek - Fort Story,Virginia,United States,Active
+36.694270009,-76.132972219,485,Navy Active,ALF Fentress Chesapke,N/A,Virginia,United States,Active
+41.39954585,-72.0861454069999,486,Navy Active,NAVSUBASE New London CT,N/A,Connecticut,United States,Active
+36.845983103,-76.3077533759999,487,Navy Active,NAVMEDCEN Portsmouth VA,N/A,Virginia,United States,Active
+36.866375799,-76.33188476,488,Navy Active,Elizabeth Rvr Channel,N/A,Virginia,United States,Active
+43.07909425,-73.820562567,489,Navy Active,NSA Saratoga Springs NY,N/A,New York,United States,Active
+37.86671131,-75.457580395,490,Navy Active,JEBLCFS Wallops Island VA,Joint Expeditionary Base Little Creek - Fort Story,Virginia,United States,Active
+41.475343222,-71.339935996,491,Navy Active,Fort Adams RI,N/A,Rhode Island,United States,Active
+43.080104653,-70.73425301,493,Navy Active,NSY Portsmouth,N/A,Maine,United States,Active
+44.9888095800001,-70.450631572,494,Navy Active,Redington Township,N/A,Maine,United States,Active
+41.537007483,-71.344908189,495,Navy Active,Gould Island RI,N/A,Rhode Island,United States,Active
+42.091733264,-87.8365448599999,496,Navy Active,Glenview,N/A,Illinois,United States,Active
+42.300346011,-87.853921051,497,Navy Active,GL Camp JPJ,N/A,Illinois,United States,Active
+38.8411900740001,-86.812451497,498,Navy Active,Naval Support Activity Crane,N/A,Indiana,United States,Active
+41.5424613690001,-81.6261664949999,499,Navy Active,Bratenahl,N/A,Ohio,United States,Active
+41.5649792200001,-71.2924610159999,500,Navy Active,Naval Station Newport RI,N/A,Rhode Island,United States,Active
+36.943308003,-76.3015136939999,501,Navy Active,NAVSTA Norfolk VA,N/A,Virginia,United States,Active
+38.840519107,-77.017700141,502,Navy Active,JBAB Anacostia Bolling,Joint Base Anacostia - Bolling,District of Columbia,United States,Active
+38.8740586340001,-76.995096325,503,Navy Active,Naval Support Activity Wash,N/A,District of Columbia,United States,Active
+38.1458416360001,-76.427890987,504,Navy Active,Webster Field,N/A,Maryland,United States,Active
+38.3364104890001,-76.4710651349999,505,Navy Active,Solomons Island MD,N/A,Maryland,United States,Active
+38.86773485,-77.079335021,506,Navy Active,Arlington Service Ctr,N/A,Virginia,United States,Active
+38.824041691,-77.0233528539999,507,Navy Active,Naval Research Lab,N/A,District of Columbia,United States,Active
+38.9749000480001,-77.192328133,508,Navy Active,NSWC Carderock,N/A,Maryland,United States,Active
+39.0019656800001,-77.090339001,509,Navy Active,NAVSUPPACT Bethesda MD,N/A,Maryland,United States,Active
+38.921426447,-77.067034747,510,Navy Active,Naval Observatory,N/A,District of Columbia,United States,Active
+13.4330059070001,144.687514491,511,Navy Active,Tenjo Vista,Joint Region Marianas,Guam,Guam,Active
+13.448950675,144.699599811,512,Navy Active,Sasa Valley,Joint Region Marianas,Guam,Guam,Active
+39.5492530380001,-78.8457345419999,513,Navy Active,Allegany Ballistics Lab,N/A,West Virginia,United States,Active
+41.5158790500001,-90.561806672,514,Army Active,Rock Island Arsenal,N/A,Illinois,United States,Active
+13.465862342,144.72320431,515,Navy Active,Nimitz Hill,Joint Region Marianas,Guam,Guam,Active
+13.390326014,144.686307576,516,Navy Active,Magazine Reservoir Naval Magazine,Joint Region Marianas,Guam,Guam,Active
+13.387903583,144.685202104,517,Navy Active,"NAVBASE Guam, Naval Magazine",Joint Region Marianas,Guam,Guam,Active
+13.428632566,144.653464078,518,Navy Active,NAVBASE Guam,Joint Region Marianas,Guam,Guam,Active
+13.4563838610001,144.81256988,519,Navy Active,Barrigada - NSA Andersen,Joint Region Marianas,Guam,Guam,Active
+13.401582497,144.67867992,520,Navy Active,Apra Heights,Joint Region Marianas,Guam,Guam,Active
+13.3594268460001,144.692281863,521,Navy Active,Naval Magazine,Joint Region Marianas,Guam,Guam,Active
+13.5080101300001,144.865759048,522,Navy Active,Andy South,Joint Region Marianas,Guam,Guam,Active
+30.4703563320001,-87.341464807,523,Navy Active,Saufley Field,N/A,Florida,United States,Active
+30.3527067730001,-87.306335663,524,Navy Active,NAS Pensacola FL,N/A,Florida,United States,Active
+30.796020705,-81.52701505,525,Navy Active,Subase Kings Bay GA,N/A,Georgia,United States,Active
+30.4028604160001,-87.2900851799999,526,Navy Active,Corry Station,N/A,Florida,United States,Active
+30.377948105,-89.1263993009999,527,Navy Active,CBC Gulfport MS,N/A,Mississippi,United States,Active
+30.383753014,-87.4141104619999,528,Navy Active,OLF Bronson,N/A,Florida,United States,Active
+30.541702091,-88.9718211109999,529,Navy Active,Woolmarket (De Soto),N/A,Mississippi,United States,Active
+47.6974526340001,-122.621295272,530,Navy Active,Keyport NUWC,N/A,Washington,United States,Active
+48.338638239,-122.661772791,531,Navy Active,NAS Whidbey Island WA,N/A,Washington,United States,Active
+47.55907347,-122.635339438,532,Navy Active,Shipyard Puget Sound,N/A,Washington,United States,Active
+47.555790067,-122.652090141,533,Navy Active,Naval Base Kitsap Bremerton WA,N/A,Washington,United States,Active
+48.191740962,-122.632614267,535,Navy Active,OLF Coupeville,N/A,Washington,United States,Active
+47.7233921480001,-122.714839767,536,Navy Active,Bangor WA,N/A,Washington,United States,Active
+48.1237034580001,-122.171056043,537,Navy Active,Marysville WA,N/A,Washington,United States,Active
+47.9773191130001,-116.561563918,539,Navy Active,Bayview Idaho,N/A,Idaho,United States,Active
+48.053235145,-122.726218709,540,Navy Active,CNI NAVMAG Indian Island,N/A,Washington,United States,Active
+47.9883156830001,-122.223175004,542,Navy Active,NAVSTA Everett WA,N/A,Washington,United States,Active
+48.2000163500001,-121.928076374,543,Navy Active,Jim Creek,N/A,Washington,United States,Active
+47.566108425,-122.545637948,544,Navy Active,Manchester,N/A,Washington,United States,Active
+48.302969278,-122.594397674,545,Navy Active,Sea Plane Base,N/A,Washington,United States,Active
+45.719592929,-119.691209979,547,Navy Active,NAVWPNSYSTRAFAC Boardman,N/A,Oregon,United States,Active
+71.318213364,-156.65426944,548,Navy Active,NARL Barrow Camp Tr1,N/A,Alaska,United States,Active
+42.2089051350001,-87.8046082389999,549,Navy Active,Fort Sheridan,N/A,Illinois,United States,Active
+42.3134486750001,-87.8376316,550,Navy Active,Naval Station Great Lakes IL,N/A,Illinois,United States,Active
+30.172620771,-85.752278712,551,Navy Active,Naval Support Activity Panama City,N/A,Florida,United States,Active
+32.553191412,-88.5695131269999,552,Navy Active,NAS Meridian MS,N/A,Mississippi,United States,Active
+28.096916568,-98.731368975,553,Navy Active,Dixie Target Range,N/A,Texas,United States,Active
+30.400189944,-81.627478105,554,Navy Active,FLC Fuel Depot Heckscher,N/A,Florida,United States,Active
+35.088690688,-90.140224398,555,Navy Active,NSWC Carderock Div,N/A,Tennessee,United States,Active
+28.24618775,-98.723869782,556,Navy Active,Yankee Target Range,N/A,Texas,United States,Active
+30.3815861850001,-81.4248272949999,557,Navy Active,NAVSTA Mayport FL,N/A,Florida,United States,Active
+27.498961926,-97.812847712,558,Navy Active,NAS Kingsville TX,N/A,Texas,United States,Active
+30.221476033,-81.6885427299999,559,Navy Active,NAS Jacksonville FL,N/A,Florida,United States,Active
+27.8965304590001,-98.043430723,560,Navy Active,ALF Orange,N/A,Texas,United States,Active
+35.331424193,-89.8707838029999,561,Navy Active,NAVSUPPACT Midsouth Memphis TN,N/A,Tennessee,United States,Active
+35.3425216050001,-89.859780789,562,Navy Active,Northside Mid-South,N/A,Tennessee,United States,Active
+27.692488677,-97.2793198859999,563,Navy Active,NAS Corpus Christi TX,N/A,Texas,United States,Active
+32.796473163,-88.8318661019999,564,Navy Active,OLF Bravo,N/A,Mississippi,United States,Active
+38.8707611630001,-77.055616646,565,WHS,Pentagon Building Site,N/A,Virginia,United States,Active
+37.235752093,-77.332689289,566,Army Active,Fort Lee,N/A,Virginia,United States,Active
+38.880003625,-77.0803130149999,567,Army Active,Fort Myer,Joint Base Myer - Henderson Hall,Virginia,United States,Active
+40.020414712,-77.7020543949999,568,Army Active,Letterkenny Army Depot,N/A,Pennsylvania,United States,Active
+33.653241872,-85.9693339789999,569,Army Active,Anniston Army Depot,N/A,Alabama,United States,Active
+36.596494353,-87.599046874,570,Army Active,Fort Campbell TN,N/A,Tennessee,United States,Active
+38.8760767740001,-77.0686242089999,571,Army Active,Arlington National Cemetery,N/A,Virginia,United States,Active
+34.333198091,-92.088861149,572,Army Active,Pine Bluff Arsenal,N/A,Arkansas,United States,Active
+35.9554225730001,-121.253698437,573,Army Reserve,Fort Hunter Liggett,N/A,California,United States,Active
+37.497589342,-103.918064485,574,Army Active,Pinon Canyon,N/A,Colorado,United States,Active
+38.08933732,-92.605022688,575,Army Active,Lake Of The Ozarks Recreation,N/A,Missouri,United States,Active
+31.3348755540001,-92.540549201,576,Army Active,England Authority,N/A,Louisiana,United States,Active
+31.230999383,-85.6506347179999,578,Army Active,Allen Stagefield AL,N/A,Alabama,United States,Active
+31.3863190920001,-85.9722716489999,579,Army Active,Brown 4b Stagefield AL,N/A,Alabama,United States,Active
+31.2787032740001,-85.714883293,580,Army Active,Cairns Basefield AL,N/A,Alabama,United States,Active
+31.4151605010001,-85.4634025079999,581,Army Active,Goldberg Stagefield AL,N/A,Alabama,United States,Active
+31.1507181650001,-85.736589528,582,Army Active,Highbluff Stagefield AL,N/A,Alabama,United States,Active
+31.380159088,-85.580111019,583,Army Active,Hunt Stagefield AL,N/A,Alabama,United States,Active
+31.815733182,-85.649798496,584,Army Active,Louisville Stagefield AL,N/A,Alabama,United States,Active
+31.3403853790001,-86.091887871,585,Army Active,Runkle Stagefield AL,N/A,Alabama,United States,Active
+31.3626015040001,-85.84898133,586,Army Active,Shell Basefield AL,N/A,Alabama,United States,Active
+31.28402142,-86.12854194,587,Army Active,Skelly Stagefield AL,N/A,Alabama,United States,Active
+31.359582043,-86.013945969,588,Army Active,Stinson 5AB Stagefield AL,N/A,Alabama,United States,Active
+31.121911099,-85.97908417,589,Army Active,Tac X Stagefield AL,N/A,Alabama,United States,Active
+31.2285844720001,-85.558709471,590,Army Active,Toth Stagefield AL,N/A,Alabama,United States,Active
+47.216252067,-119.310549758,591,Army Active,Grant Training Annex,Joint Base Lewis - McChord,Washington,United States,Active
+38.8671698260001,-77.016494005,592,Army Active,Fort Lesley J McNair,Joint Base Myer - Henderson Hall,District of Columbia,United States,Active
+34.0059278570001,-77.9804434179999,593,Army Active,Military Ocean Tml Sunny Point,N/A,North Carolina,United States,Active
+38.043136421,-122.019082169,594,Army Active,Military Ocean Terminal Concord,N/A,California,United States,Active
+36.605142383,-121.910750729,595,Army Active,Presidio of Monterey,N/A,California,United States,Active
+38.3171489210001,-104.33242089,596,Army Active,Pueblo Chemical Depot,N/A,Colorado,United States,Active
+40.2090294720001,-120.129103152,597,Army Active,Sierra Army Depot,N/A,California,United States,Active
+21.655472592,-157.991699974,598,Army Active,Kahuku Tng Area,N/A,Hawaii,United States,Active
+21.530228359,-158.206472387,599,Army Active,Makua Mil Reserve,N/A,Hawaii,United States,Active
+21.3619897680001,-157.88968784,600,Army Active,Tripler Army Medical Center,N/A,Hawaii,United States,Active
+21.36140828,-157.911890082,601,Army Active,Aliamanu Military Reservation,N/A,Hawaii,United States,Active
+21.576231664,-158.198775803,602,Army Active,Dillingham Mil Res,N/A,Hawaii,United States,Active
+21.2818165030001,-157.833889161,603,Army Active,Fort De Russy,N/A,Hawaii,United States,Active
+21.348029189,-157.881630566,604,Army Active,Fort Shafter,N/A,Hawaii,United States,Active
+21.5359637870001,-158.019432628,605,Army Active,Helemano Military Reservation,N/A,Hawaii,United States,Active
+21.4768147460001,-158.052424245,606,Army Active,USA Field Station Kunia,N/A,Hawaii,United States,Active
+21.447399723,-158.191363084,607,Army Active,Waianae Kai Military Reservation,N/A,Hawaii,United States,Active
+20.0304591510001,-155.828897552,608,Army Active,Kawaihae Mil Reserve,N/A,Hawaii,United States,Active
+19.4339227630001,-155.274146853,609,Army Active,Kilauea Mil Reserve,N/A,Hawaii,United States,Active
+41.492587342,-74.09433575,610,Army Active,Stewart Annex,N/A,New York,United States,Active
+33.169235744,-114.353450856,611,Army Active,Yuma Proving Ground,N/A,Arizona,United States,Active
+41.361481091,-74.024764531,612,Army Active,West Point Military Reservation,N/A,New York,United States,Active
+41.4243550210001,-88.142644893,613,Army Reserve,Joliet USARC/JTA,N/A,Illinois,United States,Active
+43.1228043310001,-87.97728201,614,Army Reserve,W Silver Spring Complex,N/A,Wisconsin,United States,Active
+38.4218190490001,-77.0922516529999,615,Army Active,Blossom Point Research Facility,N/A,Maryland,United States,Active
+39.0315065890001,-76.963785499,616,Army Active,US Army Adelphi Laboratory Center,N/A,Maryland,United States,Active
+40.2081935420001,-76.83928424,618,Army Active,Defense Distrib Depot Susq,N/A,Pennsylvania,United States,Active
+32.28387123,-84.9548431109999,619,Army Active,Fort Benning AL,N/A,Alabama,United States,Active
+35.030073503,-79.481605208,620,Army Active,Camp Mackall,N/A,North Carolina,United States,Active
+38.1554946640001,-78.413694635,621,Army Active,Rivanna Station,N/A,Virginia,United States,Active
+42.497328511,-83.0413341239999,622,Army Active,Detroit Arsenal,N/A,Michigan,United States,Active
+39.441178402,-77.4249811449999,623,Army Active,Fort Detrick,N/A,Maryland,United States,Active
+39.0060470810001,-77.055030183,624,Army Active,Fort Detrick Forest Glen Annex,N/A,Maryland,United States,Active
+39.033556758,-77.04126259,625,Army Active,Fort Detrick Glen Haven Annex,N/A,Maryland,United States,Active
+42.4959619190001,-71.658141286,626,Army Reserve,Devens Reserve Forces Tng Area,N/A,Massachusetts,United States,Active
+63.9667780880001,-145.715113744,627,Army Active,Fort Greely,N/A,Alaska,United States,Active
+38.5718756420001,-118.768568831,628,Army Active,Hawthorne Army Depot,N/A,Nevada,United States,Active
+40.6996401970001,-84.132889403,629,Army Active,Us Army Joint Sys Mfg CtrLima,N/A,Ohio,United States,Active
+39.0968504850001,-94.250154476,630,Army Active,Lake City AAP,N/A,Missouri,United States,Active
+35.8737699820001,-88.706330764,631,Army Active,Milan AAP,N/A,Tennessee,United States,Active
+41.4041794390001,-75.6659088019999,632,Army Active,Scranton AAP,N/A,Pennsylvania,United States,Active
+37.181515135,-80.539145632,633,Army Active,Radford AAP,N/A,Virginia,United States,Active
+60.133314354,-149.433125482,634,Army Active,Seward Recreation Area,N/A,Alaska,United States,Active
+40.3094849290001,-74.0452944739999,635,Army Active,Fort Monmouth Main Post,N/A,New Jersey,United States,Inactive
+37.0056581530001,-76.30480656,636,Army Active,Fort Monroe,N/A,Virginia,United States,Inactive
+40.204556176,-77.1628944299999,638,Army Active,Carlisle Barracks,N/A,Pennsylvania,United States,Active
+42.66096595,-82.812874487,639,Army Active,US Army Garrison Selfridge,N/A,Michigan,United States,Active
+39.8586218290001,-86.025865852,641,Army Active,Fort Benjamin Harrison,N/A,Indiana,United States,Inactive
+38.452267261,-85.606005937,642,Army Active,Indiana Army Ammunition Plant,N/A,Indiana,United States,Inactive
+38.9504546050001,-85.4175501729999,643,Army Active,Jefferson Proving Ground,N/A,Indiana,United States,Inactive
+41.3624892440001,-88.064203332,644,Army Active,Joliet AAP Elwood,N/A,Illinois,United States,Inactive
+30.411099628,-86.498903422,645,Army Active,Destin Moreno Point,N/A,Florida,United States,Active
+42.217124772,-90.333725595,647,Army Active,Savanna Depot Act,N/A,Illinois,United States,Inactive
+43.3566695750001,-89.723386862,648,Army Active,Badger AAP,N/A,Wisconsin,United States,Inactive
+45.0356715390001,-93.224479043,649,Army Active,Twin Cities AAP,N/A,Minnesota,United States,Inactive
+32.6826940810001,-94.1428968769999,650,Army Active,Longhorn AAP,N/A,Texas,United States,Inactive
+33.396422654,-94.270490227,651,Army Active,Lone Star AAP (BRAC 2005),N/A,Texas,United States,Inactive
+39.8421277750001,-104.839869689,652,Army Active,Rocky Mountain Arsenal,N/A,Colorado,United States,Inactive
+40.9356063880001,-98.5181715859999,653,Army Active,Cornhusker AAP,N/A,Nebraska,United States,Inactive
+40.2968248500001,-112.342992649,654,Army Active,Tooele Army Depot South,N/A,Utah,United States,Active
+35.460954427,-108.598021017,656,Army Active,Fort Wingate Depot Activity,N/A,New Mexico,United States,Inactive
+21.4514028030001,-157.99712017,657,Army Active,Kipapa Ammo Storage Site,N/A,Hawaii,United States,Inactive
+34.711504329,-84.1732963749999,658,Army Active,Camp Frank D Merrill,N/A,Georgia,United States,Active
+19.969242863,-155.719658833,659,Army Active,Pupukea Paalaa Uka Mil Road,N/A,Hawaii,United States,Active
+37.716556831,-120.919421986,660,Army Active,Riverbank AAP,N/A,California,United States,Inactive
+41.024323199,-113.216942448,662,AF Active,UTTR - North,N/A,Utah,United States,Active
+41.128456951,-111.991702494,663,AF Active,Hill AFB,N/A,Utah,United States,Active
+38.8918400420001,-123.546579136,664,AF Active,Point Arena Air Force Station,N/A,California,United States,Inactive
+38.664486518,-121.394469926,665,AF Active,McClellan AFB,N/A,California,United States,Inactive
+48.4153380930001,-101.322759878,667,AF Active,Minot AFB,N/A,North Dakota,United States,Active
+38.8051681100001,-76.874469298,668,AF Active,JB Andrews,Joint Base Andrews,Maryland,United States,Active
+38.02602482,-122.168015969,669,AF Active,Ozol Defense Fuel Support Point,N/A,California,United States,Active
+32.8993828540001,-80.0504654549999,670,AF Active,Charleston AFB,Joint Base Charleston,South Carolina,United States,Active
+32.8751294040001,-79.969549563,671,AF Active,Joint Base Charleston North Yard,Joint Base Charleston,South Carolina,United States,Active
+32.9127968930001,-79.983267572,672,AF Active,Charleston Defense Fuel Support Point,Joint Base Charleston,South Carolina,United States,Active
+32.9519703450001,-79.9644095099999,673,AF Active,Joint Base Charleston Naval Weapons Station,Joint Base Charleston,South Carolina,United States,Active
+33.2564469710001,-79.98856047,674,AF Active,Joint Base Charleston Short Stay,Joint Base Charleston,South Carolina,United States,Active
+33.6025364860001,-81.078538995,675,AF Active,North Air Force Auxiliary Field,Joint Base Charleston,South Carolina,United States,Active
+44.815559007,-68.824617323,676,AF Guard,Bangor IAP,N/A,Maine,United States,Active
+41.1619722720001,-104.821155259,677,AF Guard,Cheyenne Regional Airport,N/A,Wyoming,United States,Active
+32.1232505890001,-81.190696284,678,AF Guard,Savannah/Hilton Head IAP,N/A,Georgia,United States,Active
+32.5624031520001,-117.112009859,679,Navy Active,Imperial Beach NOLF,N/A,California,United States,Active
+32.5969675490001,-117.128170944,680,Navy Active,Silver Strand South,N/A,California,United States,Active
+22.0626375210001,-159.794099033,681,Navy Active,CNIC PMRF Barking Sands HI,N/A,Hawaii,United States,Active
+22.039026069,-159.754233043,682,Navy Active,Kamokala Ridge,N/A,Hawaii,United States,Active
+22.130346611,-159.725349008,683,Navy Active,Makaha Ridge,N/A,Hawaii,United States,Active
+33.773053249,-118.301027333,684,Navy Active,San Pedro Fuel Depot,N/A,California,United States,Active
+21.377815958,-157.93952356,685,Navy Active,Aiea,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+21.3388777430001,-157.995139279,686,Navy Active,Ewa,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+21.363579943,-157.960293901,687,Navy Active,Ford Island,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+21.339062804,-157.946259708,688,Navy Active,JBPHH Pearl Harbor HI,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+21.3462993360001,-157.922047733,689,Navy Active,Honolulu,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+21.311316069,-158.065388026,690,Navy Active,CSO Barbers Point HI,N/A,Hawaii,United States,Inactive
+21.3813432540001,-157.974037315,691,Navy Active,Pearl City,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+21.520438644,-158.005639332,692,Navy Active,Wahiawa,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+21.365534875,-157.990648259,693,Navy Active,Waipahu,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+36.319179648,-119.93398605,694,Navy Active,NAS Lemoore CA,N/A,California,United States,Active
+32.825393682,-115.668153219,695,Navy Active,NAF El Centro,N/A,California,United States,Active
+32.838556947,-115.25817799,696,Navy Active,Holtville Carrier LS,N/A,California,United States,Active
+35.187540234,-111.741594846,697,Navy Active,NAVOBSSTA Flagstaff AZ,N/A,Arizona,United States,Active
+32.948956681,-115.750656601,698,Navy Active,Target 101 Shade Tree,N/A,California,United States,Active
+27.7013359210001,-97.4363492639999,699,Navy Active,ALF Cabaniss,N/A,Texas,United States,Active
+27.6343081530001,-97.3138397659999,700,Navy Active,ALF Waldron,N/A,Texas,United States,Active
+28.611180731,-97.612154946,701,Navy Active,NALF Goliad,N/A,Texas,United States,Active
+39.4222883900001,-118.70454166,702,Navy Active,NAS Fallon NV,N/A,Nevada,United States,Active
+39.339433012,-118.880780117,704,Navy Active,Target B-16,N/A,Nevada,United States,Active
+39.2058446770001,-118.232177679,705,Navy Active,Target B-17,N/A,Nevada,United States,Active
+39.884289391,-118.362806519,706,Navy Active,Target B-20,N/A,Nevada,United States,Active
+30.356231762,-81.871113125,707,Navy Active,OLF Whitehouse,N/A,Florida,United States,Active
+18.0962544,-65.512251581,709,Navy Active,Vieques West PR,N/A,Puerto Rico,Puerto Rico,Active
+29.8313631950001,-90.02086679,710,Navy Active,NAS JRB New Orleans LA,N/A,Louisiana,United States,Active
+24.5749669840001,-81.6903986899999,711,Navy Active,NAS Key West FL,N/A,Florida,United States,Active
+24.5769270430001,-81.776111462,712,Navy Active,Dredgers Key-Sigsbee,N/A,Florida,United States,Active
+24.568891208,-81.750807395,713,Navy Active,Naval Hospital,N/A,Florida,United States,Active
+24.5465408050001,-81.8046496009999,714,Navy Active,Truman Annex,N/A,Florida,United States,Active
+24.5646879610001,-81.791216729,715,Navy Active,Trumbo Point Annex,N/A,Florida,United States,Active
+36.243764679,-119.883529044,716,Navy Active,Sewage Evaporation Pond,N/A,California,United States,Active
+30.7135784490001,-87.0197382279999,717,Navy Active,NAS Whiting Field Milton FL,N/A,Florida,United States,Active
+30.391078312,-87.6313191789999,718,Navy Active,Barin Field,N/A,Alabama,United States,Active
+31.048524802,-87.064514629,719,Navy Active,NOLF Brewton,N/A,Alabama,United States,Active
+31.4156644400001,-87.043939359,720,Navy Active,NOLF Evergreen,N/A,Alabama,United States,Active
+30.425012284,-86.892858576,721,Navy Active,NOLF Holley,N/A,Florida,United States,Active
+30.609300175,-86.938811094,722,Navy Active,NOLF Santa Rosa,N/A,Florida,United States,Active
+30.561955465,-87.8093377759999,723,Navy Active,NOLF Silverhill,N/A,Alabama,United States,Active
+30.625316637,-87.139827523,724,Navy Active,NOLF Spencer,N/A,Florida,United States,Active
+30.5080389780001,-87.647194632,725,Navy Active,NOLF Summerdale,N/A,Alabama,United States,Active
+30.3446850230001,-87.540770089,726,Navy Active,NOLF Wolf,N/A,Alabama,United States,Active
+28.584167758,-81.1967624389999,728,Navy Active,Naval Support Activity Orlando,N/A,Florida,United States,Active
+28.428263981,-80.588426762,729,Navy Active,NOTU Cape Canaveral,N/A,Florida,United States,Active
+38.84884485,-76.936692153,731,Navy Active,NMIC Suitland,N/A,Maryland,United States,Active
+32.700019045,-117.207088938,732,Navy Active,NAVBASE Coronado,N/A,California,United States,Active
+32.661937553,-117.153624117,733,Navy Active,Amphib Base Coronado East,N/A,California,United States,Active
+32.6713189660001,-117.167654101,734,Navy Active,Amphib Base Coronado West,N/A,California,United States,Active
+32.6737007770001,-116.443716929,735,Navy Active,Camp Michael Monsoor,N/A,California,United States,Active
+32.7116634720001,-116.518554891,736,Navy Active,Camp Morena,N/A,California,United States,Active
+32.9001520090001,-118.485233843,737,Navy Active,San Clemente IS NALF,N/A,California,United States,Active
+33.3401617980001,-116.68138499,738,Navy Active,Warner Springs Rts,N/A,California,United States,Active
+13.473014243,144.764869419,739,Navy Active,Agana,Joint Region Marianas,Guam,Guam,Active
+13.310683682,144.736799463,740,Navy Active,Dandan,Joint Region Marianas,Guam,Guam,Active
+13.549983293,144.830853077,741,Navy Active,Finegayan South,Joint Region Marianas,Guam,Guam,Active
+13.5219204860001,144.81563688,742,Navy Active,Harmon,Joint Region Marianas,Guam,Guam,Active
+13.4890012870001,144.86534429,743,Navy Active,Marbo,Joint Region Marianas,Guam,Guam,Active
+13.473947776,144.740245884,744,Navy Active,Naval Hospital,Joint Region Marianas,Guam,Guam,Active
+13.5415720980001,144.808519807,745,Navy Active,Tanguisson Point,Joint Region Marianas,Guam,Guam,Active
+32.6962020720001,-117.245822433,746,Navy Active,NAVBASE Point Loma,N/A,California,United States,Active
+32.7246963040001,-117.218431918,747,Navy Active,Harbor Drive,N/A,California,United States,Active
+32.7486743430001,-117.197008871,748,Navy Active,Old Town Site 1,N/A,California,United States,Active
+32.667777486,-117.240517356,749,Navy Active,SPAWARS South,N/A,California,United States,Active
+32.675702648,-117.123008843,750,Navy Active,NAVBASE San Diego CA,N/A,California,United States,Active
+32.726271352,-117.145036199,751,Navy Active,Balboa Hospital,N/A,California,United States,Active
+32.7136561360001,-117.172024897,752,Navy Active,Broadway Complex,N/A,California,United States,Active
+32.6848793360001,-117.119468049,753,Navy Active,Dryside,N/A,California,United States,Active
+32.7976409120001,-117.09864853,754,Navy Active,Mission Gorge Rec Area,N/A,California,United States,Active
+32.6720920870001,-117.113270451,755,Navy Active,National City,N/A,California,United States,Active
+34.1123267880001,-119.110013772,756,Navy Active,NAVBASE Ventura Cty Point Mugu CA,N/A,California,United States,Active
+34.162904487,-119.208411479,758,Navy Active,Port Hueneme,N/A,California,United States,Active
+33.2479609440001,-119.506113048,759,Navy Active,San Nicolas Island,N/A,California,United States,Active
+33.994957184,-119.633496837,760,Navy Active,Santa Cruz Island,N/A,California,United States,Active
+32.3890480090001,-80.681975435,761,Navy Active,NAVSUPPFAC Beaufort SC,N/A,South Carolina,United States,Active
+38.9820668670001,-76.483855847,762,Navy Active,NAVSUPPACT Annapolis,N/A,Maryland,United States,Active
+38.658473067,-76.532016233,763,Navy Active,Chesapeake Bay Detach,N/A,Maryland,United States,Active
+39.0567083220001,-76.676276447,764,Navy Active,Gambrills,N/A,Maryland,United States,Active
+38.989851695,-76.4624264299999,765,Navy Active,NAVACAD North Severn,N/A,Maryland,United States,Active
+38.9886655980001,-76.494348449,766,Navy Active,Upper Yard Annapolis,N/A,Maryland,United States,Active
+36.59734315,-121.873405389,767,Navy Active,NAVSUPPACT Monterey CA,N/A,California,United States,Active
+40.6783887020001,-112.07330428,769,Navy Active,NAVPMOSSP Magna Utah,N/A,Utah,United States,Active
+37.4129145640001,-122.028398714,770,Navy Active,NAVPMOSSP Mtn View,N/A,California,United States,Active
+36.591654125,-121.860796344,771,Navy Active,Navy Annex,N/A,California,United States,Active
+33.750465992,-118.064188826,772,Navy Active,NAVWPNSTA Seal Beach,N/A,California,United States,Active
+33.742022214,-118.233407436,773,Navy Active,Long Beach Fuel Complex,N/A,California,United States,Active
+33.923767668,-117.569462918,774,Navy Active,Norco,N/A,California,United States,Active
+35.934724497,-117.643941113,775,Navy Active,NAWS China Lake,N/A,California,United States,Active
+13.5991888520001,144.895032191,776,Navy Active,NSA Andersen,Joint Region Marianas,Guam,Guam,Active
+13.5867244470001,144.862277501,777,Navy Active,Potts Tank Farm,Joint Region Marianas,Guam,Guam,Active
+13.53586268,144.914804434,779,Navy Active,Santa Rosa Parcel B,Joint Region Marianas,Guam,Guam,Active
+13.517951387,144.811096236,780,Navy Active,Tumon Tank Farm,Joint Region Marianas,Guam,Guam,Active
+13.5097297890001,144.809944738,781,Navy Active,Tumon,Joint Region Marianas,Guam,Guam,Active
+38.5844840560001,-77.183388078,783,Navy Active,NSF Indian Head,N/A,Maryland,United States,Active
+38.301987298,-77.042194882,784,Navy Active,Pumpkin Neck,N/A,Virginia,United States,Active
+38.549113731,-77.213168273,785,Navy Active,Stump Neck Area,N/A,Maryland,United States,Active
+47.9486816240001,-97.086053238,789,AF Active,Grand Forks Defense Fuel Support Point,N/A,North Dakota,United States,Active
+18.509432713,-67.099128809,790,AF Active,Ramey AF Solar Observatory Research Site,N/A,Puerto Rico,Puerto Rico,Active
+34.5852155950001,-117.373249538,791,AF Active,George AFB,N/A,California,United States,Inactive
+43.126923548,-75.591244979,792,AF Active,Verona Defense Fuel Support Point,N/A,New York,United States,Active
+43.221496142,-75.4097019979999,794,AF Active,Rome Laboratory,N/A,New York,United States,Active
+29.342771864,-98.439699214,795,AF Active,Brooks AFB,N/A,Texas,United States,Active
+26.9827430400001,-80.108028423,797,AF Active,Jonathan Dickinson Tracking Annex,N/A,Florida,United States,Active
+26.0537207100001,-80.1137214199999,798,Navy Active,Dania Beach (Lauderdale),N/A,Florida,United States,Active
+13.583614406,144.844294742,800,Navy Active,Finegayan,Joint Region Marianas,Guam,Guam,Active
+38.374453272,-119.542277539,801,MC Active,Bridgeport,N/A,California,United States,Active
+62.408356859,-145.155004797,802,AF Active,Haarp Research Station,Joint Base Elmendorf - Richardson,Alaska,United States,Active
+42.1603503470001,-121.744189958,804,AF Guard,Kingsley Field Cantonement Site 1,N/A,Oregon,United States,Active
+40.5273946250001,-112.411154962,806,Army Active,Tooele Army Depot,N/A,Utah,United States,Active
+45.8421337770001,-119.497384022,807,Army Active,Umatilla Chemical Depot,Joint Base Lewis - McChord,Oregon,United States,Active
+36.780715672,-119.701946171,808,Navy Active,CSO NAS Alameda,N/A,California,United States,Inactive
+29.834334842,-90.019896519,810,AF Guard,NAS JRB NOLA,N/A,Louisiana,United States,Active
+41.18,-73.13,814,Army Active,Stratford Army Engine Plant,N/A,Connecticut,United States,Inactive
+42.289301901,-71.3622831599999,816,Army Active,US Army Soldier Systems Center Natick,N/A,Massachusetts,United States,Active
+19.6886184690001,-155.613950907,818,Army Active,Pohakuloa Training Area,N/A,Hawaii,United States,Active
+33.6184802130001,-84.342221368,819,Army Active,Fort Gillem,N/A,Georgia,United States,Inactive
+40.499606715,-113.60878869,820,AF Active,Utah Test and Training Range South UT,N/A,Utah,United States,Active
+34.6236,-118.0832,821,AF Active,Air Force Plant 42,N/A,California,United States,Active
+37.72778,-122.36389,822,Navy Active,CSO Hunters Point Annex,N/A,California,United States,Inactive
+32.1152,-110.895700001,823,AF Active,Air Force Plant 44,N/A,Arizona,United States,Active
+32.7792,-97.5244,824,AF Active,Air Force Plant 4,N/A,Texas,United States,Active
+33.9326,-84.5343,825,AF Active,Air Force Plant 6,N/A,Georgia,United States,Active
+40.0062999990001,-74.517,826,AF Active,USAF Expeditionary Center,Joint Base McGuire - Dix - Lakehurst,New Jersey,United States,Active
+40.293560218,-88.145839178,829,AF Active,Chanute AFB,N/A,Illinois,United States,Inactive
+46.9344208680001,-67.9129745669999,833,AF Active,DFAS Annex,N/A,Maine,United States,Active
+42.14806,-70.94417,834,Navy Active,CSO NAS South Weymouth,N/A,Massachusetts,United States,Inactive
+18.25,-65.7590999989999,835,Navy Active,Pico Del Este - AFWTF,N/A,Puerto Rico,Puerto Rico,Inactive
+18.25,-65.633329999,836,Navy Active,Pineros Island,N/A,Puerto Rico,Puerto Rico,Inactive
+43.8890748540001,-69.931875103,837,Navy Active,NAS Brunswick ME,N/A,Maine,United States,Inactive
+40.2007242880001,-75.146860897,838,Navy Active,NAS JRB Willow Grove PA,N/A,Pennsylvania,United States,Inactive
+38.3398631810001,-77.032535783,839,Navy Active,NSA South Potomac,N/A,Virginia,United States,Active
+18.43167,-66.19,841,Navy Active,NSGA Sabana Seca PR,N/A,Puerto Rico,Puerto Rico,Inactive
+24.575337119,-81.797196264,842,Navy Active,Fleming Key Magazine,N/A,Florida,United States,Active
+18.0125303630001,-66.503556003,843,Navy Active,Fort Allen Puerto Rico,N/A,Puerto Rico,Puerto Rico,Active
+30.506403305,-86.956708667,844,Navy Active,NOLF Choctaw,N/A,Florida,United States,Active
+32.768876431,-97.4337384409999,845,Navy Active,NAS Fort Worth JRB TX,N/A,Texas,United States,Active
+21.3193910300001,-158.070421968,846,Navy Active,Kalaeloa,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+21.4048566230001,-158.01591245,847,Navy Active,Waikele,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+21.437900975,-158.006267267,848,Navy Active,Hickam Petrol Strg Ann,Joint Base Pearl Harbor - Hickam,Hawaii,United States,Active
+37.992466736,-121.984265221,849,Navy Active,Det Concord (BRAC),N/A,California,United States,Inactive
+33.7776415870001,-118.30241702,850,Navy Active,CSO NSY Long Beach Ca,N/A,California,United States,Inactive
+37.823213093,-122.365550032,851,Navy Active,CSO NS Treasure Island,N/A,California,United States,Inactive
+38.09861,-122.27,852,Navy Active,CSO NSY Mare Island,N/A,California,United States,Inactive
+33.8927160060001,-118.0674109,853,Navy Active,Norwalk Fuel Complex,N/A,California,United States,Active
+33.7433450300001,-118.223198368,854,Navy Active,Site 3 NS Long Beach,N/A,California,United States,Inactive
+13.4825000010001,144.79472,855,Navy Active,Tiyan,Joint Region Marianas,Guam,Guam,Active
+18.2517000010001,-65.5913,856,Navy Active,Cabeza De Perro,N/A,Puerto Rico,Puerto Rico,Inactive
+42.4786923350001,-71.290451471,857,Navy Active,NWIRP Bedford MA,N/A,Massachusetts,United States,Inactive
+35.5202015990001,-117.119164633,858,Navy Active,Randsburg Wash Area,N/A,California,United States,Active
+13.41833,144.67111,859,Navy Active,Talofofo,Joint Region Marianas,Guam,Guam,Active
+18.093088186,-65.5509608209999,860,Navy Active,Mount Pirata,N/A,Puerto Rico,Puerto Rico,Active
+29.95,-90.03333,861,Navy Active,West Bank,N/A,Louisiana,United States,Active
+38.82940984,-77.11735764,862,WHS,Mark Center,N/A,Virginia,United States,Active
