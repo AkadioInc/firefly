@@ -1,4 +1,7 @@
 ##!/usr/bin/env python3
+from pathlib import Path
+from urllib.request import urlopen
+from hashlib import sha256
 import numpy as np
 import h5pyd as h5py
 import pandas as pd
@@ -383,3 +386,43 @@ class FlightSegment:
         data.set_index('time', inplace=True)
         data = data.loc[self.start_time:self.end_time]
         data.to_csv(outfile, mode='w', header=True, index=True)
+
+    def download_ch10(self, outfile, verify=False):
+        """Download flight Chapter 10 file.
+
+        Parameters
+        ----------
+        outfile : str
+            File path name for the downloaded Chapter 10 file. If it's an
+            existing folder, the downloaded file will have the same name as the
+            original Chapter 10 file in that folder.
+        verify : {True, False}, optional
+            Verify downloaded file against its SHA-256 checksum. Default is
+            ``False``.
+        """
+        ch10_file = self._domain.attrs['ch10_file']
+        of = Path(outfile)
+        if of.is_dir():
+            of = of.joinpath(ch10_file)
+
+        endpoint = \
+            f'https://firefly-chap10.s3-us-west-2.amazonaws.com/{ch10_file}'
+        with urlopen(endpoint) as ch10, of.open('wb') as f:
+            while True:
+                chunk = ch10.read(10_000_000)
+                if not chunk:
+                    break
+                else:
+                    f.write(chunk)
+
+        if verify:
+            cksum = self._domain.attrs['ch10_file_checksum']
+            if not cksum.startswith('SHA-256:'):
+                raise ValueError(f'Ch10 file checksum is not SHA-256: {cksum}')
+
+            new_cksum = sha256()
+            with of.open('rb') as f:
+                for chunk in iter(lambda: f.read(10_000_000), b''):
+                    new_cksum.update(chunk)
+            if cksum[8:] != new_cksum.hexdigest():
+                raise IOError(f'{str(of)}: Different SHA-256 checksum ')
