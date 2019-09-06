@@ -310,9 +310,9 @@ class FlightSegment:
         if loc != '/derived/aircraft_ins':
             raise ValueError(f'{loc}: No data')
         qv = self._flight.hvplot(
-            y=['speed', 'altitude', 'roll', 'g-force', 'pitch'],
+            y=['speed', 'altitude', 'roll', 'g-force', 'pitch', 'heading'],
             width=500, height=300, subplots=True, shared_axes=False,
-            padding=0.01).cols(2)
+            padding=0.02).cols(2)
         display(qv)
 
     def flight_map(self, center=None, basemap=None, zoom=8):
@@ -387,7 +387,7 @@ class FlightSegment:
         data = data.loc[self.start_time:self.end_time]
         data.to_csv(outfile, mode='w', header=True, index=True)
 
-    def download_ch10(self, outfile, verify=False):
+    def download_ch10(self, outfile, verify=True):
         """Download flight Chapter 10 file.
 
         Parameters
@@ -398,7 +398,7 @@ class FlightSegment:
             original Chapter 10 file in that folder.
         verify : {True, False}, optional
             Verify downloaded file against its SHA-256 checksum. Default is
-            ``False``.
+            ``True``.
         """
         ch10_file = self._domain.attrs['ch10_file']
         of = Path(outfile)
@@ -425,4 +425,5 @@ class FlightSegment:
                 for chunk in iter(lambda: f.read(10_000_000), b''):
                     new_cksum.update(chunk)
             if cksum[8:] != new_cksum.hexdigest():
-                raise IOError(f'{str(of)}: Different SHA-256 checksum ')
+                raise IOError(
+                    f'{str(of)}: Different SHA-256 checksum than {cksum[8:]}')
