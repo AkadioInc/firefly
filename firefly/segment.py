@@ -3,7 +3,8 @@ from pathlib import Path
 from urllib.request import urlopen
 from hashlib import sha256
 import numpy as np
-import h5pyd as h5py
+import h5pyd
+import h5py
 import pandas as pd
 from ipyleaflet import (Map, Polyline, basemaps, basemap_to_tiles,
                         FullScreenControl, LayersControl)
@@ -101,7 +102,7 @@ class FlightSegment:
         """
         if mode not in ('a', 'r'):
             raise ValueError('mode can only be "a" or "r"')
-        self._domain = h5py.File(domain, mode, **kwargs)
+        self._domain = h5pyd.File(domain, mode, **kwargs)
         self._other = kwargs
         data = pd.DataFrame(self._domain['/derived/aircraft_ins'][...])
         self._flight = data.astype({'time': 'datetime64[ns]'})
@@ -137,8 +138,8 @@ class FlightSegment:
         """
         data = self._flight.query(cond, inplace=False)
         new_seg = self.__new__(type(self))
-        new_seg._domain = h5py.File(self._domain.filename, self._domain.mode,
-                                    **self._other)
+        new_seg._domain = h5pyd.File(self._domain.filename, self._domain.mode,
+                                     **self._other)
         new_seg._other = self._other
         new_seg._flight = data
         new_seg._bbox = None
@@ -252,7 +253,7 @@ class FlightSegment:
 
         def dset_info(name, obj):
             """A callable for collecting information about HDF5 datasets."""
-            if not isinstance(obj, h5py.Dataset):
+            if not isinstance(obj, h5pyd.Dataset):
                 return
             if obj.dtype.fields is None:
                 d = {'shape': obj.shape,
@@ -364,6 +365,17 @@ class FlightSegment:
 
     def to_csv(self, outfile, loc, **kwargs):
         """Export specified data to CSV.
+
+        Parameters
+        ----------
+        outfile :  str
+            Output CSV file path.
+        loc : str or int
+            Location of the flight segment data object to export. If a ``str``,
+            it is treated as an HDF5 path name. If an ``int``, it is assumed to
+            be an IRIG106 packet type identifier.
+        kwargs : dict
+            Optional arguments depending on the IRIG106 packet type.
         """
         if isinstance(loc, str):
             # HDF5 path name...
@@ -386,6 +398,50 @@ class FlightSegment:
         data.set_index('time', inplace=True)
         data = data.loc[self.start_time:self.end_time]
         data.to_csv(outfile, mode='w', header=True, index=True)
+
+    def to_hdf5(self, outfile, loc, **kwargs):
+        """Export specified flight segment data to HDF5.
+
+        Parameters
+        ----------
+        outfile :  str
+            Output HDF5 file path.
+        loc : str or int
+            Location of the flight segment data object to export. If a ``str``,
+            it is treated as an HDF5 path name. If an ``int``, it is assumed to
+            be an IRIG106 packet type identifier.
+        kwargs : dict
+            Optional arguments depending on the IRIG106 packet type.
+        """
+        if isinstance(loc, str):
+            # HDF5 path name...
+            if loc != '/derived/aircraft_ins':
+                raise ValueError(f'{loc}: No data')
+            data = self._domain[loc][...]
+        elif isinstance(loc, int):
+            # IRIG106 packet type...
+            ch11_path = self.chapter11_location(loc, **kwargs)
+            if ch11_path not in self._domain:
+                raise ValueError(f'{ch11_path}: No data')
+            grp = self._domain[ch11_path]
+            if 'data' not in grp:
+                raise ValueError(f'{ch11_path + "/data"}: No data')
+            data = grp['data'][...]
+        else:
+            raise TypeError(f'{loc}: Unsupported flight data specifier')
+
+        with h5py.File(outfile, mode='w') as h5f:
+            for n in ('aircraft_type', 'aircraft_id', 'ch10_file',
+                      'ch10_file_checksum', 'takeoff_location',
+                      'landing_location'):
+                h5f.attrs[n] = self._domain.attrs[n]
+            h5f.attrs['source'] = self.uri
+            h5f.attrs['time_coverage_start'] = self.start_time.isoformat() + 'Z'
+            h5f.attrs['time_coverage_end'] = self.end_time.isoformat() + 'Z'
+            h5f.create_dataset(loc, data=data)
+            now = str(np.datetime64('now', 's')) + 'Z'
+            h5f.attrs['date_created'] = now
+            h5f.attrs['date_modified'] = now
 
     def download_ch10(self, outfile, verify=True):
         """Download flight Chapter 10 file.
