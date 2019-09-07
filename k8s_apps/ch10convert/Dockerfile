@@ -10,7 +10,12 @@ ENV HS_PASSWORD=SupplyCorrectValue
 
 RUN pip install awscli
 
-COPY convert_files.py /app
-COPY entrypoint.sh  /
+COPY k8s_apps/ch10convert/convert_files.py /app
+COPY  k8s_apps/ch10convert/entrypoint.sh  /
+COPY firefly /app/firefly
+COPY setup.py /app/firefly
+COPY scripts /app/scripts
+COPY scripts /app/firefly/scripts
+COPY setup.py /app
 
 ENTRYPOINT ["/entrypoint.sh"]

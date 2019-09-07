@@ -13,17 +13,7 @@ output_folder = "/FIREfly/h5/"
  
 def convert_file(ch10_filename):
     print("convert_file:", ch10_filename)
-    if not ch10_filename.endswith(".ch10"):
-        print(f"unexpected filename (no ch10 extension): {ch10_filename}")
-        return False
-
-    # download ch10 file from s3
-    s3_uri = f"s3://{CH10_BUCKET}/{ch10_filename}"
-    rc = subprocess.run(["aws", "s3", "cp", s3_uri, ".", "--quiet"])
-    if rc.returncode > 0:
-        print(f"unable to copy {s3_uri}")
-        return False
-
+    
     # extract aircraft type and tail number from filename
     base_name = ch10_filename[:-5]
     parts = base_name.split("-")
@@ -101,10 +91,23 @@ while not done:
         row = table[index]
         ch10_filename = row[0].decode("utf-8")
 
+        if not ch10_filename.endswith(".ch10"):
+            print(f"unexpected filename (no ch10 extension): {ch10_filename}")
+            continue
+
+        # download ch10 file from s3
+        s3_uri = f"s3://{CH10_BUCKET}/{ch10_filename}"
+        rc = subprocess.run(["aws", "s3", "cp", s3_uri, ".", "--quiet"])
+        if rc.returncode > 0:
+            print(f"unable to copy {s3_uri}")
+            continue
+
         if convert_file(ch10_filename):
             print(f"marking conversion of {ch10_filename} complete")
             row[2] = int(time.time())
             table[index] = row
+
+        os.remove(ch10_filename) # remove the ch10 file from container
     
     else:
         # no available rows
