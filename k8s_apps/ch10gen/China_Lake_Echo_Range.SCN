@@ -1,0 +1,58 @@
+China Lake Echo Range Mission
+A10A-Echo-China_Lake                            OUTPUT NAME
+A-10A                                          AIRCRAFT DATA FILENAME (20)
+0                                              TERRAIN (0=NONE,1=W/TERRAIN)
+0354033 'N'                                    LAT @ ORIGIN (deg min sec 'head')
+1174229 'W'                                    LON @ ORIGIN (deg min sec 'head')
+1 1 0 0 1 0 0 1 0 1 0 0 0 1 0 1 1              OUTPUT UNITS
+1.                                             OUTPUT TIME INCREMENT
+3                                              DISPLAY OPTION(1=132,2=RNSC,3=80)
+2                                              COORD SYS:  X/Y, LAT/LON, UTM N/E
+0354033 'N' 1174229 'W' 0. 040. 4 0 5000.      Lat,Lon,Z,HDG,ICMVEM,VEL,Wf.
+ 2 0 2 0 1 0 1 1 0 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0                                             NUMBER OF THREATS
+
+TAKEOFF SEQUENCE - Runway 03
+5000 2284 100
+
+DESTINATION SEQUENCE - China Lake Skytop
+0354203 'N' 1172957 'W' 5000 0 0 4 350.0
+999.0 999.0 999.0 999.0 999.0 0.0 0
+
+DESTINATION SEQUENCE - China Lake Straw Peak
+0353715 'N' 1171132 'W' 5000 0 0 4 350.0
+999.0 999.0 999.0 999.0 999.0 0.0 1
+
+DESTINATION SEQUENCE - Echo Range Air Field Start
+0353452 'N' 1170240 'W' 3000 0 0 4 200.0
+999.0 999.0 999.0 999.0 999.0 0.0 1
+
+LOITER SEQUENCE - Echo Range End Run (Radar)
+255 15 3000 5 4 240
+999.0 999.0 999.0 999.0 999.0 0.0
+
+DESTINATION SEQUENCE - Echo Range Air Field Start
+0353452 'N' 1170240 'W' 3000 0 0 4 200.0
+999.0 999.0 999.0 999.0 999.0 0.0 1
+
+LOITER SEQUENCE - Echo Range End Run (Radar)
+240 15 2800 5 4 240
+999.0 999.0 999.0 999.0 999.0 0.0
+
+DESTINATION SEQUENCE - Echo Range Air Field Start
+0353452 'N' 1170240 'W' 3000 0 0 4 200.0
+999.0 999.0 999.0 999.0 999.0 0.0 1
+
+LOITER SEQUENCE - Echo Range End Run (Radar)
+225 15 2600 5 4 240
+999.0 999.0 999.0 999.0 999.0 0.0
+
+DESTINATION SEQUENCE - China Lake Approach 32
+0353319 'N' 1173846 'W' 2500 0 0 4 200.0
+999.0 999.0 999.0 999.0 999.0 0.0 1
+
+LANDING SEQUENCE - China Lake Landing 32
+0354047 'N' 1174055 'W' 334 100
+999.0 999.0 999.0 1
+
+END

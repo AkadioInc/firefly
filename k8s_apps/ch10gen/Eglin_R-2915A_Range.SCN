@@ -1,0 +1,68 @@
+Eglin AFB R-2915A Range Mission
+A10A-R2915A-EglinAFB                           OUTPUT NAME
+A-10A                                          AIRCRAFT DATA FILENAME (20)
+0                                              TERRAIN (0=NONE,1=W/TERRAIN)
+0302900 'N'                                    LAT @ ORIGIN (deg min sec 'head')
+0863134 'W'                                    LON @ ORIGIN (deg min sec 'head')
+1 1 0 0 1 0 0 1 0 1 0 0 0 1 0 1 1              OUTPUT UNITS
+1.                                             OUTPUT TIME INCREMENT
+3                                              DISPLAY OPTION(1=132,2=RNSC,3=80)
+2                                              COORD SYS:  X/Y, LAT/LON, UTM N/E
+0302957 'N' 0863041 'W' 0. 195. 4 0 5000.      Lat,Lon,Z,HDG,ICMVEM,VEL,Wf. EglinAFB Runway 9
+ 2 0 2 0 1 0 1 1 0 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0                                             NUMBER OF THREATS
+
+TAKEOFF SEQUENCE - Runway 19
+3000 10 100
+
+DESTINATION SEQUENCE - TYLUR
+0302328 'N'  0863217 'W' 3000 0 0 4 250.0
+999.0 999.0 999.0 999.0 999.0 0.0 0
+
+DESTINATION SEQUENCE - GLIDR
+0302253 'N' 0862006 'W' 3000 0 0 4 250.0
+999.0 999.0 999.0 999.0 999.0 0.0 0
+
+DESTINATION SEQUENCE - Field 2
+0303503 'N' 0862655 'W' 3000 0 0 4 250.0
+999.0 999.0 999.0 999.0 999.0 0.0 0
+
+
+
+DESTINATION SEQUENCE - Duke Field Begin Run 1
+0303957 'N' 0863122 'W' 2000 0 0 4 250.0
+999.0 999.0 999.0 999.0 999.0 0.0 0
+
+DESTINATION SEQUENCE - End Run 1
+0302950 'N' 0864913 'W' 500 0 -1 4 350.0
+999.0 999.0 999.0 0.0 0.0 0.0 1
+
+DESTINATION SEQUENCE - Duke Field Begin Run 2
+0303927 'N' 0863122 'W' 2000 0 1 4 250.0
+999.0 999.0 999.0 999.0 999.0 0.0 0
+
+DESTINATION SEQUENCE - End Run 2
+0302920 'N' 0864913 'W' 500 0 -1 4 350.0
+999.0 999.0 999.0 0.0 0.0 0.0 1
+
+DESTINATION SEQUENCE - Duke Field Begin Run 3
+0303857 'N' 0863122 'W' 2000 0 1 4 250.0
+999.0 999.0 999.0 999.0 999.0 0.0 0
+
+DESTINATION SEQUENCE - End Run 3
+0302850 'N' 0864913 'W' 500 0 -1 4 350.0
+999.0 999.0 999.0 0.0 0.0 0.0 1
+
+
+
+DESTINATION SEQUENCE - SIMNS
+0302750 'N' 0864850 'W' 1500 0 0 4 250.0
+999.0 999.0 999.0 999.0 999.0 0.0 0
+
+LANDING SEQUENCE - Eglin AFB Landing Runway 12
+0302957 'N' 0863041 'W' 195. 100
+999.0 999.0 999.0 2
+
+END
+
+
