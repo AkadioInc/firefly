@@ -14,7 +14,7 @@ spec:
       value: http://100.65.5.116
     - name: HS_PASSWORD
       valueFrom:
-        scretKeyRef:
+        secretKeyRef:
           name: hsds-firefly-admin-pswd
           key: hs_password
     - name: AWS_ACCESS_KEY_ID

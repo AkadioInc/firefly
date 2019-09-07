@@ -8,6 +8,8 @@ ENV HS_ENDPOINT=http://100.65.5.116
 ENV HS_USERNAME=firefly_admin
 ENV HS_PASSWORD=SupplyCorrectValue
 
+RUN pip install awscli
+
 COPY convert_files.py /app
 COPY entrypoint.sh  /
 
