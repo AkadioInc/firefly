@@ -6,28 +6,27 @@ metadata:
   name: ch10watchdog
 spec:
   containers:
-    - name: ch10watchdog
-      image:  431396205827.dkr.ecr.us-west-2.amazonaws.com/ch10watchdog:v0.1
-      imagePullPolicy: Always
-      env:
-      - name: AWS_S3_GATEWAY
-        value: http://s3.us-west-2.amazonaws.com
-      - name: AWS_ACCESS_KEY_ID
-        valueFrom:
-          secretKeyRef:
-            name: aws-auth-keys
-            key: aws_access_key_id
-      - name: AWS_SECRET_ACCESS_KEY
-        valueFrom:
-          secretKeyRef:
-            name: aws-auth-keys
-            key: aws_secret_access_key
-      - name: AWS_REGION
-        value: us-west-2
-      - name: HS_ENDPOINT
-        value: http://100.65.5.116 
-      - name: HS_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: hsds-firefly-admin-pswd
-            key: hs_password
+  - name: ch10watchdog
+    image: 431396205827.dkr.ecr.us-west-2.amazonaws.com/ch10watchdog:v0.1
+    env:
+    - name: AWS_S3_GATEWAY
+      value: http://s3.us-west-2.amazonaws.com
+    - name: AWS_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: aws-auth-keys
+          key: aws_access_key_id
+    - name: AWS_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: aws-auth-keys
+          key: aws_secret_access_key
+    - name: AWS_REGION
+      value: us-west-2
+    - name: HS_ENDPOINT
+      value: http://100.65.5.116 
+    - name: HS_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: hsds-firefly-admin-pswd
+          key: hs_password
