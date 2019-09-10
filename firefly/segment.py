@@ -381,7 +381,7 @@ class FlightSegment:
             # HDF5 path name...
             if loc != '/derived/aircraft_ins':
                 raise ValueError(f'{loc}: No data')
-            data = pd.DataFrame(self._domain[loc][...])
+            data = self._flight
         elif isinstance(loc, int):
             # IRIG106 packet type...
             ch11_path = self.chapter11_location(loc, **kwargs)
@@ -391,12 +391,12 @@ class FlightSegment:
             if 'data' not in grp:
                 raise ValueError(f'{ch11_path + "/data"}: No data')
             data = pd.DataFrame(grp['data'][...])
+            data = data.astype({'time': 'datetime64[ns]'})
+            data.set_index('time', inplace=True)
+            data = data.loc[self.start_time:self.end_time]
         else:
             raise TypeError(f'{loc}: Unsupported flight data specifier')
 
-        data = data.astype({'time': 'datetime64[ns]'})
-        data.set_index('time', inplace=True)
-        data = data.loc[self.start_time:self.end_time]
         data.to_csv(outfile, mode='w', header=True, index=True)
 
     def to_hdf5(self, outfile, loc, **kwargs):
@@ -417,7 +417,7 @@ class FlightSegment:
             # HDF5 path name...
             if loc != '/derived/aircraft_ins':
                 raise ValueError(f'{loc}: No data')
-            data = self._domain[loc][...]
+            data = self._flight
         elif isinstance(loc, int):
             # IRIG106 packet type...
             ch11_path = self.chapter11_location(loc, **kwargs)
@@ -426,7 +426,10 @@ class FlightSegment:
             grp = self._domain[ch11_path]
             if 'data' not in grp:
                 raise ValueError(f'{ch11_path + "/data"}: No data')
-            data = grp['data'][...]
+            data = pd.DataFrame(grp['data'][...])
+            data = data.astype({'time': 'datetime64[ns]'})
+            data.set_index('time', inplace=True)
+            data = data.loc[self.start_time:self.end_time]
         else:
             raise TypeError(f'{loc}: Unsupported flight data specifier')
 
@@ -438,7 +441,8 @@ class FlightSegment:
             h5f.attrs['source'] = self.uri
             h5f.attrs['time_coverage_start'] = self.start_time.isoformat() + 'Z'
             h5f.attrs['time_coverage_end'] = self.end_time.isoformat() + 'Z'
-            h5f.create_dataset(loc, data=data)
+            h5f.create_dataset(loc, data=data.to_records(index=True,
+                                                         index_dtypes='int64'))
             now = str(np.datetime64('now', 's')) + 'Z'
             h5f.attrs['date_created'] = now
             h5f.attrs['date_modified'] = now
