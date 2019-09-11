@@ -104,20 +104,20 @@ def append_dset(h5dset, pos_cursor, arr, buffer=None):
     """Add given NumPy array data (``arr``) to specified HDF5 dataset at the
     next position.
     """
-    MAX_BUFFER_SIZE= 10
+    MAX_BUFFER_SIZE = 10
     next_pos = h5dset.shape[0] - pos_cursor
     dset_name = h5dset.name
     lggr.debug(f'Insert data to {dset_name} at position {next_pos}')
     if buffer is not None:
         if dset_name not in buffer:
             lggr.debug(f"allocating buffer for {dset_name}")
-            buffer[dset_name] = np.zeros((MAX_BUFFER_SIZE,),dtype=h5dset.dtype)
+            buffer[dset_name] = np.zeros((MAX_BUFFER_SIZE,), dtype=h5dset.dtype)
         des = buffer[dset_name]
         des[next_pos % MAX_BUFFER_SIZE] = arr
         if (next_pos + 1) % MAX_BUFFER_SIZE == 0:
             lggr.debug(f"writing buffer to dset {dset_name}")
-            h5dset[(next_pos-MAX_BUFFER_SIZE):next_pos] = des
-        
+            h5dset[(next_pos - MAX_BUFFER_SIZE):next_pos] = des
+
     else:
         # just write to the file
         h5dset[next_pos] = arr
@@ -341,47 +341,6 @@ for packet in ch10.packet_headers():
             lggr.debug(f'Add packet data in {data_grp.name} HDF5 group')
             cursor = pckt_summary[grp1553]['count']
             data = data_grp['data']
-<<<<<<< HEAD
-            if msg_err == 0:
-                word_cnt = ch10_1553.word_cnt(msg.pCmdWord1.contents.Value)
-                arr = np.array([msg.pData.contents[i] for i in range(word_cnt)],
-                               dtype=data.dtype)
-            else:
-                arr = np.array([], dtype=data.dtype)
-            append_dset(data, cursor, arr)
-
-            append_dset(data_grp['msg_error'], cursor, msg_err)
-
-            timestamp = data_grp['timestamp']
-            tstamp = np.array(
-                str(ch10_time.RelInt2IrigTime(
-                    msg.p1553Hdr.contents.Field.PktTime)),
-                dtype=timestamp.dtype)
-            append_dset(timestamp, cursor, tstamp)
-
-            append_dset(data_grp['ttb'], cursor, msg.pChanSpec.contents.TTB, buffer=buffer)
-
-            append_dset(data_grp['word_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.WordError, buffer=buffer)
-
-            append_dset(data_grp['sync_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.SyncError, buffer=buffer)
-
-            append_dset(data_grp['word_count_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.WordCntError, buffer=buffer)
-
-            append_dset(data_grp['rsp_tout'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.RespTimeout, buffer=buffer)
-
-            append_dset(data_grp['format_error'], cursor,
-                        msg.p1553Hdr.contents.Field.BlockStatus.FormatError, buffer=buffer)
-
-            append_dset(
-                data_grp['bus_id'], cursor,
-                (b'A', b'B')[msg.p1553Hdr.contents.Field.BlockStatus.BusID], buffer=buffer)
-
-            append_dset(data_grp['packet_version'], cursor, packet.DataType, buffer=buffer)
-=======
 
             msg_err = msg.p1553Hdr.contents.Field.BlockStatus.MsgError
             word_cnt = ch10_1553.word_cnt(msg.pCmdWord1.contents.Value)
@@ -407,7 +366,6 @@ for packet in ch10.packet_headers():
                                   format_error, bus_id, packet_version,
                                   messages),
                                  dtype=data.dtype))
->>>>>>> master
 
             pckt_summary[grp1553]['count'] -= 1
 
