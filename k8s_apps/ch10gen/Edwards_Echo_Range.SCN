@@ -1,0 +1,55 @@
+Edwards AFB Echo Range Mission
+A10A-Echo-EdwardsAFB                           OUTPUT NAME
+A-10A                                          AIRCRAFT DATA FILENAME (20)
+0                                              TERRAIN (0=NONE,1=W/TERRAIN)
+0345441 'N'                                    LAT @ ORIGIN (deg min sec 'head')
+1175320 'W'                                    LON @ ORIGIN (deg min sec 'head')
+1 1 0 0 1 0 0 1 0 1 0 0 0 1 0 1 1              OUTPUT UNITS
+1.                                             OUTPUT TIME INCREMENT
+3                                              DISPLAY OPTION(1=132,2=RNSC,3=80)
+2                                              COORD SYS:  X/Y, LAT/LON, UTM N/E
+0345431 'N' 1175301 'W' 0. 046. 4 0 5000.   Lat,Lon,Z,HDG,ICMVEM,VEL,Wf. EAFB RW 04L
+ 2 0 2 0 1 0 1 1 0 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0                                             NUMBER OF THREATS
+
+TAKEOFF SEQUENCE - Runway 04L
+5000 10 100
+
+DESTINATION SEQUENCE - Mars
+0352533 'N' 1165325 'W' 5000 0 0 4 350.0
+999.0 999.0 999.0 999.0 999.0 0.0 0
+
+DESTINATION SEQUENCE - Echo Range Air Field Start
+0353452 'N' 1170240 'W' 3000 0 0 4 200.0
+999.0 999.0 999.0 999.0 999.0 0.0 1
+
+LOITER SEQUENCE - Echo Range End Run (Radar)
+255 15 3000 5 4 240
+999.0 999.0 999.0 999.0 999.0 0.0
+
+DESTINATION SEQUENCE - Echo Range Air Field Start
+0353452 'N' 1170240 'W' 3000 0 0 4 200.0
+999.0 999.0 999.0 999.0 999.0 0.0 1
+
+LOITER SEQUENCE - Echo Range End Run (Radar)
+240 15 2800 5 4 240
+999.0 999.0 999.0 999.0 999.0 0.0
+
+DESTINATION SEQUENCE - Echo Range Air Field Start
+0353452 'N' 1170240 'W' 3000 0 0 4 200.0
+999.0 999.0 999.0 999.0 999.0 0.0 1
+
+LOITER SEQUENCE - Echo Range End Run (Radar)
+225 15 2600 5 4 240
+999.0 999.0 999.0 999.0 999.0 0.0
+
+DESTINATION SEQUENCE - Edwards VOR
+0345903 'N' 1174347 'W' 3000 0 0 4 200.0
+999.0 999.0 999.0 999.0 999.0 0.0 1
+
+LANDING SEQUENCE - Edwards AFB Landing 04L
+0345431 'N' 1175301 'W' 046 100
+999.0 999.0 999.0 2
+
+END
+

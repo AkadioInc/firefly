@@ -13,7 +13,8 @@ RUN apk add --no-cache --allow-untrusted \
         hdf5 \
         hdf5-dev \
  && pip --no-cache-dir install -U pip \
- && pip --no-cache-dir -v install h5py
+ && pip --no-cache-dir -v install h5py \
+ && pip install git+https://git@github.com/HDFGroup/h5pyd 
 ENV PYTHONPATH=/irig106lib/python
 RUN mkdir /app
 VOLUME ["/app", "/data", "/irig106lib"]
