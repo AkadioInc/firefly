@@ -4,6 +4,7 @@ from urllib.request import urlopen
 from hashlib import sha256
 import numpy as np
 import h5pyd
+from h5pyd._apps.utillib import load_file
 import h5py
 import pandas as pd
 from ipyleaflet import (Map, Polyline, basemaps, basemap_to_tiles,
@@ -118,32 +119,10 @@ class FlightSegment:
     def __repr__(self):
         if self._domain.id:
             return (
-                f'<FIREfly {self.__class__.__name__} "{self._domain.filename}" '
-                f'(mode "{self._domain.mode}")>')
+                f'<{self.__class__.__name__} "{self._domain.filename}" '
+                f'(mode "{self._domain.mode}") at 0x{id(self):x}>')
         else:
             return '<Closed FIREfly HDF5 file>'
-
-    def filter(self, cond):
-        """Filter flight segment data into a new segment.
-
-        Parameters
-        ----------
-        cond : str
-            Condition (expression) for filtering flight segment data.
-
-        Returns
-        -------
-        firefly.FlightSegment
-            New flight segment with the data that matched filtering condition.
-        """
-        data = self._flight.query(cond, inplace=False)
-        new_seg = self.__new__(type(self))
-        new_seg._domain = h5pyd.File(self._domain.filename, self._domain.mode,
-                                     **self._other)
-        new_seg._other = self._other
-        new_seg._flight = data
-        new_seg._bbox = None
-        return new_seg
 
     def close(self):
         """Close FIREfly file."""
@@ -153,6 +132,21 @@ class FlightSegment:
     def uri(self):
         """Flight segment's Kita URI."""
         return self._domain.id.http_conn.endpoint + self._domain.filename
+
+    @property
+    def aircraft_type(self):
+        """Type of the aircraft."""
+        return self._domain.attrs['aircraft_type']
+
+    @property
+    def aircraft_id(self):
+        """Aircraft tail number."""
+        return self._domain.attrs['aircraft_id']
+
+    @property
+    def ch10_file(self):
+        """Flight's Chapter 10 file."""
+        return self._domain.attrs['ch10_file']
 
     @property
     def start_time(self):
@@ -183,19 +177,20 @@ class FlightSegment:
         Returns
         -------
         numpy.rec.array
-            A scalar with four fields: ``max_lat``, ``min_lat``, ``max_lon``,
-            ``min_lon``.
+            A scalar with four fields: ``north_lat``, ``south_lat``,
+            ``east_lon``, ``west_lon``.
         """
         if self._bbox is None:
-            max_lat = self._flight['latitude'].max()
-            min_lat = self._flight['latitude'].min()
-            max_lon = self._flight['longitude'].max()
-            min_lon = self._flight['longitude'].min()
-            self._bbox = np.rec.array((max_lat, min_lat, max_lon, min_lon),
-                                      dtype=[('max_lat', max_lat.dtype),
-                                             ('min_lat', min_lat.dtype),
-                                             ('max_lon', max_lon.dtype),
-                                             ('min_lon', min_lon.dtype)])
+            north_lat = self._flight['latitude'].max()
+            south_lat = self._flight['latitude'].min()
+            east_lon = self._flight['longitude'].max()
+            west_lon = self._flight['longitude'].min()
+            self._bbox = np.rec.array(
+                (north_lat, south_lat, east_lon, west_lon),
+                dtype=[('north_lat', north_lat.dtype),
+                       ('south_lat', south_lat.dtype),
+                       ('east_lon', east_lon.dtype),
+                       ('west_lon', west_lon.dtype)])
         return self._bbox
 
     @property
@@ -312,7 +307,7 @@ class FlightSegment:
             raise ValueError(f'{loc}: No data')
         qv = self._flight.hvplot(
             y=['speed', 'altitude', 'roll', 'g-force', 'pitch', 'heading'],
-            width=500, height=300, subplots=True, shared_axes=False,
+            width=450, height=300, subplots=True, shared_axes=False,
             padding=0.02).cols(2)
         display(qv)
 
@@ -487,3 +482,41 @@ class FlightSegment:
             if cksum[8:] != new_cksum.hexdigest():
                 raise IOError(
                     f'{str(of)}: Different SHA-256 checksum than {cksum[8:]}')
+
+    def download_hdf5(self, outfile):
+        """Download FIREfly HDF5 file.
+
+        Parameters
+        ----------
+        outfile : str
+            File path name for the downloaded FIREfly HDF5 file. If it's an
+            existing folder, the downloaded file will have the same name as the
+            original file in that folder.
+        """
+        of = Path(outfile)
+        if of.is_dir():
+            of = of.joinpath(Path(self._domain.filename).name)
+        with h5py.File(str(of), 'w') as h5f:
+            load_file(self._domain, h5f)
+
+    def filter(self, cond):
+        """Filter flight segment data into a new segment.
+
+        Parameters
+        ----------
+        cond : str
+            Condition (expression) for filtering flight segment data.
+
+        Returns
+        -------
+        firefly.FlightSegment
+            New flight segment with the data that matched filtering condition.
+        """
+        data = self._flight.query(cond, inplace=False)
+        new_seg = self.__new__(type(self))
+        new_seg._domain = h5pyd.File(self._domain.filename, self._domain.mode,
+                                     **self._other)
+        new_seg._other = self._other
+        new_seg._flight = data
+        new_seg._bbox = None
+        return new_seg

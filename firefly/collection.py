@@ -192,7 +192,7 @@ class FlightCollection:
 
     def __repr__(self):
         if self._loc:
-            return (f'<FIREfly {self.__class__.__name__} "{self._loc.domain}" '
+            return (f'<{self.__class__.__name__} "{self._loc.domain}" '
                     f'({len(self._domains)} flights) at 0x{id(self):x}>')
         else:
             return f'<Closed FIREfly {self.__class__.__name__}>'
