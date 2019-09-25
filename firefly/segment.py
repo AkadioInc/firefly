@@ -10,7 +10,7 @@ import pandas as pd
 from ipyleaflet import (Map, Polyline, basemaps, basemap_to_tiles,
                         FullScreenControl, LayersControl)
 import hvplot.pandas  # noqa
-import Py106.Packet as Packet
+from .irig106 import PacketType
 try:
     from IPython.display import display
     display_map = True
@@ -33,7 +33,7 @@ class FlightSegment:
             Packet type-specific named arguments.
         """
         top_group = '/chapter11_data'
-        if packet_type == Packet.DataType.MIL1553_FMT_1:
+        if packet_type == PacketType.MIL1553_FMT_1:
             channel = kwargs.get('ch')
             from_rt = kwargs.get('from_rt')
             from_sa = kwargs.get('from_sa')
@@ -49,7 +49,7 @@ class FlightSegment:
             if to_sa and not to_rt:
                 raise ValueError('"to_sa" given without "to_rt"')
 
-            h5path = top_group + '/' + Packet.DataType.TypeName(packet_type)
+            h5path = top_group + '/' + PacketType.TypeName(packet_type)
             if channel:
                 h5path += f'/Ch_{int(channel)}'
             else:
@@ -77,15 +77,15 @@ class FlightSegment:
             else:
                 # Return with just channel in the path...
                 return h5path
-        elif packet_type == Packet.DataType.VIDEO_FMT_0:
-            h5path = top_group + '/' + Packet.DataType.TypeName(packet_type)
+        elif packet_type == PacketType.VIDEO_FMT_0:
+            h5path = top_group + '/' + PacketType.TypeName(packet_type)
             channel = kwargs.get('ch')
             if channel:
                 return h5path + f'/Ch_{int(channel)}'
             else:
                 return h5path
-        elif packet_type == Packet.DataType.TMATS:
-            return top_group + '/' + Packet.DataType.TypeName(packet_type)
+        elif packet_type == PacketType.TMATS:
+            return top_group + '/' + PacketType.TypeName(packet_type)
         else:
             raise ValueError(f'{packet_type}: Unsupported Ch10 packet type')
 
