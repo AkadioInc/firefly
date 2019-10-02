@@ -3,14 +3,8 @@
 The following are some sample curl requests that illustrate how to use the HSDS Rest API to list domains meeting certain conditions.
 
 * List all domains in the FIREfly HDF folder
-
   * cli: `hsls /FIREfly/h5/ --bucket firefly-hsds`
-
   * rest: `curl -G "http://hsdshdflab.hdfgroup.org/domains" --data-urlencode "domain=/FIREfly/h5/" --data-urlencode "bucket=firefly-hsds"  `
-
-  * ```
-    $ curl "http://hsdshdflab.hdfgroup.org/domains?domain=/FIREfly/h5/&bucket=firefly-hsds"
-    ```
 
 * List first 10 domains in FIREfly HDF folder
   * cli: `hsls /FIREfly/h5/ --bucket firefly-hsds | head`
