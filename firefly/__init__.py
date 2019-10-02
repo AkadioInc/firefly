@@ -1,2 +1,2 @@
 from .segment import FlightSegment
-from .collection import FlightCollection
+from .collection import FFlyRepo, FlightCollection

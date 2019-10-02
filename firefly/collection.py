@@ -2,6 +2,47 @@ import h5pyd
 from .segment import FlightSegment
 
 
+class FFlyRepo:
+    """A repostiory of FIREfly and Ch10 flight files"""
+
+    def __init__(self, loc, **kwargs):
+        """
+        Parameters
+        ----------
+        loc : str
+            A Kita server URI where FIREfly flight data are hosted.
+
+        Other parameters
+        ----------------
+        mode : {'r', 'r+', 'w', 'w-', 'x', 'a'}
+            Access mode to ``loc``. Default is ``'r'``.
+        kwargs : dict
+            Any remaining named arguments with Kita server access information.
+        """
+        self._loc = loc
+        self._mode = kwargs.pop('mode', 'r')
+        self._bucket = kwargs.pop('bucket', None)
+        self._kwargs = kwargs
+
+    def __repr__(self):
+        if self._loc:
+            return (f'<{type(self).__name__} "{self._loc}" at 0x{id(self):x}>')
+        else:
+            raise ValueError(f'{type(self).__name__} not defined')
+
+    def filter(self, **kwargs):
+        """Filter FIREfly files based on a condition
+
+        Other parameters
+        ----------------
+        kwargs: dict
+            See the FlightCollection class documentation for supported filtering
+            parameters.
+        """
+        return FlightCollection(self._loc, mode=self._mode, bucket=self._bucket,
+                                **{**kwargs, **self._kwargs})
+
+
 class FlightCollection:
     """FlightCollection of FIREfly flight domains based on filter criteria."""
 
@@ -15,8 +56,6 @@ class FlightCollection:
 
         Other parameters
         ----------------
-        mode : {'r', 'r+', 'w', 'w-', 'x', 'a'}
-            Access mode to ``loc``. Default is ``'r'``.
         pattern : str
             A regex for filtering FIREfly flight file names.
         query : str
@@ -206,6 +245,9 @@ class FlightCollection:
     def __len__(self):
         return len(self._domains)
 
+    def __getitem__(self, key):
+        return list(self.flights)[key]
+
     def close(self):
         """Close FIREfly FlightCollection."""
         self._loc.close()
@@ -224,8 +266,8 @@ class FlightCollection:
     def data_filter(self):
         return self._data_filter
 
-    def filter(self, cond=None):
-        """Filter selected FIREfly flight data.
+    def apply(self, cond=None):
+        """Apply filtering condition on FIREfly flights in the collection.
 
         Parameters
         ----------
