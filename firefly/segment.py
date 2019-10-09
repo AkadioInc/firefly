@@ -171,6 +171,17 @@ class FlightSegment:
         return self._flight.index.max()
 
     @property
+    def duration(self):
+        """Duration of flight segment data.
+
+        Returns
+        -------
+        pandas.Timedelta
+            The duration of the flight segment's data.
+        """
+        return self.end_time - self.start_time
+
+    @property
     def bbox(self):
         """Flight segment's geospatial bounding box.
 
