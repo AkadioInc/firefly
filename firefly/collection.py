@@ -283,5 +283,6 @@ class FlightCollection:
         """
         cond = cond or self._data_filter
         for s in self.flights:
-            seg = FlightSegment(s, mode='r', **self._kwargs)
-            yield seg.filter(cond)
+            flight = FlightSegment(s, mode='r', **self._kwargs)
+            for seg in flight.filter(cond):
+                yield seg
