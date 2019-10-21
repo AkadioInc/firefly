@@ -171,6 +171,17 @@ class FlightSegment:
         return self._flight.index.max()
 
     @property
+    def duration(self):
+        """Duration of flight segment data.
+
+        Returns
+        -------
+        pandas.Timedelta
+            The duration of the flight segment's data.
+        """
+        return self.end_time - self.start_time
+
+    @property
     def bbox(self):
         """Flight segment's geospatial bounding box.
 
@@ -512,11 +523,40 @@ class FlightSegment:
         firefly.FlightSegment
             New flight segment with the data that matched filtering condition.
         """
+        # Filter the data...
         data = self._flight.query(cond, inplace=False)
-        new_seg = self.__new__(type(self))
-        new_seg._domain = h5pyd.File(self._domain.filename, self._domain.mode,
-                                     **self._other)
-        new_seg._other = self._other
-        new_seg._flight = data
-        new_seg._bbox = None
-        return new_seg
+
+        # Separate filtered data into continuous segments...
+        row_idx = np.where(np.in1d(self._flight.index, data.index))[0]
+        seg_start = np.nonzero(np.diff(row_idx, prepend=row_idx[0]) > 1)[0]
+        if seg_start.size == 0:
+            new_seg = self.__new__(type(self))
+            new_seg._domain = h5pyd.File(self._domain.filename,
+                                         self._domain.mode,
+                                         **self._other)
+            new_seg._other = self._other
+            new_seg._flight = data
+            new_seg._bbox = None
+            return list(new_seg)
+        else:
+            from_idx = 0
+            segments = list()
+            for start in seg_start.tolist():
+                new_seg = self.__new__(type(self))
+                new_seg._domain = h5pyd.File(self._domain.filename,
+                                             self._domain.mode,
+                                             **self._other)
+                new_seg._other = self._other
+                new_seg._flight = data.iloc[from_idx:start]
+                new_seg._bbox = None
+                segments.append(new_seg)
+                from_idx = start
+            new_seg = self.__new__(type(self))
+            new_seg._domain = h5pyd.File(self._domain.filename,
+                                         self._domain.mode,
+                                         **self._other)
+            new_seg._other = self._other
+            new_seg._flight = data.iloc[from_idx:]
+            new_seg._bbox = None
+            segments.append(new_seg)
+            return segments
