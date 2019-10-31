@@ -106,27 +106,27 @@ class FlightCollection:
         self._query = kwargs.pop('query', None)
         self._mode = kwargs.pop('mode', 'r')
 
-        dom_query = ''
+        domain_query = ''
         data_query = ''
         for arg_name in ('aircraft', 'tail'):
             dom_expr = self._make_expr_str(arg_name, kwargs.pop(arg_name, None))
-            dom_query = ' AND '.join(filter(bool, [dom_query, dom_expr]))
+            domain_query = ' AND '.join(filter(bool, [domain_query, dom_expr]))
 
         for arg_name in ('altitude', 'latitude', 'longitude', 'speed'):
             dom_expr, data_expr = self._make_expr_float(arg_name,
                                                         kwargs.pop(arg_name,
                                                                    None))
-            dom_query = ' AND '.join(filter(bool, [dom_query, dom_expr]))
+            domain_query = ' AND '.join(filter(bool, [domain_query, dom_expr]))
             data_query = ' and '.join(filter(bool, [data_query, data_expr]))
 
         for arg_name in ('time',):
             dom_expr, data_expr = self._make_expr_time(arg_name,
                                                        kwargs.pop(arg_name,
                                                                   None))
-            dom_query = ' AND '.join(filter(bool, [dom_query, dom_expr]))
+            domain_query = ' AND '.join(filter(bool, [domain_query, dom_expr]))
             data_query = ' and '.join(filter(bool, [data_query, data_expr]))
 
-        self._flight_filter = dom_query
+        self._flight_filter = domain_query
         self._data_filter = data_query
         self._loc = h5pyd.Folder(loc, mode=self._mode, pattern=self._pattern,
                                  query=self._flight_filter,
@@ -246,7 +246,7 @@ class FlightCollection:
         return len(self._domains)
 
     def __getitem__(self, key):
-        return list(self.flights)[key]
+        return self._domains[key]
 
     def close(self):
         """Close FIREfly FlightCollection."""
