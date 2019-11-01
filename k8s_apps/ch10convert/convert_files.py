@@ -34,7 +34,7 @@ def convert_file(ch10_filename):
     hdf5_filename = base_name + ".h5"
     print(f"converting to hdf5 file: {hdf5_filename} with aircraft_type: {aircraft_type} and aircraft_id: {aircraft_id}")
     convert_args = ["python", "/usr/local/bin/ch10-to-h5.py", "--outfile", hdf5_filename, "--aircraft-type", aircraft_type, "--aircraft-id", aircraft_id, ch10_filename ]
-    # remove if more verbose logging is dessired
+    # remove if more verbose logging is desired
     convert_args.append("--loglevel")
     convert_args.append("warning")
     rc = subprocess.run(convert_args)
