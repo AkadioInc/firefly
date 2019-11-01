@@ -78,8 +78,7 @@ table = f["inventory"]
 
 condition = f"start == 0"  # query for files that haven't been proccessed
 
-done = False
-while not done:
+while True:
     now = int(time.time())
     update_val = {"start": now}
     # query for row with 0 start value and update it to now
@@ -111,7 +110,6 @@ while not done:
 
     else:
         # no available rows
-        print("done!")
-
-time.sleep(60)   # sleep for a bit to avoid endless restarts
+        print("sleeping")
+        time.sleep(60)   # sleep for a bit to avoid endless restarts
 print('exit')
