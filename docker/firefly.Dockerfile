@@ -1,4 +1,4 @@
-FROM python:3.7-alpine3.9
+FROM python:3.7-alpine3.10
 LABEL MAINTAINER="Aleksandar Jelenak, Akadio Inc"
 
 ARG IRIG106_REPO=https://github.com/ajelenak/irig106lib
@@ -6,8 +6,6 @@ ARG IRIG106_BRANCH=FIREfly
 
 ENV AWS_ACCESS_KEY_ID=SupplyCorrectValue
 ENV AWS_SECRET_ACCESS_KEY=SupplyCorrectValue
-
-COPY firefly-master.zip /tmp/firefly.zip
 
 RUN apk add --no-cache --virtual .build-deps \
         coreutils \
@@ -18,12 +16,12 @@ RUN apk add --no-cache --virtual .build-deps \
         curl \
         git \
         unzip \
+        jpeg-dev \
  && apk add --no-cache --allow-untrusted \
             --repository http://dl-3.alpinelinux.org/alpine/edge/testing \
         hdf5 \
         hdf5-dev \
         zeromq-dev \
-        libjpeg-turbo-dev \
 # Download and build IRIG106LIB...
  && cd /tmp \
  && curl -L -o irig106lib.zip ${IRIG106_REPO}/archive/${IRIG106_BRANCH}.zip \
@@ -41,12 +39,7 @@ RUN apk add --no-cache --virtual .build-deps \
  && pip --no-cache-dir -v install h5py awscli \
  && pip --no-cache-dir install git+https://github.com/HDFGroup/h5pyd.git \
  # Install the firefly repository...
- && cd /tmp \
- && unzip firefly.zip \
- && cd firefly-master \
- && python setup.py install  \
- && cd .. \
- && rm -rf * \
+ && pip --no-cache-dir install git+https://github.com/AkadioInc/firefly.git \
  # Uninstall build-related packages...
  && apk del .build-deps \
  # Delete any temporary files...
