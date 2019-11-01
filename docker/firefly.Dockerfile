@@ -23,6 +23,7 @@ RUN apk add --no-cache --virtual .build-deps \
         hdf5 \
         hdf5-dev \
         zeromq-dev \
+        libjpeg-turbo-dev \
 # Download and build IRIG106LIB...
  && cd /tmp \
  && curl -L -o irig106lib.zip ${IRIG106_REPO}/archive/${IRIG106_BRANCH}.zip \
