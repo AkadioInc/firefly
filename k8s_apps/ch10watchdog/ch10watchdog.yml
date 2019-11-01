@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
   - name: ch10watchdog
-    image: 431396205827.dkr.ecr.us-west-2.amazonaws.com/ch10watchdog:v0.1
+    image: 431396205827.dkr.ecr.us-west-2.amazonaws.com/ch10watchdog:v0.2
     env:
     - name: AWS_S3_GATEWAY
       value: http://s3.us-west-2.amazonaws.com
@@ -24,7 +24,7 @@ spec:
     - name: AWS_REGION
       value: us-west-2
     - name: HS_ENDPOINT
-      value: http://100.65.5.116 
+      value: http://100.66.25.138
     - name: HS_PASSWORD
       valueFrom:
         secretKeyRef:

@@ -10,10 +10,10 @@ CH10_BUCKET="firefly-chap10"
 inventory_domain = "/FIREfly/inventory.h5"
 output_folder = "/FIREfly/h5/"
 
- 
+
 def convert_file(ch10_filename):
     print("convert_file:", ch10_filename)
-    
+
     # extract aircraft type and tail number from filename
     base_name = ch10_filename[:-5]
     parts = base_name.split("-")
@@ -29,7 +29,7 @@ def convert_file(ch10_filename):
             # some type codes have a hyphen
             aircraft_type += "-"
             aircraft_type += parts[1]
-        
+
     # convert to hdf5
     hdf5_filename = base_name + ".h5"
     print(f"converting to hdf5 file: {hdf5_filename} with aircraft_type: {aircraft_type} and aircraft_id: {aircraft_id}")
@@ -59,7 +59,7 @@ def convert_file(ch10_filename):
     rc = subprocess.run(["hsacl", "--bucket", HSDS_BUCKET, domain_name, "+r", "default"])
     if rc.returncode > 0:
         print(f"unable to make public read for {domain_name}")
-    
+
     # clean up the file
     os.remove(hdf5_filename)
     if rc.returncode == 0:
@@ -85,7 +85,7 @@ while not done:
     # query for row with 0 start value and update it to now
     indices = table.update_where(condition, update_val, limit=1)
 
-    if len(indices) == 1:
+    if indices:
         index = indices[0]
         print(f"getting row: {index}")
         row = table[index]
@@ -108,7 +108,7 @@ while not done:
             table[index] = row
 
         os.remove(ch10_filename) # remove the ch10 file from container
-    
+
     else:
         # no available rows
         print("done!")
