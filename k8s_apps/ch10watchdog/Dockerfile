@@ -11,7 +11,9 @@ RUN apk add --no-cache --virtual .build-deps build-base \
         coreutils  \
         git \
         && pip install boto3 \
-        && pip install numpy \ 
+        && pip install numpy \
+        && pip install git+https://git@github.com/HDFGroup/h5pyd \
+        && pip install awscli \
         && pip install git+https://git@github.com/HDFGroup/h5pyd
         
 RUN mkdir /app
