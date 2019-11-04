@@ -255,8 +255,17 @@ class FlightCollection:
 
     @property
     def flights(self):
-        """Iterator over selected FIREfly flights."""
-        return iter(self._domains)
+        """Iterator over FIREfly flights in the collection.
+
+        This method bypasses filtering of flight data.
+
+        Yields
+        ------
+        FlightSegment
+            A flight from the collection with all its data.
+        """
+        for flt in self._domains:
+            yield FlightSegment(flt, mode='r', **self._kwargs)
 
     @property
     def flight_filter(self):
@@ -282,7 +291,7 @@ class FlightCollection:
             flight.
         """
         cond = cond or self._data_filter
-        for s in self.flights:
+        for s in self._domains:
             flight = FlightSegment(s, mode='r', **self._kwargs)
             for seg in flight.filter(cond):
                 yield seg
