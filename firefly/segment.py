@@ -63,6 +63,10 @@ class FlightSegment:
                 if to_rt == 'BC':
                     return h5path + '/BC'
                 else:
+                    # return (top_group + '/' + PacketType.TypeName(packet_type) +
+                    #         f'/Ch_{int(channel)}/RT_{int(to_rt)}' +
+                    #         f'/SA_{int(to_sa)}/R/RT_{int(from_rt)}' +
+                    #         f'/SA_{int(from_sa)}')
                     return h5path + f'/RT_{int(to_rt)}/SA_{int(to_sa)}'
             elif from_rt and not to_rt:
                 h5path += f'/RT_{int(from_rt)}'
@@ -392,7 +396,7 @@ class FlightSegment:
             # IRIG106 packet type...
             ch11_path = self.chapter11_location(loc, **kwargs)
             if ch11_path not in self._domain:
-                raise ValueError(f'{ch11_path}: No data')
+                raise ValueError(f'{ch11_path}/: Not found')
             grp = self._domain[ch11_path]
             if 'data' not in grp:
                 raise ValueError(f'{ch11_path + "/data"}: No data')
