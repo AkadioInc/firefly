@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='firefly',
-    version='0.0.4',
+    version='0.0.5',
     description='Scripts and modules for the FIREfly project',
     long_description='To be provided.',
     long_description_content_type='text',
