@@ -63,10 +63,6 @@ class FlightSegment:
                 if to_rt == 'BC':
                     return h5path + '/BC'
                 else:
-                    # return (top_group + '/' + PacketType.TypeName(packet_type) +
-                    #         f'/Ch_{int(channel)}/RT_{int(to_rt)}' +
-                    #         f'/SA_{int(to_sa)}/R/RT_{int(from_rt)}' +
-                    #         f'/SA_{int(from_sa)}')
                     return h5path + f'/RT_{int(to_rt)}/SA_{int(to_sa)}'
             elif from_rt and not to_rt:
                 h5path += f'/RT_{int(from_rt)}'
@@ -288,12 +284,6 @@ class FlightSegment:
 
             print(f'TMATS: {info["TMATS"]}\n')
 
-            # if len(info['summary']) > 0:
-            #     print(f'Summary attributes:\n-------------------')
-            #     for t in info['summary']:
-            #         print(f'{t[0]} = {t[1]!r}')
-            #     print('\n')
-
             if len(info['derived']) > 0:
                 print(f'Available parameters:\n---------------------')
                 for i in info['derived']:
@@ -428,6 +418,7 @@ class FlightSegment:
             if loc != '/derived/aircraft_ins':
                 raise ValueError(f'{loc}: No data')
             data = self._flight
+            path = loc
         elif isinstance(loc, int):
             # IRIG106 packet type...
             ch11_path = self.chapter11_location(loc, **kwargs)
@@ -436,10 +427,33 @@ class FlightSegment:
             grp = self._domain[ch11_path]
             if 'data' not in grp:
                 raise ValueError(f'{ch11_path + "/data"}: No data')
-            data = pd.DataFrame(grp['data'][...])
-            data = data.astype({'time': 'datetime64[ns]'})
-            data.set_index('time', inplace=True)
-            data = data.loc[self.start_time:self.end_time]
+            if loc == PacketType.MIL1553_FMT_1:
+                path = f'{grp.name}/data'
+                data = pd.DataFrame(grp['data'][...])
+                data = data.astype({'time': 'datetime64[ns]'})
+                data.set_index('time', inplace=True)
+                data = data.loc[self.start_time:self.end_time]
+                dtype_1553 = np.dtype(
+                    [('time', '<i8'),
+                     ('timestamp', 'S30'),
+                     ('msg_error', '|u1'),
+                     ('ttb', '|u1'),
+                     ('word_error', '|u1'),
+                     ('sync_error', '|u1'),
+                     ('word_count_error', '|u1'),
+                     ('rsp_tout', '|u1'),
+                     ('format_error', '|u1'),
+                     ('bus_id', 'S1'),
+                     ('packet_version', '|u1'),
+                     ('messages', h5py.special_dtype(vlen=np.dtype('<u2')))])
+                new_data = np.empty(len(data), dtype=dtype_1553)
+                new_data['time'] = data.index.values
+                for name, col_data in data.iteritems():
+                    new_data[name] = col_data.values
+                data = new_data
+                new_data = None
+            else:
+                raise RuntimeError(f'{loc}: Packet type not supported')
         else:
             raise TypeError(f'{loc}: Unsupported flight data specifier')
 
@@ -451,8 +465,7 @@ class FlightSegment:
             h5f.attrs['source'] = self.uri
             h5f.attrs['time_coverage_start'] = self.start_time.isoformat() + 'Z'
             h5f.attrs['time_coverage_end'] = self.end_time.isoformat() + 'Z'
-            h5f.create_dataset(loc, data=data.to_records(index=True,
-                                                         index_dtypes='int64'))
+            h5f.create_dataset(path, data=data)
             now = str(np.datetime64('now', 's')) + 'Z'
             h5f.attrs['date_created'] = now
             h5f.attrs['date_modified'] = now
