@@ -22,23 +22,23 @@ class FlightSegment:
     """One flight segment, could be entire flight."""
 
     @staticmethod
-    def chapter11_location(packet_type, **kwargs):
+    def chapter11_location(packet_type, **qparams):
         """HDF5 group path name for specific IRIG 106 Chapter 10 packet type.
 
         Parameters
         ----------
         packet_type: int
             An IRIG 106 Chapter 10 packet type.
-        kwargs: dict
+        qparams: dict
             Packet type-specific named arguments.
         """
         top_group = '/chapter11_data'
         if packet_type == PacketType.MIL1553_FMT_1:
-            channel = kwargs.get('ch')
-            from_rt = kwargs.get('from_rt')
-            from_sa = kwargs.get('from_sa')
-            to_rt = kwargs.get('to_rt')
-            to_sa = kwargs.get('to_sa')
+            channel = qparams.get('ch')
+            from_rt = qparams.get('from_rt')
+            from_sa = qparams.get('from_sa')
+            to_rt = qparams.get('to_rt')
+            to_sa = qparams.get('to_sa')
 
             # Sanity checks...
             if (not channel and any(
@@ -79,7 +79,7 @@ class FlightSegment:
                 return h5path
         elif packet_type == PacketType.VIDEO_FMT_0:
             h5path = top_group + '/' + PacketType.TypeName(packet_type)
-            channel = kwargs.get('ch')
+            channel = qparams.get('ch')
             if channel:
                 return h5path + f'/Ch_{int(channel)}'
             else:
@@ -89,7 +89,7 @@ class FlightSegment:
         else:
             raise ValueError(f'{packet_type}: Unsupported Ch10 packet type')
 
-    def __init__(self, domain, mode, **kwargs):
+    def __init__(self, domain, mode, **qparams):
         """Open FIREfly HDF5 file for access.
 
         Parameters
@@ -98,13 +98,13 @@ class FlightSegment:
             HDF Kita domain endopoint.
         mode: {'a', 'r'}
             Access mode. Only allowed: read and append.
-        kwargs: dict
+        qparams: dict
             Any other named argument is passed to the ``h5pyd.File`` class.
         """
         if mode not in ('a', 'r'):
             raise ValueError('mode can only be "a" or "r"')
-        self._domain = h5pyd.File(domain, mode, **kwargs)
-        self._other = kwargs
+        self._domain = h5pyd.File(domain, mode, **qparams)
+        self._other = qparams
         data = pd.DataFrame(self._domain['/derived/aircraft_ins'][...])
         self._flight = data.astype({'time': 'datetime64[ns]'})
         self._flight.set_index('time', inplace=True)
@@ -363,7 +363,7 @@ class FlightSegment:
         flight_map.add_control(LayersControl())
         display(flight_map)
 
-    def to_csv(self, outfile, loc, **kwargs):
+    def to_csv(self, outfile, loc, **qparams):
         """Export specified data to CSV.
 
         Parameters
@@ -374,7 +374,7 @@ class FlightSegment:
             Location of the flight segment data object to export. If a ``str``,
             it is treated as an HDF5 path name. If an ``int``, it is assumed to
             be an IRIG106 packet type identifier.
-        kwargs : dict
+        qparams : dict
             Optional arguments depending on the IRIG106 packet type.
         """
         if isinstance(loc, str):
@@ -384,7 +384,7 @@ class FlightSegment:
             data = self._flight
         elif isinstance(loc, int):
             # IRIG106 packet type...
-            ch11_path = self.chapter11_location(loc, **kwargs)
+            ch11_path = self.chapter11_location(loc, **qparams)
             if ch11_path not in self._domain:
                 raise ValueError(f'{ch11_path}/: Not found')
             grp = self._domain[ch11_path]
@@ -399,7 +399,7 @@ class FlightSegment:
 
         data.to_csv(outfile, mode='w', header=True, index=True)
 
-    def to_hdf5(self, outfile, loc, **kwargs):
+    def to_hdf5(self, outfile, loc, **qparams):
         """Export specified flight segment data to HDF5.
 
         Parameters
@@ -410,7 +410,7 @@ class FlightSegment:
             Location of the flight segment data object to export. If a ``str``,
             it is treated as an HDF5 path name. If an ``int``, it is assumed to
             be an IRIG106 packet type identifier.
-        kwargs : dict
+        qparams : dict
             Optional arguments depending on the IRIG106 packet type.
         """
         if isinstance(loc, str):
@@ -421,7 +421,7 @@ class FlightSegment:
             path = loc
         elif isinstance(loc, int):
             # IRIG106 packet type...
-            ch11_path = self.chapter11_location(loc, **kwargs)
+            ch11_path = self.chapter11_location(loc, **qparams)
             if ch11_path not in self._domain:
                 raise ValueError(f'{ch11_path}: No data')
             grp = self._domain[ch11_path]
@@ -577,3 +577,171 @@ class FlightSegment:
             new_seg._bbox = None
             segments.append(new_seg)
             return segments
+
+
+def _make_expr_str(param_name, param_val):
+    """Generate query expression from a string flight property."""
+    if param_val is None:
+        return
+
+    attr_name = {'aircraft': 'aircraft_type',
+                 'tail': 'aircraft_id'}
+    attr = attr_name[param_name]
+
+    if isinstance(param_val, str):
+        flight_expr = f'{attr} == {param_val!r}'
+    elif isinstance(param_val, (list, tuple)):
+        temp = [f'{attr} == {a!r}' for a in param_val]
+        flight_expr = '(' + ' OR '.join(temp) + ')'
+    else:
+        raise TypeError(
+            f'{type(param_val)}: Invalid {param_name} value type')
+
+    return flight_expr
+
+
+def _make_expr_float(param_name, param_val):
+    """Generate query expression for a numeric flight parameter."""
+    if param_val is None:
+        return None, None
+
+    # Summary attributes for each parameter...
+    smmry_attr = {'altitude': ('min_altitude', 'max_altitude'),
+                  'latitude': ('min_latitude', 'max_latitude'),
+                  'longitude': ('min_longitude', 'max_longitude'),
+                  'speed': ('min_speed', 'max_speed')}
+
+    attr_min, attr_max = smmry_attr[param_name]
+
+    if isinstance(param_val, list):
+        oper = ('>=', '<=')
+    elif isinstance(param_val, tuple):
+        oper = ('>', '<')
+    else:
+        raise TypeError(
+            f'{type(param_val)}: Invalid {param_name} value type')
+
+    flight_expr = list()
+    data_expr = list()
+    for a, op, val in zip((attr_max, attr_min), oper, param_val):
+        if val is None:
+            continue
+        else:
+            val = float(val)
+        data_expr.append(f'{param_name} {op} {val}')
+        flight_expr.append(f'{a} {op} {val}')
+
+    if len(flight_expr) > 1:
+        flight_expr = '(' + ' AND '.join(filter(bool, flight_expr)) + ')'
+        data_expr = '(' + ' and '.join(filter(bool, data_expr)) + ')'
+    else:
+        flight_expr = flight_expr[0]
+        data_expr = data_expr[0]
+
+    return (flight_expr, data_expr)
+
+
+def _make_expr_time(param_name, param_val):
+    """Generate query expression for a time-valued flight parameter."""
+    if param_val is None:
+        return None, None
+
+    # Summary attributes for each parameter...
+    smmry_attr = {'time': ('time_coverage_start', 'time_coverage_end')}
+    attr_min, attr_max = smmry_attr[param_name]
+
+    if isinstance(param_val, list):
+        oper = ('>=', '<=')
+    elif isinstance(param_val, tuple):
+        oper = ('>', '<')
+    else:
+        raise TypeError(
+            f'{type(param_val)}: Invalid {param_name} value type')
+
+    flight_expr = list()
+    data_expr = list()
+    for a, op, val in zip((attr_max, attr_min), oper, param_val):
+        if val is None:
+            continue
+        data_expr.append(f'{param_name} {op} {val!r}')
+        flight_expr.append(f'{a} {op} {val!r}')
+
+    if len(flight_expr) > 1:
+        flight_expr = '(' + ' AND '.join(filter(bool, flight_expr)) + ')'
+        data_expr = '(' + ' and '.join(filter(bool, data_expr)) + ')'
+    else:
+        flight_expr = flight_expr[0]
+        data_expr = data_expr[0]
+
+    return (flight_expr, data_expr)
+
+
+def filter_builder(qparams):
+    """Build domain and data filter statements.
+
+    Other parameters
+    ----------------
+    aircraft : str or list/tuple of str
+        Aircraft type. When list/tuple, select all FIREfly flights with any
+        of them.
+    tail : str or list/tuple of str
+        Aircraft tail (serial) number. Only FIREfly data from those aircraft
+        will be selected.
+    altitude : list or tuple
+        Flight altitude (height above ground) in feet. The first list/tuple
+        element represents minimal value; the second element the maximal
+        value of the data to filter. If either of these values is ``None``
+        that condition will not be included. The tuple represents an open
+        interval. The list represents a closed interval.
+    latitude : list or tuple
+        Flight latitude in degrees (positive north). The first list/tuple
+        element represents minimal value; the second element the maximal
+        value of the data to filter. If either of these values is ``None``
+        that condition will not be included. The tuple represents an open
+        interval. The list represents a closed interval.
+    longitude : list or tuple
+        Flight longitude in degrees (positive east) in the range [-180,
+        180].  The first list/tuple element represents minimal value; the
+        second element the maximal value of the data to filter. If either of
+        these values is ``None`` that condition will not be included. The
+        tuple represents an open interval. The list represents a closed
+        interval.
+    time : list or tuple
+        A time interval expressed as up to two ISO 8601 strings in the
+        format ``YYYY-MM-DDTHH:MM:SS.SSSSZ``. The fractions of a second and
+        UTC time zone designator (``Z``) are optional. The first list/tuple
+        element represents minimal value; the second element the maximal
+        value of the data to filter. If either of these values is ``None``
+        that condition will not be included. The tuple represents an open
+        interval. The list represents a closed interval.
+    speed : list or tuple
+        Aircraft ground speed in knots. The first list/tuple element
+        represents minimal value; the second element the maximal value of
+        the data to filter. If either of these values is ``None`` that
+        condition will not be included. The tuple represents an open
+        interval. The list represents a closed interval.
+
+    Returns
+    -------
+    tuple
+        A tuple with the domain and data filter statements as strings.
+    """
+    domain_query = ''
+    data_query = ''
+    for arg_name in ('aircraft', 'tail'):
+        dom_expr = _make_expr_str(arg_name, qparams.pop(arg_name, None))
+        domain_query = ' AND '.join(filter(bool, [domain_query, dom_expr]))
+
+    for arg_name in ('altitude', 'latitude', 'longitude', 'speed'):
+        dom_expr, data_expr = _make_expr_float(arg_name,
+                                               qparams.pop(arg_name, None))
+        domain_query = ' AND '.join(filter(bool, [domain_query, dom_expr]))
+        data_query = ' and '.join(filter(bool, [data_query, data_expr]))
+
+    for arg_name in ('time',):
+        dom_expr, data_expr = _make_expr_time(arg_name,
+                                              qparams.pop(arg_name, None))
+        domain_query = ' AND '.join(filter(bool, [domain_query, dom_expr]))
+        data_query = ' and '.join(filter(bool, [data_query, data_expr]))
+
+    return domain_query, data_query
