@@ -22,23 +22,23 @@ class FlightSegment:
     """One flight segment, could be entire flight."""
 
     @staticmethod
-    def chapter11_location(packet_type, **qparams):
+    def chapter11_location(packet_type, **kwargs):
         """HDF5 group path name for specific IRIG 106 Chapter 10 packet type.
 
         Parameters
         ----------
         packet_type: int
             An IRIG 106 Chapter 10 packet type.
-        qparams: dict
+        kwargs: dict
             Packet type-specific named arguments.
         """
         top_group = '/chapter11_data'
         if packet_type == PacketType.MIL1553_FMT_1:
-            channel = qparams.get('ch')
-            from_rt = qparams.get('from_rt')
-            from_sa = qparams.get('from_sa')
-            to_rt = qparams.get('to_rt')
-            to_sa = qparams.get('to_sa')
+            channel = kwargs.get('ch')
+            from_rt = kwargs.get('from_rt')
+            from_sa = kwargs.get('from_sa')
+            to_rt = kwargs.get('to_rt')
+            to_sa = kwargs.get('to_sa')
 
             # Sanity checks...
             if (not channel and any(
@@ -79,7 +79,7 @@ class FlightSegment:
                 return h5path
         elif packet_type == PacketType.VIDEO_FMT_0:
             h5path = top_group + '/' + PacketType.TypeName(packet_type)
-            channel = qparams.get('ch')
+            channel = kwargs.get('ch')
             if channel:
                 return h5path + f'/Ch_{int(channel)}'
             else:
@@ -89,7 +89,7 @@ class FlightSegment:
         else:
             raise ValueError(f'{packet_type}: Unsupported Ch10 packet type')
 
-    def __init__(self, domain, mode, **qparams):
+    def __init__(self, domain, mode, **kwargs):
         """Open FIREfly HDF5 file for access.
 
         Parameters
@@ -98,13 +98,13 @@ class FlightSegment:
             HDF Kita domain endopoint.
         mode: {'a', 'r'}
             Access mode. Only allowed: read and append.
-        qparams: dict
+        kwargs: dict
             Any other named argument is passed to the ``h5pyd.File`` class.
         """
         if mode not in ('a', 'r'):
             raise ValueError('mode can only be "a" or "r"')
-        self._domain = h5pyd.File(domain, mode, **qparams)
-        self._other = qparams
+        self._domain = h5pyd.File(domain, mode, **kwargs)
+        self._other = kwargs
         data = pd.DataFrame(self._domain['/derived/aircraft_ins'][...])
         self._flight = data.astype({'time': 'datetime64[ns]'})
         self._flight.set_index('time', inplace=True)
@@ -363,7 +363,7 @@ class FlightSegment:
         flight_map.add_control(LayersControl())
         display(flight_map)
 
-    def to_csv(self, outfile, loc, **qparams):
+    def to_csv(self, outfile, loc, **kwargs):
         """Export specified data to CSV.
 
         Parameters
@@ -374,7 +374,7 @@ class FlightSegment:
             Location of the flight segment data object to export. If a ``str``,
             it is treated as an HDF5 path name. If an ``int``, it is assumed to
             be an IRIG106 packet type identifier.
-        qparams : dict
+        kwargs : dict
             Optional arguments depending on the IRIG106 packet type.
         """
         if isinstance(loc, str):
@@ -384,7 +384,7 @@ class FlightSegment:
             data = self._flight
         elif isinstance(loc, int):
             # IRIG106 packet type...
-            ch11_path = self.chapter11_location(loc, **qparams)
+            ch11_path = self.chapter11_location(loc, **kwargs)
             if ch11_path not in self._domain:
                 raise ValueError(f'{ch11_path}/: Not found')
             grp = self._domain[ch11_path]
@@ -399,7 +399,7 @@ class FlightSegment:
 
         data.to_csv(outfile, mode='w', header=True, index=True)
 
-    def to_hdf5(self, outfile, loc, **qparams):
+    def to_hdf5(self, outfile, loc, **kwargs):
         """Export specified flight segment data to HDF5.
 
         Parameters
@@ -410,7 +410,7 @@ class FlightSegment:
             Location of the flight segment data object to export. If a ``str``,
             it is treated as an HDF5 path name. If an ``int``, it is assumed to
             be an IRIG106 packet type identifier.
-        qparams : dict
+        kwargs : dict
             Optional arguments depending on the IRIG106 packet type.
         """
         if isinstance(loc, str):
@@ -421,7 +421,7 @@ class FlightSegment:
             path = loc
         elif isinstance(loc, int):
             # IRIG106 packet type...
-            ch11_path = self.chapter11_location(loc, **qparams)
+            ch11_path = self.chapter11_location(loc, **kwargs)
             if ch11_path not in self._domain:
                 raise ValueError(f'{ch11_path}: No data')
             grp = self._domain[ch11_path]
@@ -528,7 +528,7 @@ class FlightSegment:
             load_file(self._domain, h5f)
 
     def filter(self, cond):
-        """Filter flight segment data into a new segment.
+        """Filter flight segment data into new segments.
 
         Parameters
         ----------
@@ -537,8 +537,9 @@ class FlightSegment:
 
         Returns
         -------
-        firefly.FlightSegment
-            New flight segment with the data that matched filtering condition.
+        list of firefly.FlightSegment
+            A list of new flight segments with the data that matched filtering
+            condition.
         """
         # Filter the data...
         data = self._flight.query(cond, inplace=False)

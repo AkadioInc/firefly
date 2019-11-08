@@ -3,7 +3,7 @@ from .segment import FlightSegment, filter_builder
 
 
 class FFlyRepo:
-    """A repostiory of FIREfly and Ch10 flight files"""
+    """A repository of FIREfly and Ch10 flight files."""
 
     def __init__(self, loc, **kwargs):
         """
@@ -31,7 +31,7 @@ class FFlyRepo:
             raise ValueError(f'{type(self).__name__} not defined')
 
     def filter(self, **kwargs):
-        """Filter FIREfly files based on a condition
+        """Filter FIREfly files based on a condition.
 
         Other parameters
         ----------------
@@ -44,7 +44,7 @@ class FFlyRepo:
 
 
 class FlightCollection:
-    """FlightCollection of FIREfly flight domains based on filter criteria."""
+    """Collection of FIREfly flight domains based on filter criteria."""
 
     def __init__(self, loc, **kwargs):
         """A set of FIREfly domains that satisfy filter criteria.
@@ -122,10 +122,12 @@ class FlightCollection:
 
     @property
     def flight_filter(self):
+        """FIREfly file filtering statement."""
         return self._flight_filter
 
     @property
     def data_filter(self):
+        """Data filtering statement to apply to each flight file."""
         return self._data_filter
 
     def apply(self, cond=None):
