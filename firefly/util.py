@@ -86,7 +86,7 @@ def aircraft_6dof(ch11_data):
     """Compute aircraft location, 6DoF, and related parameters.
 
     Parameters
-    __________
+    ----------
     ch11_data : numpy structured array
         Numpy structured array with input Chapter 11 data. The assumption is
         that any bad packet messages were removed prior to calling this
