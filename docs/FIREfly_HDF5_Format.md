@@ -76,6 +76,7 @@ Supported Chapter 11 packet types and their `data` HDF5 dataset:
     | `format_error` | Format error flag. |
     | `bus_id` | Message bus ID. Either "A" or "B". |
     | `packet_version` | 1553 packet version. |
+    | 'messages' | 1553 packet words. |
 
 1. __TMATS__
 
