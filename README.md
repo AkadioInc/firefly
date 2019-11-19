@@ -31,6 +31,13 @@ Next install the Kubernetes apps: ch10convert and ch10watchdog using the yaml fi
 
 Finally install the JupyterLab extensions as described in [firefly-extension/README.md](jupyterlab/firefly-extension/README.md)
 
+Repository Content
+------------------
+
+The following outlines what's available in this repository:
+
+* [Docker](docker/README.md): Docker files for creating docker imagees with the requiste tools
+
 Related Projects
 ----------------
 
