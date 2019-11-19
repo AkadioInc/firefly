@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2017",
+    "outDir": "./lib",
+    "lib": ["es2017", "dom"],
+    "jsx": "react",
+    "jsxFactory": "VDOM.createElement",
+    "types": []
+  },
+  "include": ["src/*"]
+}

@@ -1,0 +1,27 @@
+/* Copyright (c) HDFGroup. */
+
+.firefly-Browser {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.firefly-Browser > .jp-Toolbar {
+  flex: 0 0 auto;
+}
+
+
+.firefly-Browser > .p-SplitPanel {
+  flex: 1 1 auto;
+}
+
+
+.firefly-Browser > .p-SplitPanel > .p-SplitPanel-handle {
+  background: var(--jp-toolbar-border-color);
+}
+
+
+.firefly-Browser-icon {
+  padding-top: 4px;
+  color: var(--jp-ui-font-color2);
+}

@@ -1,0 +1,121 @@
+/* Copyright (c) HDFGroup. */
+
+.firefly-QueryPanel {
+  min-width: 280px;
+  white-space: nowrap;
+  color: var(--jp-ui-font-color1);
+  background: var(--jp-layout-color1);
+  font-size: var(--jp-ui-font-size1);
+}
+
+
+.firefly-QueryPanel header {
+  font-size: var(--jp-ui-font-size0);
+  font-weight: 600;
+  letter-spacing: 1px;
+  height: 13px; /** total block height of 30px **/
+  margin: 0px;
+  padding: 8px 12px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--jp-toolbar-border-color);
+}
+
+
+.firefly-QueryPanel header button {
+  float: right;
+  border: none;
+  background: none;
+  color: var(--jp-ui-font-color2);
+  font-size: var(--jp-ui-font-size1);
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+    transform-origin: 50% 50%;
+  }
+  to {
+    transform: rotate(360deg);
+    transform-origin: 50% 50%;
+  }
+}
+
+
+.firefly-QueryPanel.hdfg-mod-loading header button {
+  animation: rotating 1s linear infinite;
+}
+
+
+.firefly-QueryPanel header button:hover {
+  color: var(--jp-ui-font-color0);
+}
+
+
+.firefly-QueryPanel p {
+  padding: 8px 12px;
+}
+
+
+.firefly-QueryPanel table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+
+.firefly-QueryPanel tr {
+  border-bottom: 1px solid var(--jp-border-color3);
+}
+
+
+.firefly-QueryPanel th {
+  color: var(--jp-ui-font-color2);
+  font-size: calc(var(--jp-ui-font-size1) - 1px);
+  font-weight: normal;
+  text-align: left;
+  border-bottom: 1px solid var(--jp-border-color2);
+}
+
+.firefly-QueryPanel td input {
+  border: none;
+  outline: none;
+  width: 100%;
+  min-width: 100px;
+  font-size: inherit;
+}
+
+
+.firefly-QueryPanel td select {
+  text-align: center;
+  border: none;
+  background: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: inherit;
+}
+
+
+.firefly-QueryPanel td button {
+  padding: 4px;
+  border: none;
+  background: none;
+  color: var(--jp-ui-font-color2);
+}
+
+
+.firefly-QueryPanel td button:hover {
+  color: var(--jp-ui-font-color0);
+}
+
+
+.firefly-QueryPanel th:nth-child(1),
+.firefly-QueryPanel th:nth-child(3) {
+  width: 50%;
+}
+
+
+.firefly-QueryPanel th:nth-child(2),
+.firefly-QueryPanel th:nth-child(4) {
+  width: 24px;
+}
