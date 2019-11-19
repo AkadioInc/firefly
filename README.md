@@ -1,12 +1,12 @@
-Firefly Scientific Data Server
+FIREfly Scientific Data Server
 ==============================
 
-Firefly is a platform that enables data in the IRIG106 (ch10) telemetry standard to be converted to the HDF5 format and made available for query and analysis using JupyterLab notebooks.
+FIREfly is a platform that enables data in the IRIG106 (ch10) telemetry standard to be converted to the HDF5 format and made available for query and analysis using JupyterLab notebooks.
 
-Using Firefly with HDF KitaLab
+Using FIREfly with HDF KitaLab
 ------------------------------
 
-Firefly has been setup on AWS and can be access via the Kita Lab shared environment. Using Kita Lab you can access a large collection of ch10 data and run sample notebooks that illustrate how to use the Firefly tools to search and analyze the data collection.
+FIREfly has been setup on AWS and can be access via the Kita Lab shared environment. Using Kita Lab you can access a large collection of ch10 data and run sample notebooks that illustrate how to use the FIREfly tools to search and analyze the data collection.
 
 To access follow these steps:
 
@@ -14,14 +14,14 @@ To access follow these steps:
 2. Sign into Kita Lab (<https://hdflab.hdfgroup.org>) using your account credentials
 3. Once signed in, open a terminal ("File|New Launcher", select "Terminal") and clone the repo: `$ git clone https://github.com/AkadioInc/firefly`
 4. Also from the terminal, you can run queries such as those given in (docs/Firefly_domain_query_examples.md) and see listings of HSDS files that meet the given criteria
-5. In the JupyterLab browser, select firefly/notebooks/FlightCollection.ipynb or firefly/notebooks/FlightSegment.ipynb, and step through the examples of using the Firefly Python package.  If you are new to JupyterLab, this is a good guide: <https://www.dataquest.io/blog/jupyter-notebook-tutorial/>
-6. The Firefly browser is avaible from "Experimental/FIREfly Browser". Use the query widget to set attributes and see the resulting list of files that meet the given contstraints
+5. In the JupyterLab browser, select firefly/notebooks/FlightCollection.ipynb or firefly/notebooks/FlightSegment.ipynb, and step through the examples of using the FIREfly Python package.  If you are new to JupyterLab, this is a good guide: <https://www.dataquest.io/blog/jupyter-notebook-tutorial/>
+6. The FIREfly browser is avaible from "Experimental/FIREfly Browser". Use the query widget to set attributes and see the resulting list of files that meet the given contstraints
 
 
 Installation
 ------------
 
-Firefly has been setup on AWS and can be access via the Kitalab shared environment (see <https://www.hdfgroup.org/hdfkitalab/>).  Firefly can be installed with other cloud providers or in an on-prem datacenter, but this has not been verified.
+FIREfly has been setup on AWS and can be access via the Kitalab shared environment (see <https://www.hdfgroup.org/hdfkitalab/>).  FIREfly can be installed with other cloud providers or in an on-prem datacenter, but this has not been verified.
 
 Prequisites for FireFly are JupyterLab on a Kubernetes cluster and HSDS (Highly Scalable Data Server).  See: <https://zero-to-jupyterhub.readthedocs.io/en/latest/index.html> for steps to setup Kubernetes and the JupyterLab environment.
 
@@ -36,10 +36,10 @@ Repository Content
 
 The following outlines what's available in this repository:
 
-* [Docker](docker/README.md): Docker files for creating docker imagees with the requiste tools
-* [docs](docs/FIREFly_HDF5_Format.md): Firefly format and related documentation
-* [filefly](firefly): The Firefly Python package source files
-* [firefly-extension/README.md](jupyterlab/firefly-extension/README.md): Firefly JupyterLab extension
+* [Docker](docker/README.md): Docker files for creating docker images with the requiste tools
+* [docs](docs/FIREFly_HDF5_Format.md): FIREfly format and related documentation
+* [filefly](firefly): The FIREfly Python package source files
+* [firefly-extension/README.md](jupyterlab/firefly-extension/README.md): FIREfly JupyterLab extension
 * [k8s_apps/admin](k8s_apps/admin): Admin scripts for Kubernetes
 * [k8s_apps/ch10convert](k8s_apps/ch10convert): Kubernetes app for ch10 to hdf5 conversion
 * [k8s_apps/ch10wathdog](k8s_apps/ch10watchdog): Kubernetes app to monitor ch10 source files
@@ -51,7 +51,7 @@ The following outlines what's available in this repository:
 Related Projects
 ----------------
 
-The following projects are utilized in Firefly:
+The following projects are utilized in FIREfly:
 
 * HSDS: <https://github.com/HDFGroup/hsds>
 * h5pyd: <https://github.com/HDFGroup/h5pyd>
