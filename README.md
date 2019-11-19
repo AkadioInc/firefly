@@ -21,7 +21,7 @@ To access follow these steps:
 Installation
 ------------
 
-FIREfly has been setup on AWS and can be access via the Kitalab shared environment (see <https://www.hdfgroup.org/hdfkitalab/>).  FIREfly can be installed with other cloud providers or in an on-prem datacenter, but this has not been verified.
+AWS offers the easiest environment for installing FIREfly. It can be installed with other cloud providers or in an on-prem datacenter, but this has not been verified.
 
 Prequisites for FireFly are JupyterLab on a Kubernetes cluster and HSDS (Highly Scalable Data Server).  See: <https://zero-to-jupyterhub.readthedocs.io/en/latest/index.html> for steps to setup Kubernetes and the JupyterLab environment.
 
@@ -29,7 +29,7 @@ Install HSDS on the same Kubernetes cluster that was used for JupyterLab.  See: 
 
 Next install the Kubernetes apps: ch10convert and ch10watchdog using the yaml files [ch10convert.yml](k8s_apps/ch10convert/ch10convert.yml) and [ch10watchdog.yaml](k8s_apps/ch10watchdog/ch10watchdog.yml).
 
-Finally install the JupyterLab extensions as described in [firefly-extension/README.md](jupyterlab/firefly-extension/README.md)
+Finally, install the JupyterLab extensions as described in [firefly-extension/README.md](jupyterlab/firefly-extension/README.md)
 
 Repository Content
 ------------------
@@ -45,7 +45,7 @@ The following outlines what's available in this repository:
 * [k8s_apps/ch10wathdog](k8s_apps/ch10watchdog): Kubernetes app to monitor ch10 source files
 * [k8s_apps/ch10gen](k8s_apps/ch10gen): Kubernetes app to generate synthetic ch10 files
 * [notebooks](notebooks): Sample Python notebooks
-* [scripts](scripts): Python scriptes for ch10 conversion, summarizing content, and adding EU data.
+* [scripts](scripts): Python scripts for ch10 conversion, summarizing content, and adding EU data.
 
 
 Related Projects
