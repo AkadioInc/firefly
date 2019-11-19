@@ -37,6 +37,16 @@ Repository Content
 The following outlines what's available in this repository:
 
 * [Docker](docker/README.md): Docker files for creating docker imagees with the requiste tools
+* [docs](docs/FIREFly_HDF5_Format.md): Firefly format and related documentation
+* [filefly](firefly): The Firefly Python package source files
+* [firefly-extension/README.md](jupyterlab/firefly-extension/README.md): Firefly JupyterLab extension
+* [k8s_apps/admin](k8s_apps/admin): Admin scripts for Kubernetes
+* [k8s_apps/ch10convert](k8s_apps/ch10convert): Kubernetes app for ch10 to hdf5 conversion
+* [k8s_apps/ch10wathdog](k8s_apps/ch10watchdog): Kubernetes app to monitor ch10 source files
+* [k8s_apps/ch10gen](k8s_apps/ch10gen): Kubernetes app to generate synthetic ch10 files
+* [notebooks](notebooks): Sample Python notebooks
+* [scripts](scripts): Python scriptes for ch10 conversion, summarizing content, and adding EU data.
+
 
 Related Projects
 ----------------
