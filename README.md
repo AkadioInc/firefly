@@ -30,3 +30,23 @@ Install HSDS on the same Kubernetes cluster that was used for JupyterLab.  See: 
 Next install the Kubernetes apps: ch10convert and ch10watchdog using the yaml files [ch10convert.yml](k8s_apps/ch10convert/ch10convert.yml) and [ch10watchdog.yaml](k8s_apps/ch10watchdog/ch10watchdog.yml).
 
 Finally install the JupyterLab extensions as described in [firefly-extension/README.md](jupyterlab/firefly-extension/README.md)
+
+Related Projects
+----------------
+
+The following projects are utilized in Firefly:
+
+* HSDS: <https://github.com/HDFGroup/hsds>
+* h5pyd: <https://github.com/HDFGroup/h5pyd>
+* IRIG106: <https://github.com/bbaggerman/irig106lib>
+
+Other useful resources
+----------------------
+
+* SciPy17 on HSDS Presentation: <http://s3.amazonaws.com/hdfgroup/docs/hdf_data_services_scipy2017.pdf>
+* HDF5 For the Web: <https://hdfgroup.org/wp/2015/04/hdf5-for-the-web-hdf-server>
+* HSDS Security: <https://hdfgroup.org/wp/2015/12/serve-protect-web-security-hdf5>
+* HSDS with Jupyter: <https://www.slideshare.net/HDFEOS/hdf-kita-lab-jupyterlab-hdf-service>
+* Kubernetes documentation: <https://kubernetes.io/docs/home/>
+* JupyterHub documentation: <https://jupyterhub.readthedocs.io/en/stable/>
+* JupyterLab documentation: <https://jupyterlab.readthedocs.io/en/stable/>
