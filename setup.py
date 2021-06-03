@@ -14,7 +14,7 @@ setup(
     python_requires='>=3.7, <4',
     install_requires=[
         'h5py>=2.9',
-        'h5pyd @ git+https://github.com/HDFGroup/h5pyd.git@master#egg=h5pyd',
+        'h5pyd>=0.8.4',
         'ipyleaflet>=0.11.1',
         'hvplot>=0.4'
     ],
